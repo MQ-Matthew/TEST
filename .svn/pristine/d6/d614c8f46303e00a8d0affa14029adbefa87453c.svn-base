@@ -1,0 +1,653 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	<script type="text/javascript">
+        var save_data = [];//全局保存save函数调用的时候，需要用到参数
+	</script>
+	{:W('PageHeader/simple',array($flow_type['name'].'：'.$vo['name']))}
+	<div class="operate panel panel-default hidden-print">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+                
+				<eq name="is_edit" value="1">
+					<neq name="flow_type.is_lock" value="1">
+						<a onclick="popup_confirm();" class="btn btn-sm btn-primary">选择审批流程</a>
+					</neq>
+				</eq>
+				<a href="#flow_status" class="btn btn-sm btn-primary">审批情况</a>
+				<notempty name="to_confirm">
+					<a href="#confirm" class="btn btn-sm btn-primary">审批意见</a>
+				</notempty>
+                <eq name="consult_again" value="yes">
+                   <!-- <a onclick="consult_again();" class="btn btn-sm btn-warning">申请再次执行</a>-->
+                </eq>
+                <eq name="vo.step" value="19">
+                    <eq name="vo['emp_no']" value="$Think.session.emp_no">
+                        <eq name="is_move">
+                            <a onclick="move_darft();" class="btn btn-sm btn-warning">移动到草稿箱</a>
+                        </eq>
+
+                    </eq>
+                </eq>
+                <eq name="Think.session.emp_no" value="admin">
+                     <a onclick="recall();" class="btn btn-sm btn-warning">撤回</a>
+                </eq>
+			</div>
+			<div class="pull-right">
+				<!--<a onclick="winprint();" class="btn btn-sm btn-primary hidden-xs">打印</a>-->
+				<in name="vo.step" value="30,40">
+					<!--<a onclick="popup_refer();" class="btn btn-sm btn-primary">传阅</a>-->
+                    <a class="btn btn-sm btn-primary" href="{:U('Word/word','id='.$vo['id'])}">导出审批单</a>
+				</in>
+                
+				<eq name="is_edit" value="1">
+					<a onclick="save();" class="btn btn-sm btn-primary">保存</a>
+				</eq>
+			</div>
+		</div>
+	</div>
+	<!--审批人可编辑模板-->
+	<eq name="is_edit" value="1">
+        <!--审批阶段--> 
+        <eq name="vo.step" value="20">
+			<form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+				<input type="hidden" id="id" name="id" value="{$vo.id}">
+				<input type="hidden" id="step" name="step" value="{$vo.step}">
+				<input type="hidden" id="ajax" name="ajax" value="1">
+				<input type="hidden" id="type" name="type" value="{$flow_type.id}">
+				<input type="hidden" id="opmode" name="opmode" value="edit">
+				<input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+				<input type="hidden" id="confirm_name" name="confirm_name" value="">
+				<input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+				<input type="hidden" id="consult_name" name="consult_name" value="">
+				<input type="hidden" id="refer" name="refer" value="">
+				<input type="hidden" id="refer_name" name="refer_name" value="">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="name">标题*：</label>
+					<div class="col-sm-10">
+						<input value="{$vo.name}" class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">文件编号*：</label>
+					<div class="col-sm-8">
+						<input value="{$vo.doc_no}" class="form-control" type="text" id="doc_no" name="doc_no" check="require" msg="请输入文件编号">
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">日期：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.create_time|to_date='Y-m-d h:i'}
+						</p>
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">发起人：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.user_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">部门：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.dept_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">审批：</label>
+					<div class="col-sm-10 address_list_box">
+						<p id="confirm_wrap" class="form-control-static address_list">
+							{$vo.confirm_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">执行：</label>
+					<div class="col-sm-10 address_list_box">
+						<p id="consult_wrap" class="form-control-static address_list">
+							{$vo.consult_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group hidden">
+					<label class="col-sm-2 control-label">传阅：</label>
+					<div class="col-sm-10">
+						<p id="refer_wrap" class="form-control-static address_list">
+							{$vo.refer_name}
+						</p>
+					</div>
+				</div>
+				<!--
+				<notempty name="flow_type.udf_tpl">
+					<eq name="vo.step" value="40">
+						{:W('UserDefineField/udf_read',array($vo['udf_data'],$flow_type['udf_tpl']))}
+						<else/>
+						{:W('UserDefineField/edit2',array($vo['udf_data']))}
+					</eq>
+					<else/>
+					{:W('UserDefineField/edit2',array($vo['udf_data']))}
+				</notempty>    -->
+				<volist name="field_list" id="field_vo">
+					{:W('UserDefineField/edit',array($field_vo))}
+				</volist>
+				<eq name="flow_type.is_show" value="1">
+					<div class="form-group">
+						<div class="col-xs-12">
+							<textarea class="editor" id="content" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
+						</div>
+					</div>
+				</eq>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">附件：</label>
+					<div class="col-sm-10">
+						{:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+					</div>
+				</div>
+			</form>
+        <!--执行阶段-->
+        <else/>
+            <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+				<input type="hidden" id="id" name="id" value="{$vo.id}">
+				<input type="hidden" id="step" name="step" value="{$vo.step}">
+				<input type="hidden" id="ajax" name="ajax" value="1">
+				<input type="hidden" id="type" name="type" value="{$flow_type.id}">
+				<input type="hidden" id="opmode" name="opmode" value="edit">
+				<input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+				<input type="hidden" id="confirm_name" name="confirm_name" value="">
+				<input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+				<input type="hidden" id="consult_name" name="consult_name" value="">
+				<input type="hidden" id="refer" name="refer" value="">
+				<input type="hidden" id="refer_name" name="refer_name" value="">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="name">标题*：</label>
+					<div class="col-sm-10">
+						<input value="{$vo.name}" class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">文件编号*：</label>
+					<div class="col-sm-8">
+						<input value="{$vo.doc_no}" class="form-control" type="text" id="doc_no" name="doc_no" check="require" msg="请输入文件编号">
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">日期：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.create_time|to_date='Y-m-d h:i'}
+						</p>
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">发起人：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.user_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label">部门：</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							{$vo.dept_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">审批：</label>
+					<div class="col-sm-10 address_list_box">
+						<p id="confirm_wrap" class="form-control-static address_list">
+							{$vo.confirm_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">执行：</label>
+					<div class="col-sm-10 address_list_box">
+						<p id="consult_wrap" class="form-control-static address_list">
+							{$vo.consult_name}
+						</p>
+					</div>
+				</div>
+				<div class="form-group hidden">
+					<label class="col-sm-2 control-label">传阅：</label>
+					<div class="col-sm-10">
+						<p id="refer_wrap" class="form-control-static address_list">
+							{$vo.refer_name}
+						</p>
+					</div>
+				</div>
+				<volist name="field_list" id="field_vo">
+					{:W('UserDefineField/view',array($field_vo))}
+				</volist>
+				<eq name="flow_type.is_show" value="1">
+					<div class="form-group">
+						<div class="col-xs-12">
+							<textarea class="editor" id="content" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
+						</div>
+					</div>
+				</eq>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">附件：</label>
+					<div class="col-sm-10">
+						{:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+					</div>
+				</div>
+        	</form>
+        </eq>
+	</eq>
+	<!--审批人不可编辑模板-->
+	<eq name="is_edit" value="0">
+		<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">
+			<input type="hidden" id="ajax" name="ajax" value="1">
+			<input type="hidden" id="opmode" name="opmode" value="edit">
+			<input type="hidden" id="name" name="name" value="{$vo.name}">
+			<input type="hidden" id="id" name="id" value="{$vo.id}">
+
+			<div class="form-group col-sm-6">
+				<label class="col-sm-4 control-label">文件编号：</label>
+				<div class="col-sm-8">
+					<p class="form-control-static">
+						{$vo.doc_no}
+					</p>
+				</div>
+			</div>
+			<div class="form-group col-sm-6">
+				<label class="col-sm-4 control-label">日期：</label>
+				<div class="col-sm-8">
+					<p class="form-control-static">
+						{$vo.create_time|to_date='Y-m-d h:i'}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  col-sm-6">
+				<label class="col-sm-4 control-label">发起人：</label>
+				<div class="col-sm-8">
+					<p class="form-control-static">
+						{$vo.user_name}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  col-sm-6">
+				<label class="col-sm-4 control-label">部门：</label>
+				<div class="col-sm-8">
+					<p class="form-control-static">
+						{$vo.dept_name}
+					</p>
+				</div>
+			</div>
+			<div class="form-group  col-xs-12">
+				<label class="col-sm-2 control-label">审批：</label>
+				<div class="col-sm-10">
+					<p id="confirm_wrap" class="form-control-static">
+						{$vo.confirm_name|get_confirm_color=$vo['id']}
+					</p>
+				</div>
+			</div>
+			<div class="form-group col-xs-12">
+				<label class="col-sm-2 control-label">执行：</label>
+				<div class="col-sm-10">
+					<p id="consult_wrap" class="form-control-static address_list">
+						{$vo.consult_name|get_consult_color=$vo['id']}
+					</p>
+				</div>
+			</div>
+			<div class="form-group col-xs-12 hidden">
+				<label class="col-sm-2 control-label">传阅：</label>
+				<div class="col-sm-10">
+					<p id="refer_wrap" class="form-control-static address_list">
+						{$vo.refer_name}
+					</p>
+				</div>
+			</div>
+            <div class="form-group col-xs-12">
+				<!-- 模板内容开始 -->
+				<if condition="$flow_type.udf_tpl neq ''">
+					{:W('UserDefineField/udf_read',array($field_list,$flow_type['udf_tpl']))}
+				<else />
+					<volist name="field_list" id="field_vo">
+						{:W('UserDefineField/view',array($field_vo))}
+					</volist>
+				</if>
+				<!-- 模板内容结束 -->
+			</div>
+			<eq name="flow_type.is_show" value="1">
+				<div class="form-group">
+					<div class="col-xs-12">
+						<div class="content_wrap">
+							<!-- 20180615修改编辑器显示
+							<iframe class="content_iframe"></iframe>
+							<textarea class="content hidden"  name="content" style="width:100%;height:300px;"></textarea>
+							-->{$vo.content}
+						</div>
+					</div>
+				</div>
+			</eq>
+			<notempty name="vo.add_file">
+				<div class="form-group" id="view_file">
+					<label class="col-sm-2 control-label">附件：</label>
+					<div class="col-sm-20">
+						{:W('FileUpload/view',array('add_file'=>$vo['add_file']))}
+					</div>
+				</div>
+			</notempty>
+			<div class="clearfix"></div>
+		</form>
+	</eq>
+
+	<a id="flow_status"></a>
+	{:W('PageHeader/simple',array('name'=>'审批情况','search'=>'N'))}
+	<div class="ul_table ul_table_responsive border-bottom">
+		<ul>
+			<li class="thead">
+				<span class="col-6">类型</span>
+				<span class="col-9">审批人</span>
+				<span class="col-12">日期</span>
+				<span class="col-9">结果</span>
+				<span class="auto">意见</span>
+			</li>
+			<volist name="flow_log" id="item">
+				<li class="tbody">
+					<span class="col-6">{$item.step|show_step_type}</span>
+					<span class="col-9">{$item.user_name}</span>
+					<span class="col-12">{$item.update_time|to_date='Y-m-d H:i'}</span>
+					<span class="col-9">{$item.result|show_result}</span>
+					<span class="auto"><div style="overflow:hidden">{$item.comment}</div></span>
+				</li>
+			</volist>
+		</ul>
+	</div>
+
+	<notempty name="refer_flow_log">
+		{:W('PageHeader/simple',array('name'=>'参阅情况','search'=>'N'))}
+		<div class="ul_table ul_table_responsive border-bottom">
+			<ul>
+				<li class="thead">
+					<span class="col-9 text-center">发送人</span>
+					<span class="col-12 text-center">发送时间</span>
+					<span class="col-9 text-center">参阅人</span>
+					<span class="auto">参阅人意见</span>
+				</li>
+				<volist name="refer_flow_log" id="item">
+					<li class="tbody">
+						<span class="text-center col-9">{$item.from}</span>
+						<span class="text-center col-12">{$item.create_time|to_date='Y-m-d H:i'}</span>
+						<span style="width:90px;" class="text-center">{$item.user_name}</span>
+						<span class="auto"><div style="overflow:hidden">{$item.comment|default='-'}</div></span>
+					</li>
+				</volist>
+			</ul>
+		</div>
+	</notempty>
+
+	<notempty name="to_confirm">
+		<a id="confirm"></a>
+        <if condition="$to_confirm.step egt 30">
+            {:W('PageHeader/simple',array('name'=>'执行情况','search'=>'N'))}
+        <else />
+            {:W('PageHeader/simple',array('name'=>'审批意见','search'=>'N'))}
+        </if>
+		<form method="post" action="" name="form_confirm" id="form_confirm">
+            <input type="hidden" id="ajax" name="ajax" value="1">
+			<input type="hidden" name="id" value="{$to_confirm.id}">
+			<input type="hidden" name="flow_id" value="{$vo.id}">
+			<input type="hidden" name="step" value="{$to_confirm.step}">
+			<div class="operate panel panel-default">
+                <!-- 执行 -->
+                <if condition="$to_confirm.step egt 30"> 
+					<div class="panel-heading clearfix">
+						<div class="pull-left"><a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>&nbsp;&nbsp;</div>
+						<div id="zhixing" class="pull-right"><a onclick="approve();" class="btn btn-sm btn-primary">办结</a></div>
+					</div>
+					<div class="form-group panel-body">
+						<label class="col-sm-2 control-label">执行情况：</label>
+						<div class="col-sm-10">
+							<textarea name="comment" id="comment" class="col-xs-12" style="height:120px">请审批填写执行情况</textarea>
+						</div>
+					</div>
+                <!-- 审批 -->
+                <else />
+					<div class="panel-heading clearfix">
+						<div class="pull-left">
+							<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+							<!-- 财务人员传阅 -->
+							<eq name="Think.session.emp_no" value="zhangjing">
+								<a onclick="popup_refer_caiwu();" class="btn btn-sm btn-primary">交办</a>
+							</eq>
+						</div>
+						<div class="pull-right">
+							<!-- <eq name="is_edit" value="1"> -->
+								<div class="btn-group">
+									<a class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" href="#">退回到<span class="fa fa-caret-down"></span> </a>
+									<ul class="dropdown-menu col-5">
+										<li onclick="back_to('{$emp_no}','{$user_name}');">
+											<a>申请人:{$user_name}</a>
+										</li>
+										<volist name="confirmed" id="vo_bk">
+											<li onclick="back_to('{$vo_bk.emp_no}','{$vo_bk.user_name}');">
+												<a>{$vo_bk.user_name}</a>
+											</li>
+										</volist>
+									</ul>
+								</div>
+							<a id="reject" onclick="reject();" class="btn btn-sm btn-danger">否决</a>
+							|
+							<div id="approve" class="pull-right"><a onclick="approve();" class="btn btn-sm btn-primary">同意</a></div>
+							<!--
+							<a onclick="zhuanjiao({$vo.id})" class="btn btn-success">转交</a> -->
+						</div>
+					</div>
+					<div class="form-group panel-body">
+						<label class="col-sm-2 control-label">审批意见：</label>
+						<div class="col-sm-10">
+							<textarea name="comment" id="comment" class="col-xs-12" style="height:120px">同意</textarea>
+						</div>
+					</div>
+                </if>
+			</div>
+		</form>
+	</notempty>
+
+	<notempty name="to_refer">
+		{:W('PageHeader/simple',array('name'=>'参阅人意见','search'=>'N'))}
+		<form method="post" action="" name="form_confirm" id="form_confirm">
+			<input type="hidden" name="id" value="{$to_refer.id}">
+			<input type="hidden" name="flow_id" value="{$vo.id}">
+			<div class="operate panel panel-default">
+				<div class="panel-heading clearfix">
+					<div class="pull-left"><a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a></div>
+					<div id="refer" class="pull-right"><a onclick="refer();" class="btn btn-sm btn-primary">提交</a></div>
+				</div>
+				<div class="form-group panel-body">
+					<label class="col-sm-2 control-label">参阅人意见：</label>
+					<div class="col-sm-10">
+						<textarea name="comment" id="comment" class="col-xs-12" style="height:120px">{$to_refer.comment}</textarea>
+					</div>
+				</div>
+			</div>
+		</form>
+	</notempty>
+</block>
+
+<block name="js">
+	<script type="text/javascript">
+		udf_field.init({$vo['udf_data']});
+		function approve()
+		{
+            var infoM = '{$auditorName}';
+            //var cStep = '{$to_confirm.step}';
+            var cStep = '{$next_setp}';
+            if($("#comment").val() == '')
+            {
+                ui_error('请填写意见');
+                return false;
+            }
+            
+            if(infoM !== '')
+            {
+                if(cStep < 30)
+                {
+                    ui_confirm('您的业务下一个节点审核人是：{$auditorName}，是否继续？', function(){
+                        sendForm("form_confirm", "{:U('approve')}", "{:U('read','id='.$vo['id'])}");
+                    });
+                }
+                else
+				{
+                    ui_confirm('您的业务即将进入执行阶段，执行人是：{$auditorName}，是否继续？', function(){
+                        sendForm("form_confirm", "{:U('approve')}", "{:U('read','id='.$vo['id'])}");
+                    });
+                }
+            }
+            else
+			{
+                ui_confirm('审核业务即将完成，是否继续？', function(){
+                    sendForm("form_confirm", "{:U('approve')}", "{:U('read','id='.$vo['id'])}");
+                });
+            }
+		}
+
+		function refer()
+		{
+            if($("#comment").val() == '')
+            {
+                ui_error('请填写意见');
+                return false;
+            }
+            else
+            {
+			    sendForm("form_confirm", "{:U('refer')}", "{:U('read','id='.$vo['id'])}");
+            }
+		}
+
+		function reject()
+		{
+            if($("#comment").val() == '')
+            {
+                ui_error('请填写意见');
+                return false;
+            }
+            ui_confirm('您已选择将该申请否决，并返回到申请人，是否继续？', function(){
+                sendForm("form_confirm", "{:U('reject')}", "{:U('read','id='.$vo['id'])}");  
+            });
+		}
+
+        //申请再次执行
+        function consult_again()
+		{
+            //alert({$vo['id']});
+            sendForm("form_data", "{:U('consult_again')}","{:U('read','id='.$vo['id'])}");
+        }
+
+        //移动到草稿箱
+        function move_darft()
+		{
+            sendForm("form_data", "{:U('move_darft')}", "{:U('read','id='.$vo['id'])}");
+        }
+        //回撤
+        function recall()
+        {
+            ui_confirm('将要回撤到上个审批节点,是否继续？', function(){
+                sendForm("form_data", "{:U('recall')}", "{:U('read','id='.$vo['id'])}");
+            });
+        }
+
+		function back_to(emp_no,username)
+		{
+            if($("#comment").val() == '')
+            {
+                ui_error('请填写意见');
+                return false;
+            }
+
+            ui_confirm('您将申请退回到:' + username + '，是否继续？', function(){
+                sendForm("form_confirm", fix_url("{:U('back_to')}?emp_no=" + emp_no), "{:U('read','id='.$vo['id'])}");
+            });
+		}
+
+		function save()
+		{
+            //如果提供了函数名称的话，就执行对应函数，获取对应数据函数
+            if(save_data['data_callback'] !== undefined && typeof save_data['data_callback'] != 'undefined' && save_data['data_callback'] != '')
+                eval(save_data['data_callback'])();
+
+            /*
+			$("#confirm").val("");
+			$("#confirm_wrap  span").each(function() {
+				$("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
+			}); */
+			$("#confirm_name").val($("#confirm_wrap").html());
+            /*
+			$("#consult").val("");
+			$("#consult_wrap  span").each(function() {
+				$("#consult").val($("#consult").val() + $(this).attr("data") + '|');
+			});  */
+			$("#consult_name").val($("#consult_wrap").html());
+            
+			$("#refer").val("");
+			$("#refer_wrap  span").each(function() {
+				$("#refer").val($("#refer").val() + $(this).attr("data") + '|');
+			});
+			$("#refer_name").val($("#refer_wrap").html());
+
+			if($("#confirm").val().length < 2)
+			{
+				ui_error('请选择审批流程');
+				return false;
+			}
+
+			sendForm("form_data", "{:U('save')}");
+		}
+
+		function popup_confirm()
+		{
+			winopen("{:U('popup/confirm')}", 560, 470);
+		}
+
+		function popup_refer()
+		{
+			winopen("{:U('popup/refer')}", 560, 470);
+		}
+
+        //转交
+        function zhuanjiao(id)
+		{
+            winopen("{:U('popup/flow_transfer?id='.$vo['id'],'step='.$to_confirm['step'])}", 560, 470);
+            //winopen("{:U('popup/refer_caiwu')}", 560, 470);
+        }
+        
+        function popup_refer_caiwu()
+		{
+            winopen("{:U('popup/refer_caiwu')}", 560, 470);
+        }
+
+		$(document).ready(function(){
+			set_return_url(document.location, 1);
+			/*$('.address_list').on('mouseenter', 'span', function(){
+				$i = $(this).find('i');
+				$i.removeClass('fa-arrow-right');
+				$i.addClass('fa-times');
+			});
+            
+			$('.address_list').on('mouseleave', 'span', function(){
+				$i = $(this).find('i');
+				$i.removeClass('fa-times');
+				$i.addClass('fa-arrow-right');
+
+				$(".address_list span i:last").attr('class', 'fa');
+			});
+
+			$('.address_list').on('click', 'i', function(){
+				$(this).parents('span').remove();
+			}); */                
+			show_content(); 
+		});                 
+	</script>
+</block>

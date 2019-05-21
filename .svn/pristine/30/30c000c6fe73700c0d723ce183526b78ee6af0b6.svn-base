@@ -1,0 +1,161 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	<style type="text/css">
+		.main {
+			width: 100%;
+			height: 1000px;
+		}
+		@media screen and (max-width: 500px) {
+			.main {
+				width: 100%;
+				height: 1000px;
+				overflow: auto;
+				}
+		}
+		.center {
+			width: 700px;
+			height: 800px;
+			margin: 0 auto;
+		}
+		.title {
+			height: 100px;
+		}
+		.title_font {
+			text-align: center;
+			position: relative;
+			top: 30px;
+			font-size: 40px;
+			font-family: "@华文宋体"
+		}
+		.title_underline {
+			margin: 0 auto;
+			position: relative;
+			width: 300px;
+			top: 10px;
+			border-bottom-style: double;
+		}
+		.border {
+			border-left: 2px solid #000000;
+			border-right: 2px solid #000000;
+			border-top: 2px solid #000000;
+		}
+		.fagei {
+			height: 80px;
+		}
+		.niban {
+			height: 160px;
+		}
+		.pishi {
+			height: 350px;
+		}
+		.chengbajieguo {
+			height: 270px;
+			border-bottom: 2px solid #000000;
+		}
+		.zhuangdingxian {
+			position: absolute;
+			margin-left: -25px;
+			margin-top: 230px;
+			width: 2px;
+			height: 500px;
+			border: 1px dashed #000000;
+		}
+		.zhuangdingxian span {
+			position: absolute;
+			margin-top: 180px;
+		}
+		.content {
+
+			margin-left: 35px;
+			margin-top: 20px;
+			font-size: 17px
+		}
+		.content p {
+			font-size: 15px;
+			width: 500px;
+			margin-top: -25px;
+			margin-left: 100px;
+		}
+		.content div {
+			width: 103px;
+			text-align: center;
+		}
+
+	</style>
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+			<div class="pull-right">
+				<a onclick="winprint()" class="btn btn-sm btn-primary hidden-xs">打印</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="main">
+
+		<div class="center">
+			<div class="zhuangdingxian">
+				<span>装订线</span>
+			</div>
+			<div class="title">
+				<p class="title_font">
+					文书处理单
+				</p>
+				<p class="title_underline"></p>
+			</div>
+			<div class="fagei border">
+				<div class="content">
+					<div >
+						此文已发给：
+					</div><p></p>
+				</div>
+			</div>
+			<div class="niban border">
+				<div class="content">
+					<div>
+						拟办：
+					</div>
+					<p>
+						{$list.remarks}
+					</p>
+				</div>
+			</div>
+			<div class="pishi border">
+				<div class="content">
+					<div>
+						批示：
+					</div>
+					<p>
+
+						<volist name="list2" id="vo">
+							{$vo.remarks} <img id="qm"  height="62px" width="100px" src="Uploads/signature/{$vo.pishiren_id}.jpg" alt="{$vo.pishiren_qianming}">
+							{$vo.shenpi_time|to_date='m-d'}
+							<br/>
+						</volist>
+
+					</p>
+
+				</div>
+			</div>
+			<div class="chengbajieguo border">
+				<div class="content">
+					<div>
+						承办结果：
+					</div>
+					<p>
+						<volist name="list3" id="vo">
+							{$vo.remarks}&nbsp<b>{$vo.pishiren_qianming}{$vo.shenpi_time|to_date='m-d'}</b>
+							<br/>
+						</volist>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript"></script>
+</block>
+

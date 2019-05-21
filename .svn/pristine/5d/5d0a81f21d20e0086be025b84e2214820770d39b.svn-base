@@ -1,0 +1,148 @@
+<!--此页为审批单生成页面--><HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = "urn:schemas-microsoft-com:vml" xmlns:o = "urn:schemas-microsoft-com:office:office" xmlns:w = "urn:schemas-microsoft-com:office:word"><HEAD><TITLE>批示单</TITLE>
+<META content="text/html; charset=gb2312" http-equiv=Content-Type>
+<META name=ProgId content=Word.Document>
+<META name=Generator content="Microsoft Word 11">
+<META name=Originator content="Microsoft Word 11">
+<STYLE>@font-face {
+	font-family: 宋体;
+}
+@font-face {
+	font-family: @宋体;
+}
+@page  {mso-page-border-surround-header: no; mso-page-border-surround-footer: no; }
+@page Section1 {size: 595.3pt 841.9pt; margin: 72.0pt 1.0cm 72.0pt 1.0cm; mso-header-margin: 42.55pt; mso-footer-margin: 49.6pt; mso-paper-source: 0; layout-grid: 15.6pt; }
+P.MsoNormal {
+	FONT-SIZE: 10.5pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-style-parent: ""; mso-pagination: none; mso-bidi-font-size: 12.0pt; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt
+}
+LI.MsoNormal {
+	FONT-SIZE: 10.5pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-style-parent: ""; mso-pagination: none; mso-bidi-font-size: 12.0pt; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt
+}
+DIV.MsoNormal {
+	FONT-SIZE: 10.5pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-style-parent: ""; mso-pagination: none; mso-bidi-font-size: 12.0pt; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt
+}
+P.MsoAcetate {
+	FONT-SIZE: 9pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-pagination: none; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt; mso-style-noshow: yes
+}
+LI.MsoAcetate {
+	FONT-SIZE: 9pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-pagination: none; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt; mso-style-noshow: yes
+}
+DIV.MsoAcetate {
+	FONT-SIZE: 9pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN: 0cm 0cm 0pt; mso-pagination: none; mso-fareast-font-family: 宋体; mso-font-kerning: 1.0pt; mso-style-noshow: yes
+}
+SPAN.GramE {
+	mso-style-name: ""; mso-gram-e: yes
+}
+DIV.Section1 {
+	page: Section1
+}
+</STYLE>
+</HEAD>
+<BODY lang=ZH-CN style="TEXT-JUSTIFY-TRIM: punctuation; tab-interval: 21.0pt" windowc_onresizez="true">
+<SCRIPT language=javascript type=text/javascript>
+<!--
+document.oncontextmenu=new Function('event.returnValue=false;');
+document.onselectstart=new Function('event.returnValue=false;');
+-->
+</SCRIPT>
+<NOSCRIPT></NOSCRIPT>
+<SCRIPT language=javascript>
+function click() {
+if (event.button==2) {   //button==1为禁止左键,button==2为禁止右键
+alert('此网页只能打印，禁止右键、禁止复制、禁止另存为！作者：徐加刚')
+}
+}
+document.onmousedown=click
+</SCRIPT>
+
+<TABLE class=MsoTableGrid style="BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid; WIDTH: 665px; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: 0px solid; MARGIN-LEFT: 20.65pt; BORDER-LEFT: 0px solid; mso-border-alt: solid windowtext .5pt; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt; mso-border-insideh: .5pt solid windowtext; mso-border-insidev: .5pt solid windowtext" height=165 cellSpacing=0 cellPadding=0 border=1>
+<TBODY>
+<TR>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=100 width=51></TD>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=100 width=610>
+<TABLE class=MsoTableGrid style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; MARGIN-LEFT: 6.75pt; BORDER-LEFT: medium none; MARGIN-RIGHT: 6.75pt; mso-border-alt: solid red 3.0pt; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt; mso-border-insideh: 1.5pt solid windowtext; mso-border-insidev: 1.5pt solid windowtext; mso-yfti-tbllook: 480; mso-table-lspace: 9.0pt; mso-table-rspace: 9.0pt; mso-table-anchor-vertical: page; mso-table-anchor-horizontal: margin; mso-table-left: left; mso-table-top: 79.85pt" height=63 cellSpacing=0 cellPadding=0 width=178 align=right border=1>
+<TBODY>
+<TR style="HEIGHT: 22.7pt; mso-yfti-irow: 0; mso-yfti-firstrow: yes">
+<TD style="BORDER-TOP: red 3pt solid; HEIGHT: 33px; BORDER-RIGHT: red 3pt solid; WIDTH: 156px; BORDER-BOTTOM: red 1.5pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: red 3pt solid; PADDING-RIGHT: 5.4pt">
+<P class=MsoNormal style="LINE-HEIGHT: 16pt; mso-line-height-rule: exactly; mso-element: frame; mso-element-frame-hspace: 9.0pt; mso-element-wrap: around; mso-element-anchor-vertical: page; mso-element-anchor-horizontal: margin; mso-element-top: 79.85pt; mso-height-rule: exactly"><SPAN class=GramE><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; COLOR: red">收电第</SPAN></B></SPAN><B style="mso-bidi-font-weight: normal"><SPAN lang=EN-US style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; mso-spacerun: yes">&nbsp;收点号</SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; COLOR: red">号<SPAN lang=EN-US><o:p></o:p></SPAN></SPAN></B></P></TD></TR>
+<TR style="HEIGHT: 22.7pt; mso-yfti-irow: 1; mso-yfti-lastrow: yes">
+<TD style="BORDER-TOP: medium none; HEIGHT: 30px; BORDER-RIGHT: red 3pt solid; WIDTH: 156px; BORDER-BOTTOM: red 3pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: red 3pt solid; PADDING-RIGHT: 5.4pt; mso-border-top-alt: solid red 1.5pt">
+<P class=MsoNormal style="LINE-HEIGHT: 16pt; mso-line-height-rule: exactly; mso-element: frame; mso-element-frame-hspace: 9.0pt; mso-element-wrap: around; mso-element-anchor-vertical: page; mso-element-anchor-horizontal: margin; mso-element-top: 79.85pt; mso-height-rule: exactly"><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312"></SPAN><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; COLOR: red">年</SPAN><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312"> </SPAN><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; COLOR: red">月</SPAN><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312"></SPAN><SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: 仿宋_GB2312; COLOR: red">日<SPAN lang=EN-US><o:p></o:p></SPAN></SPAN></B></P></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=15 width=51></TD>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=15 width=610>
+<P class=MsoNormal style="TEXT-ALIGN: right"><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-bidi-font-size: 10.5pt; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"'>文号</SPAN></P></TD></TR>
+<TR>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=21 width=51></TD>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=21 width=610>　</TD></TR>
+<TR>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=32 width=51></TD>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" height=32 width=610>
+<P class=MsoNormal style="TEXT-ALIGN: center"><SPAN style='FONT-SIZE: 16pt; FONT-FAMILY: 宋体; mso-bidi-font-size: 20pt; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"'>文号</SPAN></P></TD></TR></TBODY></TABLE>
+<DIV class=Section1 style="LAYOUT-GRID:  15.6pt none">
+<TABLE class=MsoTableGrid style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; WIDTH: 498.55pt; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; MARGIN-LEFT: 20.65pt; BORDER-LEFT: medium none; mso-border-alt: solid windowtext .5pt; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt; mso-border-insideh: .5pt solid windowtext; mso-border-insidev: .5pt solid windowtext" height=670 cellSpacing=0 cellPadding=0 width=665 border=1>
+<TBODY>
+<TR style="HEIGHT: 33pt; mso-yfti-irow: 0; mso-yfti-firstrow: yes">
+<TD style="BORDER-TOP: medium none; HEIGHT: 31px; BORDER-RIGHT: medium none; WIDTH: 30.75pt; BORDER-BOTTOM: medium none; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt" vAlign=top width=41>
+<P class=MsoNormal style="MARGIN-LEFT: 5.4pt"><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp;</o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: medium none; HEIGHT: 32px; BORDER-RIGHT: medium none; WIDTH: 467.8pt; BORDER-BOTTOM: windowtext 1.5pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt" vAlign=top width=624 colSpan=16>
+<P class=MsoNormal style="MARGIN-LEFT: 5.4pt"><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"'>请　xxx　同志阅批</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p> </o:p></SPAN></P></TD></TR>
+<TR style="HEIGHT: 4cm; mso-yfti-irow: 1">
+<TD style="BORDER-TOP: medium none; HEIGHT: 463px; BORDER-RIGHT: windowtext 1.5pt solid; WIDTH: 30.75pt; BORDER-BOTTOM: medium none; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt" rowSpan=3 width=41>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"; mso-no-proof: yes'>文</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p>&nbsp;</o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"; mso-no-proof: yes'>件</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p>&nbsp;</o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"; mso-no-proof: yes'>批</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p>&nbsp;</o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"; mso-no-proof: yes'>示</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt; mso-no-proof: yes"><o:p>&nbsp;</o:p></SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 14pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"; mso-no-proof: yes'>单</SPAN></P>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 20pt; mso-line-height-rule: exactly" align=center>　</P></TD>
+<TD style="BORDER-TOP: medium none; HEIGHT: 105px; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 24px; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; mso-border-top-alt: 1.5pt; mso-border-left-alt: 1.5pt; mso-border-bottom-alt: .5pt; mso-border-right-alt: .5pt; mso-border-color-alt: windowtext; mso-border-style-alt: solid">
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 12pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 13pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"'>批办意见</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: windowtext 1.5pt solid; HEIGHT: 107px; BORDER-RIGHT: windowtext 1.5pt solid; WIDTH: 600px; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; mso-border-top-alt: 1.5pt; mso-border-left-alt: .5pt; mso-border-bottom-alt: .5pt; mso-border-right-alt: 1.5pt; mso-border-color-alt: windowtext; mso-border-style-alt: solid" colSpan=15>
+<P class=MsoNormal style="TEXT-ALIGN: left" align=center><SPAN lang=EN-US style="FONT-SIZE: 13pt; LINE-HEIGHT: 0pt">
+<P>请xxx阅办。（根据xxx电话指示，办公室代批。）<IMG border=0 src="图片" width=90 height=50> 日期</P></SPAN>
+<P></P>
+<P class=MsoNormal style="TEXT-ALIGN: right; LINE-HEIGHT: 0pt" align=center></P></TD></TR>
+<TR style="HEIGHT: 3cm; mso-yfti-irow: 2">
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 20pt; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext 1.5pt" height=131 width=36>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 12pt; mso-line-height-rule: exactly" align=center><SPAN style='FONT-SIZE: 13pt; FONT-FAMILY: 宋体; mso-ascii-font-family: "Times New Roman"; mso-hansi-font-family: "Times New Roman"'>承办结果</SPAN><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1.5pt solid; WIDTH: 436.65pt; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext 1.5pt" width=582 colSpan=15>
+<P class=MsoNormal style="TEXT-ALIGN: left" align=center><o:p><SPAN lang=EN-US style="FONT-SIZE: 13pt">请xxx阅办。<FONT size=5 face=华文行楷>xxx</FONT> 日期</SPAN></o:p></P>
+<P class=MsoNormal style="TEXT-ALIGN: right" align=center></P>
+</TD></TR>
+<TR style="HEIGHT: 1cm">
+<TD style="BORDER-TOP: medium none; HEIGHT: 40px; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 31.15pt; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt" width=42>
+<P class=MsoNormal style="TEXT-ALIGN: center; LINE-HEIGHT: 12pt" align=center><SPAN style="FONT-SIZE: 13pt; FONT-FAMILY: 宋体">签<BR><BR>字</SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>
+<P class=MsoNormal style="TEXT-ALIGN: center; LETTER-SPACING: 0px; LINE-HEIGHT: 0px" align=center>xxx<BR><FONT size=2>26/8</FONT> </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #000000 1pt solid; BORDER-RIGHT: #000000 1pt solid; WIDTH: 24px; WORD-SPACING: 0px; BORDER-BOTTOM: #000000 1pt solid; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #000000 1pt solid; MARGIN: 0px; LINE-HEIGHT: 0pt; PADDING-RIGHT: 5.4pt; mso-border-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext 1.5pt" height=40 vAlign=top>
+<P class=MsoNormal style="MARGIN-BOTTOM: 0pt; TEXT-ALIGN: center; LINE-HEIGHT: 0pt" align=center><SPAN lang=EN-US style="FONT-SIZE: 14pt"><o:p>&nbsp; </o:p></SPAN></P></TD></TR></TBODY></TABLE></DIV></BODY></HTML>

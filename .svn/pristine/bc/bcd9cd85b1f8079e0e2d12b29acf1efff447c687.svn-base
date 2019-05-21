@@ -1,0 +1,130 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	<div class="page-header clearfix">
+		<div class="dropdown col-sm-8">			
+			<b class="dropdown-toggle" data-toggle="dropdown"><span class="title">全部</span><span class="fa fa-caret-down"></span></b>
+			<ul class="dropdown-menu">
+				<li gid="">
+					<a>全部</a>
+				</li>
+				<foreach name="tag_list" item="vo">
+					<li gid="{$key}">
+						<a>{$vo}</a>
+					</li>
+				</foreach>
+			</ul>
+		</div>
+		<div class="col-sm-4 pull-right">
+			<div class="search_box">
+				<div class="input-group ">
+					<input type="hidden" value="abc" >
+					<input  class="form-control" type="text"  name="keyword" id="keyword" onkeydown="key_local_search();"/>
+					<div class="input-group-btn">
+						<a class="btn btn-sm btn-info" onclick="btn_local_search();"><i class="fa fa-search" ></i> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form id="form_data" name="form_data" method='post'>
+		<div class="operate panel panel-default">
+			<div class="panel-body">
+				<div class="pull-left">
+					<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a> 
+				</div>
+				<div class="pull-right">
+					<a class="btn btn-sm btn-primary" onclick="bonus_user_collect();">人员汇总</a>
+				</div>
+			</div>
+		</div>
+		<div class="ul_table ul_table_responsive">
+			<ul>
+				<li class="thead" style="padding-left:10px">
+					<div class="pull-left">
+						<span class="col-12 ">审批编号</span>
+					</div>               
+					<div class="pull-right">
+						<span  class="col-12">申请日期</span> 
+						<span  class="col-12">申请人</span>
+						<span  class="col-12">科室</span>                 
+						<span class="col-6 ">状态</span>
+                        <span class="col-6 ">提醒</span>
+					</div>
+					<div class="autocut auto">
+						标题
+					</div>
+				</li>
+			</ul>
+			<empty name="list">
+				<ul>
+					<li class="no-data">
+						没找到数据
+					</li>
+				</ul>
+				<else/>
+				<form method="post" action="" name="form_data" id="form_data">
+					<ul>
+						<foreach name="list" item="vo">
+							<li class="tbody">
+								<div class="pull-left">
+									<span class="col-12 ">{$vo.doc_no}</span> 
+								</div>
+								<div class="pull-right">
+									<span class="col-12">{$vo.create_time|to_date='Y-m-d'}</span>
+									<span class="col-12">{$vo.user_name}</span>
+									<span class="col-12">{$vo.dept_name}</span>                             
+									<span class="col-6">{$vo.step|show_step}</span>
+                                    <span class="col-6">
+                                        <eq name="vo.step" value="40">
+                                            <i class="fa fa-envelope"></i>
+                                        <else /> 
+                                            <!-- <button class="btn btn-sm btn-primary" onclick="send_massage('{$vo.current_confirm}');" type="button"><i class="fa fa-envelope"></i> --> 
+                                            <a onclick="send_massage('{$vo.confirm}','{$vo.name}');"> <i class="fa fa-envelope"></i></a>
+                                        </eq>                                      
+                                    </span>
+								</div>
+								<div class="autocut auto">
+
+									<a href="{:U('Flow/read','id='.$vo['id'].'&fid='.$folder)}">{$vo.name}</a> 
+
+									<eq name="vo.name|strlen" value="0">
+										无内容
+									</eq>
+								</div>
+							</li>
+						</foreach>
+					</ul>
+				</form>
+				<div class="pagination">
+					{$page}
+				</div>
+			</empty>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function  bonus_user_collect() {        
+			ui_confirm('确定要进行汇总吗?', function(){
+				sendAjax("{:U('bonus_user_collect')}", 'id={$id}', function(data){
+					if(data.status)
+					{
+						ui_alert(data.info, function(){
+							go_return_url();
+						});
+					}
+				});
+			});
+		}
+        //发送手机短信
+        function send_massage(confirm,title)
+        {
+            var str1 =  confirm;
+            var str2 =  "奖金分配待办提醒：您好，请及时查看您的待办事项【"+title+"】，按时处理奖金分配申请，谢谢！";
+            var str3 = "{:U('popup/send_message',array('emp_no'=>'tmp_confirm','message'=>'tmp_message'))}";
+            str4 =  str3.replace("tmp_confirm",str1);
+            str =  str4.replace("tmp_message",str2);
+            winopen(str,560, 370); 
+        }
+	</script>
+</block>

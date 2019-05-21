@@ -1,0 +1,46 @@
+<extend name="Layout/ins_popup" />
+<block name="content">
+	<input id="val" name="val" type="hidden">
+	<input id="name" name="name" type="hidden">
+	<div class="popup-header clearfix">
+		<div class="pull-left">
+			<h1>选择部门</h1>
+		</div>
+		<div class="pull-right">
+			<a onclick="save();" class="btn btn-sm btn-primary">确定</a>
+			<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+		</div>
+	</div>
+	<div class="popup-body" style="height: 420px;overflow-y: auto;">
+		<div class="popup_tree_menu">
+			<ul class="tree_menu">
+				{$menu}
+			</ul>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+			if ($("#name").val().length > 0) {
+				$(".dept .name", parent.document).val($("#name").val());
+				$(".dept .id", parent.document).val($("#val").val());
+
+			} else {
+				ui_error("请选择部门");
+				return false;
+			}
+			myclose();
+		}
+
+
+		$(document).ready(function() {
+			$(".popup_tree_menu a").click(function() {
+				$("#val").val($(this).attr("node"));
+				$("#name").val($(this).children("span").text());
+				$(".popup_tree_menu .tree_menu  a.active").removeClass("active");
+				$(this).addClass("active");
+			});
+		});
+	</script>
+</block>

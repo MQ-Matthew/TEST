@@ -1,0 +1,125 @@
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+        <link rel="icon" href="__INS__/img/favicon.ico" type="image/x-icon"/>
+        <title>同仁医院采购管理平台</title>
+        <link href="__INS__/css/bootstrap.min.css" rel="stylesheet">
+        <link href="__INS__/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="__INS__/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+        <link href="__INS__/css/style.css" rel="stylesheet">
+        <link href="__INS__/css/xiaowei.css" rel="stylesheet">
+         <!--[if lt IE 9]>
+        <script src="__INS__/js/html5shiv.js"></script>
+        <script src="__INS__/js/respond.js"></script>
+        
+        <![endif]-->
+
+    </head>
+    <body class="white-bg">
+        <block name="content"></block>
+        
+        <!-- Mainly scripts -->
+        <!-- <script src="__INS__/js/jquery-2.1.1.js"></script>-->
+        <script src="__INS__/js/jquery-1.10.2.min.js"></script> 
+        <script src="__INS__/js/bootstrap.min.js"></script>
+        
+        <script src="__INS__/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="__INS__/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="__INS__/js/inspinia.js"></script>
+        <script src="__INS__/js/common.js"></script>
+        <include file="Layout:ins_plugin_js"/>
+        <block name="js"></block>
+
+<block name="content">
+
+    <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+     <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备名称：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="name" name="name" value="{$info.name}" >
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备号：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="name" name="name" value="{$info.code}" >
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备品牌：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="brand"  name="brand"   value="{$info.brand}">
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">设备描述 :</label>
+            <div class="col-sm-9">
+
+                <if condition="$is_show eq 1">
+                    <button class="btn btn-small btn-success" type="button" id="browse">导入</button>
+                </if>
+
+                 <textarea style="min-height: 200px;width: 100%; resize:none;" name="description" id="description">{$info['description']}</textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">使用人:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="amount" name="amount" value="{$info.receive_username}" >
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">数量 :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="amount" name="amount" value="{$info.amount}" >
+                </div>
+        </div>
+		
+		<div class="form-group">
+
+                <label class="col-sm-2 control-label" for="name">部门ID :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="receive_deptid" name="receive_deptid" value="{$info.receive_deptid}" >
+                </div>
+
+        </div>
+		
+		<div class="form-group">
+
+                <label class="col-sm-2 control-label" for="name">部门名称 :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="receive_deptname" name="receive_deptname" value="{$info.receive_deptname}" >
+                </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">备注:</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="remarks" name="remarks" value="{$info.remarks}">
+            </div>
+        </div>
+
+
+</form>
+
+</block>
+</body>

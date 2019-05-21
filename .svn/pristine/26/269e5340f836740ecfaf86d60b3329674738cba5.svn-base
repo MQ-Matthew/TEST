@@ -1,0 +1,604 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    <style>
+    .xuli{
+        display:inline;
+    }
+</style>
+
+<script type="text/javascript"></script>
+<form method="post" action="" id="form_search" name="form_search">
+    {:W('PageHeader/simple',array('name'=>'员工信息一览','search'=>'N'))}
+</form>
+<div class="row">
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title text-center">
+                <h2>待审件数</h2>
+            </div>
+            <div class="ibox-content text-center">
+                <h1 class="no-margins">{$daishen}(件)</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title text-center">
+                <h2>完结件数</h2>
+            </div>
+            <div class="ibox-content text-center">
+                <h1 class="no-margins">{$wanjie}(件)</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title text-center">
+                <h2>执行件数</h2>
+            </div>
+            <div class="ibox-content text-center">
+                <h1 class="no-margins">{$zhixing}(件)</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title text-center">
+                <h2>否决件数</h2>
+            </div>
+            <div class="ibox-content text-center">
+                <h1 class="no-margins">{$foujue}(件)</h1>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="row">
+    
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                奖金初审
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_jjcs}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_jjcs}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_jjcs}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$jjcs_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$jjcs_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$jjcs_19}</span></p>
+                </div>
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+
+
+
+
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                奖金复审
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_jjfs}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_jjfs}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_jjfs}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$jjfs_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$jjfs_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$jjfs_19}</span></p>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+    <div></div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                消耗材料月计划
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_xhcl}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_xhcl}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_xhcl}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$xhcl_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$xhcl_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$xhcl_19}</span></p>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                资产维修
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_zcwx}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$s_zcwx}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$s_zcwx}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$zcwx_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$zcwx_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$zcwx_19}</span></p>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+
+
+    <div></div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                运维保养与维修
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_ywby}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_ywby}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_ywby}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$ywby_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$ywby_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$ywby_19}</span></p>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                临时计划
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_lsjh}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_lsjh}</span></p>
+                    <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_lsjh}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$lsjh_17}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$lsjh_18}</span></p>
+                    <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$lsjh_19}</span></p>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>        
+
+
+
+
+
+
+        <div></div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    仪器设备采购
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="flot-chart">
+                        <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_yqsb}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_yqsb}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_yqsb}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$yqsb_17}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$yqsb_18}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$yqsb_19}</span></p>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    办公用品采购
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="flot-chart">
+                        <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_bgyp}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_bgyp}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_bgyp}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$bgyp_17}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$bgyp_18}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$bgyp_19}</span></p>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>                      
+
+
+
+        <div></div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    技术服务类
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="flot-chart">
+                        <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_jsfw}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_jsfw}</span></p>
+                        <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_jsfw}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$jsfw_17}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$jsfw_18}</span></p>
+                        <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$jsfw_19}</span></p>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            办公用品及设备领用
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_bgyp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_bgyp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_bgyp}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$bgyp_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$bgyp_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$bgyp_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            办公电脑领用
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_dnly}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_dnly}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_dnly}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$dnly_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$dnly_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$dnly_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            合同审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_htsp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_htsp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_htsp}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$htsp_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$htsp_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$htsp_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>              
+                
+
+                
+                
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            用章审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_yzsp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_yzsp}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_yzsp}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$yzsp_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$yzsp_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$yzsp_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            代发业务
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_dfyw}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_dfyw}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_dfyw}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$dfyw_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$dfyw_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$dfyw_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+
+                
+
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            工资变动
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_gzbd}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_gzbd}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_gzbd}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$gzbd_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$gzbd_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$gzbd_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            办公用品(非库存)领用
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_fkc}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_fkc}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_fkc}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$fkc_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$fkc_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$fkc_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            结清单审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$rskz_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$rskz_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$rskz_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            人事科章审批审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_rskz}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$rskz_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$rskz_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$rskz_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                
+                
+                
+                
+
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            支出凭单审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_zcpd}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_zcpd}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_zcpd}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$zcpd_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$zcpd_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$zcpd_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            劳务费审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_lwf}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_lwf}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_lwf}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$lwf_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$lwf_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$lwf_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+
+                <div></div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            专家咨询费审批
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_zjzx}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_zjzx}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_zjzx}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$zjzx_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$zjzx_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$zjzx_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            差旅费用报销
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <p><span class="glyphicon glyphicon-tasks"> 待审批: {$s_clfy}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 待执行: {$z_clfy}</span></p>
+                                <p><span class="glyphicon glyphicon-tasks"> 已完结: {$f_clfy}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2017年完结: {$clfy_17}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2018年完结: {$clfy_18}</span></p>
+                                <p><span class="glyphicon glyphicon-pushpin"> 2019年完结: {$clfy_19}</span></p>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>                          
+                
+                
+ 
+</div>
+
+
+    
+
+</block>
+<block name="js">
+    <!-- Flot -->
+
+    <script src="__INS__/js/echarts.common.min.js"></script>
+
+
+    <script src="__INS__/js/plugins/flot/jquery.flot.js"></script>
+    <script src="__INS__/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="__INS__/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="__INS__/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="__INS__/js/plugins/flot/jquery.flot.time.js"></script>
+
+    <!-- Flot demo data -->
+    
+
+    
+
+</block>

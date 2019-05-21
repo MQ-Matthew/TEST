@@ -1,0 +1,28 @@
+
+<div style="font-size:13px;">
+<if condition="$emp_no eq ''">
+<a target="_blank" class="t" href="http://sso/SSO/?url=http://10.18.41.222/index.php?m=&c=public&a=login">登陆综合审批系统</a>
+
+<else />
+    <notempty name="list">
+        <a target="_blank" class="t" href="http://sso/SSO/?url=http://10.18.41.222/index.php?m=&c=Flow&a=folder&fid=confirm">您目前有以下待办事项</a>
+        </br> </br>
+        <volist name="list" id="vo">
+            <a target="_blank" class="l" href="http://sso/SSO/?url=http://10.18.41.222/index.php?m=&c=Flow&a=folder&fid=confirm"> {$key}【<span style="color:#F00">{$vo}</span>】件</a></br>
+         </volist>
+    <else />
+        <a target="_blank" class="t" href="http://sso/SSO/?url=http://10.18.41.222/index.php?m=&c=Flow&a=folder&fid=confirm">暂无待办</a><br>
+    
+    </notempty>
+   
+</if>
+</div>
+
+<style type="text/css"">
+    .t{
+        color:#003399;font-size:13px;margin-left:0px;text-decoration:none;width:175px;float:left;padding-left:30px;display:block;border-bottom:1px dashed #9d9d9d
+    }
+    .l{
+        color:#003399;font-size:13px;padding-left:30px;text-decoration:none;display:block;
+    }
+</style>

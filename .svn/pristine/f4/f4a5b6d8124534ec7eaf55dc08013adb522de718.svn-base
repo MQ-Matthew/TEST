@@ -1,0 +1,18 @@
+<script src="/Public/Ins/js/jquery-2.1.1.js"></script>
+<script src="/Public/Ins/js/common.js"></script>
+
+<a onclick="test()">test</a>
+<script>
+	function test() {
+		var vars = "content=11111&plan=222222&opmode=add&user_id=1";
+		x.send_ajax("{:U('save')}", vars, function(data) {
+			if (data.status) {
+				alert(data.info, function() {
+					
+				});
+			} else {
+				layer.msg(data.info);
+			}
+		});
+	}
+</script>

@@ -1,0 +1,270 @@
+<!--工作经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="8">工作经历 ：</th>
+    <tr>
+        <th width="5%">序号</th>
+        <th width="12%">起始时间</th>
+        <th width="12%">结束时间</th>
+        <th width="21%">工作单位</th>
+        <th width="18%">工作部门</th>
+        <th width="10%">工作职务</th>
+        <th width="12%">备注</th>
+        <th width="10%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.gongzuo">
+        <tbody id='all_gongzuos'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="gongzuo_xuhao[]" id="gongzuo_xuhao"  value=""  style="width:100%"> </td>
+
+            <td><input type="text" name="gongzuo_qishishijian[]" id="gongzuo_qishishijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_jieshushijian[]" id="gongzuo_jieshushijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+
+            <td><input type="text" name="gongzuo_danwei[]" id="gongzuo_danwei"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_bumeng[]" id="gongzuo_bumeng"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_zhiwu[]" id="gongzuo_zhiwu"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_beizhu[]" id="gongzuo_beizhu"  value=""  style="width:100%"></td>
+
+            <td><a href="javascript:void(0);" onclick="delete_gongzuos(this)" class="delrow">删除</a></td>
+        </tr>
+        <tr id='gongzuos'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_gongzuos'> <!--编辑-->
+        <tr id='gongzuos'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="gongzuo_tbAddRow()">添加工作经历</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+</table>
+<input type="hidden" id="gongzuo" name="gongzuo" value="{$info.gongzuo}">
+<!--工作经历 js -->
+<script type="text/javascript">
+    //添加一行
+    function gongzuo_tbAddRow()
+    {
+
+        var gongzuo_html = '';
+        gongzuo_html += '<tr>';
+
+        gongzuo_html += '<td><input type="text" name="gongzuo_xuhao[]" id="gongzuo_xuhao"  value="" onblur="gongzuo_tableDate();" style="width:100%"> </td>';
+        gongzuo_html += '<td><input type="text" name="gongzuo_qishishijian[]" id="gongzuo_qishishijian"  class="form-control input-date" value="" onchange="gongzuo_tableDate();" style="width:100%"> </td>';
+        gongzuo_html += '<td><input type="text" name="gongzuo_jieshushijian[]" id="gongzuo_jieshushijian"  class="form-control input-date" value="" onchange="gongzuo_tableDate();" style="width:100%"> </td>';
+
+        gongzuo_html += '<td><input type="text" name="gongzuo_danwei[]" id="gongzuo_danwei"  value="" onblur="gongzuo_tableDate();" style="width:100%"> </td>';
+        gongzuo_html += '<td><input type="text" name="gongzuo_bumeng[]" id="gongzuo_bumeng"  value="" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+        gongzuo_html += '<td><input type="text" name="gongzuo_zhiwu[]" id="gongzuo_zhiwu"  value="" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+
+        gongzuo_html += '<td><input type="text" name="gongzuo_beizhu[]" id="gongzuo_beizhu"  value="" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+
+        gongzuo_html += '<td><a href="javascript:void(0);" onclick="delete_gongzuos(this)" class="delrow">删除</a></td>';
+        gongzuo_html += '</tr>';
+
+        $('#gongzuos').before(gongzuo_html);
+
+        
+
+    }
+
+    //删除一行
+    function delete_gongzuos(obj)
+    {
+        $(obj).parent().parent().remove();//删除一个物品对象
+        gongzuo_tableDate();
+    }
+
+
+
+</script>
+
+
+
+<!--职称评审情况  table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">职称评审情况 </th>
+    <tr>
+        <th width="8%">序号</th>
+        <th width="12%">职称评价时间</th>
+        <th width="20%">职称（系列）名称</th>
+        <th width="20%">职称等级</th>
+		<th width="12%">备注</th>
+        <th width="10%">操作</th>
+    </tr>
+
+    <empty name="info.zhicheng">
+        <tbody id='all_zhichengs'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="zhicheng_xuhao[]" id="zhicheng_xuhao"  value="" onblur="zhicheng_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="zhicheng_shijian[]" id="zhicheng_shijian"  class="form-control input-date" value="" onchange="zhicheng_tableDate();" style="width:100%"> </td>
+
+
+            <td><input type="text" name="zhicheng_mingcheng[]" id="zhicheng_mingcheng"  value="" onblur="zhicheng_tableDate();" style="width:100%"> </td>
+			<td>
+                <select class="form-control" id="zhicheng_dengji"  onchange="zhicheng_tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='高级'>高级</option>
+                    <option value='中级'>中级</option>
+                    <option value='初级'>初级</option>
+                </select>
+            </td>
+            
+            <td>
+                <input type="text" name="zhicheng_beizhu[]" id="zhicheng_beizhu"  value="" onblur="zhicheng_tableDate();" style="width:100%">
+            </td>
+
+
+
+            <td><a href="javascript:void(0);" onclick="zhicheng_delete_goods(this)" class="delrow">删除</a></td>
+        </tr>
+        <tr id='zhichengs'></tr>
+        </tbody>
+        <else />
+        <tbody id='all_zhichengs'> <!--编辑-->
+        <tr id='zhichengs'></tr>
+        </tbody>
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="zhicheng_tbAddRow()">添加职称评审</button></td>
+        <td colspan="5"></td>
+    </tr>
+
+    </thead>
+
+</table>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" >职称评审(附件)：</label>
+    <div class="col-sm-10">
+        <empty name="info.zhicheng">
+            {:W('FileUpload/add',array('zhicheng_add_file'))}
+            <else/>
+            {:W('FileUpload/edit',array('add_file'=>$info['zhicheng_add_file'],'zhicheng_add_file'))}
+        </empty>
+
+    </div>
+</div>
+
+<input type="hidden" id="zhicheng" name="zhicheng" value="{$info.zhicheng}">
+
+<!--职称评审 js   这个暂时还没有修改-->
+
+<script type="text/javascript">
+    //添加一行
+    function zhicheng_tbAddRow()
+    {
+
+        var zhicheng_html = '';
+        zhicheng_html += '<tr>';
+
+        zhicheng_html += '<td><input type="text" name="zhicheng_xuhao[]" id="zhicheng_xuhao"  value="" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+        zhicheng_html += '<td><input type="text" name="zhicheng_shijian[]" id="zhicheng_shijian"  class="form-control input-date" value="" onchange="zhicheng_tableDate();" style="width:100%"> </td>';
+        zhicheng_html += '<td><input type="text" name="zhicheng_mingcheng[]" id="zhicheng_mingcheng"  value="" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+
+        zhicheng_html += '<td>';
+        zhicheng_html += ' <select class="form-control" id="zhicheng_dengji"  onchange="zhicheng_tableDate();" >';
+        zhicheng_html += ' <option value="">请选择</option>';
+        zhicheng_html += ' <option value="高级">高级</option>';
+        zhicheng_html += ' <option value="中级">中级</option>';
+        zhicheng_html += ' <option value="初级">初级</option>';
+        zhicheng_html += '</select>';
+        zhicheng_html += '</td>';
+
+        zhicheng_html += '<td><input type="text" name="zhicheng_beizhu[]" id="zhicheng_beizhu"  value="" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+
+        zhicheng_html += '<td><a href="javascript:void(0);" onclick="zhicheng_delete_goods(this)" class="delrow">删除</a></td>';
+        zhicheng_html += '</tr>';
+
+        $('#zhichengs').before(zhicheng_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function zhicheng_delete_goods(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        zhicheng_tableDate();
+    }
+
+
+</script>
+
+
+
+
+
+

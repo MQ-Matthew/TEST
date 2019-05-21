@@ -1,0 +1,223 @@
+
+****************
+
+PDFTK Linux 安装
+
+****************
+
+第一步:安装依赖
+
+yum install gcc gcc-c++ libXrandr gtk2 libXtst libart_lgpl
+
+第二步:安装libgcj,由于用镜像找不到它只能手动下载 
+http://download.csdn.net/detail/u010392801/9476245
+
+rpm -ivh --nodeps libgcj-4.4.7-16.el6.x86_64.rpm
+
+第三部:安装PDFtk
+
+wget https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk-2.02-1.el6.x86_64.rpm
+
+yum install pdftk-2.02-1.el6.x86_64.rpm
+
+打开terminal输入
+
+which pdftk
+
+就可以看到/usr/bin/pdftk证明已经安装成功了.
+
+
+****************
+
+pdftk使用
+
+****************
+
+pdftk (the pdf toolkit) 是一个功能强大的命令行的 PDF 文件编辑软件，可以合并/分割 PDF 文档、对 PDF 文件加密解密、给 PDF 文档加水印、从 PDF 文档中解出附件、将 PDF 文档变成一页等等。
+
+pdftk 是一套跨平台的工具，底层使用 iText 库，可以运行在 windows, Linux, mac, freebsd, solaris 等多种操作系统。
+
+虽然 iText 是一套 Java 语言实现的 函数库，pdftk 并不是基于 JAVA 的。
+
+官方网站是：http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/
+
+下面将结合一些简单的例子介绍它的各种功能。
+
+ 
+
+1。合并多个 PDF 文档
+
+pdftk 可以将多个 PDF 文件合并成一个文件。比如下面的例子：
+
+pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf
+
+或者使用文件句柄：
+
+pdftk A=1.pdf B=2.pdf cat A B output 12.pdf
+
+下面的例子使用了文件通配符：
+
+pdftk *.pdf cat output combined.pdf
+
+下面的例子将多个文件的多页提取出来生成一个新的 PDF 文件：
+
+pdftk A=one.pdf B=two.pdf cat A1-7 B1-5 A8 output combined.pdf
+
+ 
+
+注:文件名一定要正确,有时看着一样确还差个/,最好使用Tab键来自动补全.
+
+ 
+
+2。将 PDF 文件中的一部分取出生成一个新文件
+
+pdftk 可以随意删除或旋转页面。下面是一个把指定页码的页面移出pdf文档的示例。
+
+pdftk new.pdf cat 1-96 98-end output new1.pdf
+
+新生成的 new1.pdf 文档不包含页码为 97 的页面。cat 选项后跟的参数用以指定页码范围和页面方向的限定条件。1-96 表示从 1 到 96 页，98-end 表示从 98 页至文档末尾。所以输出的新 pdf 文档不包含页码为 97 的页面。
+
+除了示例中的具体数值，还可使用一些限定字符。odd 和 even 表示奇偶页码。N、S、E、W、L、R、D 表示文档版面的旋转角度（N: 0，E: 90，S: 180，W: 270，L: -90，R: +90，D: +180）。
+
+如：1-6odd 表示 1，3，5；
+
+1-6even 表示 2，4，6；
+
+1-endE 表示整篇文档所有页面都旋转 90 度。
+
+90 度旋转 PDF 文件的第一页:
+
+pdftk  in.pdf cat 1E  2-end  output  out.pdf
+
+旋转整个文档 180 度：
+
+pdftk  in.pdf  cat  1-endS  out.pdf
+
+折分文档，将 PDF 文件的每一页输出成一个 PDF 文件，输出文件默认命名为 pg/_0001.pdf pg/_0002.pdf 等等：
+
+pdftk  in.pdf  burst
+
+也可以指定输出文件名，比如下面的例子：
+
+pdftk  in.pdf  burst output page_%1d.pdf
+
+ 
+
+3。PDF 文件加密和解密
+
+pdftk 可以对现有 PDF 文件进行基于密码的加解密，也就是说对现有的加密的 PDF 文件解密需要提供解密密码，pdftk 不是强力破解工具。
+
+pdftk 可以设置两种不同的密码，称为：owner password 和 user password。我的理解是 owner password 限制了用户是否可以对 PDF 文件打印、修改、拷贝等。而如果设置了 user password，用户就必须提供密码才能察看 PDF 文件。
+
+PDF 文件可以采用 40 位加密或 128 位加密，通过使用命令选项 encrypt/_40bit 或 encrypt/_128bit 可以指定加密算法的位数。如果不指定默认采用 128 位加密。
+
+用户的权限可以使用 allow 命令选项设置，可以设置的权限如下：
+
+ 
+
+/begin{description}
+
+/item[Printing] 允许高质量打印。
+
+/item[DegradedPrinting] 允许高质量打印。
+
+/item[ModifyContents] 允许修改文件内容。
+
+/item[CopyContents] 允许拷贝。
+
+/item[ModifyAnnotations] 允许添加注释。
+
+/item[FillIn] 允许填入数据。
+
+/item[AllFeatures] 允许所有特性。
+
+/end{description}
+
+ 
+
+与加解密相关的命令语法总结如下：
+
+pdftk <input PDF files>
+
+	    [input_pw <input PDF owner psswords]
+
+	    cat
+
+	    [output <output filename]
+
+	    [encrypt_40bit | encrypt_128bit]
+
+	    [allow <permissions>]
+
+	    [owner_pw <owner password]
+
+	    [user_pw <user password]
+
+ 
+
+下面是几个例子：
+
+pdftk a.pdf output b.pdf owner_pw foopass
+
+pdftk a.pdf output b.pdf owner_pw foo user_pw baz
+
+pdftk a.pdf output b.pdf owner_pw foo user_pw baz allow printing
+
+pdftk secured.pdf input_pw foopass output unsecured.pdf
+
+ 
+
+合并两个 PDF 文档，其中有一个是加密的，在合并时要使用句柄选项来指定密码。下面是一个示例，shortsec.pdf 是一个加密过的 PDF 文档，在合并时如果没有指定密码，则会出错：
+
+pdftk A=a.pdf B=b.pdf cat output combined.pdf
+
+Error: Failed to open PDF file:
+
+   a.pdf
+
+   OWNER PASSWORD REQUIRED, but not given (or incorrect)
+
+Errors encountered.  No output created.
+
+Done.  Input errors, so no output created.
+
+ 
+
+下面通过句柄选项指定密码则可以正常合并:
+
+pdftk A=a.pdf B=b.pdf input_pw A=foopass cat output combined.pdf
+
+ 
+
+4。添加 PDF 背景水印或前景图章
+
+将一个 PDF 文件的水印添加到另一个 PDF 文件中。
+
+pdftk in.pdf background back.pdf output out.pdf
+
+
+pdftk 只提取有水印的 PDF 文件的第一页作为水印。	
+
+stamp 命令选项与 background 类似，只是叠加在输出文件的上面（background 是叠加在输出文件的下面的）。
+
+pdftk in.pdf stamp back.pdf output out.pdf
+
+ 
+
+5。添加/提取 PDF 文件附件
+
+可以将任意文件添加到 PDF 文件中，比如下面的例子：
+
+pdftk in.pdf attach_files 1.html 2.html to_page 6 output out.pdf	  
+
+下面的例子将附件解压缩到当前文件夹：
+
+pdftk report.pdf unpack_files output . 
+
+ 
+
+6。修复损坏了的 PDF 文件
+
+下面的例子试图修复一个损坏了的文件：
+
+pdftk broken.pdf output fixed.pdf

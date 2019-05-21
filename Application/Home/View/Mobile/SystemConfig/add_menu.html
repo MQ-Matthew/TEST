@@ -1,0 +1,115 @@
+<extend name="Layout/ins_popup" />
+<block name="content">	
+	 <div class="operate panel panel-default">
+	<div class="panel panel-default "> 
+		<div class="panel-heading clearfix">
+			<div class="pull-left">
+           <h3> 新增菜单</h3>
+			</div>
+			<div class="pull-right">
+				<a onclick="save();" class="btn btn-sm btn-primary">确定</a>
+				<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+			</div>
+		</div>
+		</div>
+		</div>
+		
+	<div class="row">
+		<div class="col-xs-12">
+			<form id="form_data" name="form_data" method="post" class="weixin well form-horizontal clearfix">
+				<input type="hidden" name="ajax" id="ajax" value="1">
+				<input type="hidden" name="opmode" id="opmode" value="add">				
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="name">菜单名称*：</label>
+					<div class="col-xs-9">
+						<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入菜单名称">
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="val">事件选择*：</label>
+					<div class="col-xs-9">
+					<select class=" form-control" name="type"id="type">
+						<option value="click">点击推事件</option>
+						<option value="view">跳转URL</option>
+						<option value="scancode_push">扫码推事件</option>
+						<option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
+						<option value="pic_sysphoto">弹出系统拍照发图</option>
+						<option value="pic_photo_or_album">弹出拍照或者相册发图</option>
+						<option value="location_select">弹出地理位置选择器</option>
+						<option value="media_id">下发消息（除文本消息）</option>
+						<option value="view_limited">跳转图文消息URL</option>
+					</select>
+				<p>注：需要进行链接的事件为view事件</p>
+					</div>
+				
+				</div>
+				
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="url">URL*：</label>
+					<div class="col-xs-9">
+						<input class="form-control" type="text" id="url" name="url"  >
+					<p>注：示例链接形式：index.php?m=&c=Task&a=folder&fid=all</p>
+					</div>
+						
+				</div>
+			
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="key">Key*：</label>
+					<div class="col-xs-9">
+						<input class="form-control" type="text" id="key" name="key" >
+				<p>注：每个菜单需要有单独的key</p>
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="pid_name">父级*：</label>
+					<div class="col-xs-9">
+						<div class="input-group">
+							<input name="pid_name" class="form-control" id="pid_name" type="text" readonly="readonly" msg="请选择父级" check="require"/>
+							<input name="pid" id="pid" type="hidden" msg="请选择父级" check="require" />
+							<span class="input-group-btn">
+								<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
+									选择
+								</button> </span>
+						</div>
+					</div>
+				</div>				
+				<div class="form-group col-xs-12">
+					<label class="col-xs-3 control-label" for="sort">排序：</label>
+					<div class="col-xs-9">
+						<input class="form-control" type="text" id="sort" name="sort" >
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+	
+		function save() {
+			if (check_form("form_data")) {
+				var vars = $("#form_data").serialize();
+				sendAjax("{:U('add_weixin_menu')}", vars, function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							parent.location.reload(true);
+							myclose();
+						});
+					}else{
+						ui_error(data.info);
+					}
+				});
+			}
+		}
+
+		function select_pid() {
+			winopen("{:U('winpop_weixin')}",560, 470);
+		}
+		
+		$(document).ready(function() {
+			$pid = $("#id", parent.document).val();
+			$("#pid").val($pid);
+		});
+	</script>
+
+</block>

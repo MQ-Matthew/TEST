@@ -1,0 +1,217 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{$title|default=get_system_config("system_name")}</title>
+		<link href="__INS__/css/bootstrap.min.css" rel="stylesheet">
+		<link href="__INS__/font-awesome/css/font-awesome.css" rel="stylesheet">
+		<link href="__INS__/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+		<link href="__INS__/css/style.css" rel="stylesheet">
+		<link href="__INS__/css/xiaowei.css" rel="stylesheet">
+	</head>
+	<include file="Layout:page_script"/>
+	<style>
+		.app-header {
+			background: #03a9f4;
+			color: #fff;
+			line-height: 45px;
+			font-size: 18px;
+			text-align: center;
+		}
+		.app-header  .pull-left i {
+			line-height: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.app-header  .pull-right i {
+			line-height: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.app-footer {
+			background: #fff;
+			padding: 6px;
+			border-top: 1px solid #e0e0e0;
+			height: 34px;
+			position: fixed;
+			right: 0px;
+			bottom: 0px;
+			display: table;
+			width: 100%;
+		}
+	</style>
+	<body style="background: #fff;">
+		<header class="app-header">
+			<a class="pull-left"><i class="fa fa-angle-left" style="color: #FFFFFF;font-size:32px;" onclick="app_return();"></i></a>
+			<a class="pull-right"><i class="fa fa-times" style="color: #FFFFFF;font-size:20px;" onclick="app_close();"></i></a>
+			<div class="app-header-title">
+				移动审批
+			</div>
+		</header>
+<div class="ul_table ul_table_responsive">
+    
+    <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+        <input type="hidden" id="ajax" name="ajax" value="1">
+
+        <input type="hidden" id="type" name="type" value="{$flow_type.id}">
+        <input type="hidden" id="opmode" name="opmode" value="add">
+        <input type="hidden" id="confirm" name="confirm" value="">
+        <input type="hidden" id="confirm_name" name="confirm_name" value="">
+        <input type="hidden" id="consult" name="consult" value="">
+        <input type="hidden" id="consult_name" name="consult_name" value="">
+        <input type="hidden" id="refer" name="refer" value="">
+        <input type="hidden" id="refer_name" name="refer_name" value="">
+        <input type="hidden" id="step" name="step" value="">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">标题*：</label>
+            <input  type="text" id="name" name="name" check="require" msg="请输入标题">
+            
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >文件编号：{$flow_type.doc_no_format}</label>
+            
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >审批流程：  
+            <p id="confirm_wrap" class="form-control-static address_list">
+                    {$flow_type.confirm_name}
+            </p>
+        </div>
+        
+        
+        <notempty name="flow_type.udf_tpl">
+                {:W('UserDefineField/udf_read',array($field_list,$flow_type['udf_tpl']))}
+        </notempty>
+        
+        <volist name="field_list" id="vo">
+            {:W('UserDefineField/edit',array($vo))} 
+        </volist>
+        <eq name="flow_type.is_show" value="1">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <textarea class="editor" id="content" name="content" style="width:100%;height:300px;">{$flow_type.content}</textarea>
+                </div>
+            </div>
+        </eq>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >附件：</label>
+            <div class="col-sm-10">
+                {:W('FileUpload/add')}
+            </div>
+        </div>
+        
+    </form>
+    
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            
+            <div class="pull-right">
+                <a onclick="save(10);"  class="btn btn-sm btn-primary">存草稿</a>
+                <a onclick="save(20);"  id="post" class="btn btn-sm btn-primary">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+		<!-- Mainly scripts -->
+		<script src="__INS__/js/jquery-2.1.1.js"></script>
+		<script src="__INS__/js/bootstrap.min.js"></script>
+		<script src="__INS__/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="__INS__/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="__INS__/js/inspinia.js"></script>
+		<script src="__INS__/js/common.js"></script>
+		<include file="Layout:ins_plugin_js"/>
+	</body>
+	<script>
+		function app_close() {
+			api.closeWin();
+		}
+
+		function app_return() {
+			var return_url = get_cookie('return_url');
+			if (return_url == null) {
+				arr_return_url = [];
+			} else {
+				arr_return_url = return_url.split('$');
+			}
+			go_url = arr_return_url.pop();
+			if (go_url == document.location) {
+				if (arr_return_url.length == 0) {
+					api.closeWin();
+				}
+				go_url = arr_return_url.pop();
+			}
+			window.open(go_url, "_self");
+			set_cookie("return_url", arr_return_url.join('$'));
+			return false;
+		}
+        
+        $(document).ready(function() {
+            udf_field.init();
+
+            <php>if($flow_type['is_lock']==0){</php>
+            $('.address_list').on('mouseenter', 'span', function() {
+                $(this).find('i').remove();
+                $(this).append('<i class="fa fa-times"></i>');     
+            });
+            $('.address_list').on('mouseleave', 'span', function() {
+                $i = $(this).find('i');
+                $i.removeClass('fa-times');
+                $i.addClass('fa-arrow-right');
+                $(".address_list span:last i").attr('class', 'fa');
+            });
+
+            $('.address_list').on('click', 'i', function() {
+                $(this).parents('span').remove();
+                $(".address_list span:last i").attr('class', 'fa');
+            });
+            <php>}</php>
+        });
+        
+        function save(step) {
+            $("#confirm").val("");
+            $("#confirm_wrap  span").each(function() {
+                $("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
+            });
+            //alert($("#confirm").val());
+            $("#confirm_name").val($("#confirm_wrap").html());
+
+            $("#consult").val("");
+            $("#consult_wrap  span").each(function() {
+                $("#consult").val($("#consult").val() + $(this).attr("data") + '|');
+            });
+            $("#consult_name").val($("#consult_wrap").html());
+
+            if ($("#confirm").val().length < 2) {
+                ui_error('请选择审批流程');
+                return false;
+            }
+            $("#step").val(step);
+            sendForm("form_data", "{:U('save')}", "{:U('index')}");
+            var t=3;
+            var int=setInterval(function(){
+                t--;
+                if(t==0){
+                    $("#post").html("提交")
+                    $("#post").attr("onclick","save(20)");
+                     clearInterval(int);
+    
+                }else{
+                  $("#post").attr("onclick","javascript:alert('不能重复提交！')");
+                  $("#post").html("重新提交("+t+")")    
+                }
+            },1000)
+            
+        }
+
+        function popup_confirm() {
+            winopen("{:U('popup/confirm')}",560, 470);
+        }
+	</script>
+</html>

@@ -1,0 +1,1051 @@
+<?php
+
+
+// 后台用户模块
+namespace Home\Controller;
+/**
+ * 资产管理分类管理控制器
+ *
+ */
+class AssetController extends HomeController {
+
+    protected $config = array('app_type' => 'personal');
+	
+	function _search_filter(&$map) {
+		$keyword = I('keyword');
+		if (!empty($keyword)) {
+			$map['name|receive_username|receive_deptname'] = array('like', "%" . $keyword . "%");
+		}
+	}
+	
+    public function index() {
+
+          $type_map['is_del'] = 0;
+
+          $type= M("AssetType")->where($type_map)->select();
+
+          $data = $this -> limitless($type);
+
+          $this->assign('list',$data);
+
+
+        $this -> display();
+    }
+
+
+
+    //新增库存信息
+    public function add() {
+
+            //设备类型
+            $data = M('AssetType')->select();
+            $data = $this -> limitless($data);
+            $this->assign('data', $data);
+           /// dump($data);die;
+            $tid = I('param.tid');
+
+            if (!empty( $tid)) {
+
+                $tid = I('param.tid');
+                $this->assign("id", $tid);
+                $rst = M('AssetDescriptionType')->field("ispart")->where("type=" . $tid)->find();
+
+               // dump($rst);
+
+                $is_show = $rst['ispart'];
+
+                ///dump($is_show);die;
+
+                $this->assign("is_show", $is_show);
+            }
+
+            $this->display();
+
+    }
+
+	
+	public function asset_bianji(){
+		$id = $_POST['id'];
+        if($id){
+            // 编辑
+            
+                $_POST['update_time']= time();
+				// dump($_POST);
+
+
+                $last = M("Asset")->save($_POST);
+
+                if($last!=false){
+                    $this->success('编辑成功',U('Asset/bianji',array('id'=>$id)));
+                }else{
+                    $this->error('编辑失败');
+                }
+	}
+	}
+	
+	
+    public function asset_save(){
+
+        $id = $_POST['id'];
+        if($id){
+            //编辑
+            //dump($_POST);
+                $_POST['update_time']= time();
+
+
+
+                $last = M("Asset")->save($_POST);
+
+                if($last!=false){
+                    $this->success('编辑成功',U('Asset/edit',array('id'=>$id)));
+                }else{
+                    $this->error('编辑失败');
+                }
+
+        }else{
+            //添加
+            if( $_POST['islowvalue'] ==1){ //低值易耗
+
+                $_POST['input_group'] = time();
+                $_POST['create_time'] = time();
+                $_POST['input_name'] = get_user_id();
+                $_POST['input_time'] = time();
+                $_POST['status'] = 1;
+                $_POST['is_del'] = 0;
+
+                ///dump($_POST);die;
+                if (M('Asset')->add($_POST)) {
+                    $this->success("入库成功", U('Asset/index'));
+                } else {
+                    $this->error("入库失败,请联系管理员");
+                }
+
+
+            }else if( $_POST['islowvalue'] ==2){ //非低值易耗
+
+                $_POST['input_group'] = time();
+                $_POST['create_time'] = time();
+                $_POST['input_name'] = get_user_id();
+                $_POST['input_time'] = time();
+                $_POST['status'] = 1;
+                $_POST['is_del'] = 0;
+
+                $count= $_POST['amount'];
+
+                $_POST['amount'] =1;
+
+
+
+                for($i=0;$i<$count;$i++){
+                    $data[$i]= $_POST;
+                    // $data[$i]['code']= 'T'.date('Ymd');//生成设备码
+                    $data[$i]['amount']= 1;
+                }
+
+                foreach($data as $key=>$val){
+                    $result[] = $val;
+                }
+
+                 ///dump($result);die;
+
+                if (M('Asset')->addAll($data)) {
+                    $this->success("入库成功", U('Asset/index'));
+                } else {
+                    $this->error("入库失败,请联系管理员");
+                }
+
+            }
+        }
+
+
+
+    }
+
+    //形成分类并在分类前加缩进符号
+    public function limitless($data,$pid=0,$level=0){
+        $arr = array();
+        foreach($data as $v){
+            if($v['pid'] == $pid){
+                $v['level'] = $level;
+                $v['html'] = str_repeat('&nbsp;&nbsp;|--',($level*1));
+                $arr[] = $v;
+                $arr = array_merge($arr,$this->limitless($data,$v['id'],$level+1));
+            }
+        }
+        return $arr;
+    }
+
+
+    //导入上传的文件
+    public function import_device_info(){
+
+        import('Org.Net.UploadFile');
+
+        $upload = new \UploadFile(); // 实例化上传类
+        $upload->maxSize = 93145728; // 设置附件上传大小
+        //$upload->saveRule = rand(1, 9999);
+        $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg', 'flv', 'avi', 'txt'); // 设置附件上传类型
+        $upload->savePath = './Uploads/TXT/'; // 设置附件上传目录
+        if (!$upload->upload()) {// 上传错误提示错误信息
+            $this->error($upload->getErrorMsg());
+        } else {// 上传成功 获取上传文件信息
+            $info = $upload->getUploadFileInfo();
+        }
+
+        // dump($info);die;
+
+        //上传文件的路径,并读取
+        $txtname = './Uploads/TXT/' . $info[0]['savename'];
+
+//        dump($txtname);
+
+        $res = $this->get_txt_data($txtname);
+
+       /// dump($res);
+
+        foreach($res as $k=>$v){
+
+            foreach($v as $kk=>$vv ){
+                $date[$kk] = $vv;
+            }
+        }
+
+        //dump($date);die;
+
+        exit(json_encode($date, JSON_UNESCAPED_UNICODE));
+
+    }
+
+
+
+    //入库的时候,读取TXT的数据
+    public function get_txt_data($txtname = 0) {
+
+        //dump($txtname);die;
+
+        $tid = I('param.tid');
+
+       /// dump($tid);die;
+
+        if (($tid == 0) or ( $tid== "")) {
+            return "000";
+            exit();
+        }
+
+        //获取字典表
+        $map['type'] = $tid;
+        $dict = M('AssetDescriptionType')->where($map)->order('sort desc')->select();
+
+
+
+        //判断，如果为整机的话
+        $main = 0;
+        if ($dict[0]['ispart'] == 1) {
+            $dict = D('AssetDescriptionType')->where("ispart=0")->select();
+            $main = 1;
+
+        }
+
+      //  dump($dict);die;
+
+        //获取OID开始
+        $f1 = fopen($txtname, "r+");
+        $OID = fgets($f1);
+        fclose($f1);
+        //结束
+
+        $content = file_get_contents($txtname);
+
+      ///  dump($content);
+
+
+        //概述
+        $start = "--------[ 概览 ]----------------------------------------------------------------------------------";
+        $end = "--------[ 主板 ]----------------------------------------------------------------------------------";
+
+        //主板时间区域
+        $main_start = "
+--------[ 主板 ]----------------------------------------------------------------------------------";
+        $main_end = "--------[ 处理器 ]--------------------------------------------------------------------------------";
+
+        //多块硬盘
+        $hard_start = "--------[ 硬盘 ]----------------------------------------------------------------------------------";
+
+        $hard_end = "--------[ 内存 ]----------------------------------------------------------------------------------";
+
+        //获取主板的时间
+
+        $main_start_site = mb_strpos($content, $main_start);
+        $main_content = mb_substr($content, $main_start_site);
+
+        $main_end_site = mb_strpos($main_content, $main_end);
+        $main_text = mb_substr($main_content, 0, $main_end_site); // 主板信息
+        $main_text = str_replace($main_start, "", $main_text);
+
+        $place = mb_strpos($txtname, ".txt");
+        $txtname = mb_substr($txtname, 0, $place);
+
+
+        //先写入主板信息
+        $f = fopen($txtname . "zhuban.txt", "w+");
+        fwrite($f, $main_text);
+        fclose($f);
+
+        //然后读取出来找到主板时间
+        $main_nr = "";
+        $f2 = fopen($txtname . "zhuban.txt", "r+");
+        while (!feof($f2)) {
+            $main_nr.=fgets($f2) . "|||";
+        }
+
+        $arr_main = explode("|||", $main_nr);
+
+
+        foreach ($arr_main as $k => $v) {
+
+            if (mb_strpos($v, "制造日期") > 0) {
+                $v = trim($v);
+                $CreateTime = mb_substr($v, -10);
+            }
+        }
+
+        //获取概述
+        $start_site = mb_strpos($content, $start);
+        $gs_content1 = mb_substr($content, $start_site);
+
+        $end_site = mb_strpos($gs_content1, $end);
+        $gaishu_content = mb_substr($gs_content1, 0, $end_site);
+        $gaishu_content = str_replace($start, "", $gaishu_content);
+
+        //重新写入一次截取后的硬件信息
+        $f = fopen($txtname . "gailan.txt", "w+");
+        fwrite($f, $gaishu_content);
+        fclose($f);
+
+        //读入截取后的硬件信息.为了一行一行的截取，用fget获取一行一行的数据，组成数据
+        $gs_content = "";
+        $f2 = fopen($txtname . "gailan.txt", "r+");
+        while (!feof($f2)) {
+            $gs_content.=fgets($f2) . "|||";
+        }
+        $arr = explode("|||", $gs_content);
+
+
+        //获取硬盘
+        $hard_start_site = mb_strpos($content, $hard_start);
+        $hard_content1 = mb_substr($content, $hard_start_site);
+
+        $hard_end_site = mb_strpos($hard_content1, $hard_end);
+        $hard_content = mb_substr($hard_content1, 0, $hard_end_site);
+        $hard_content = str_replace($hard_start, "", $hard_content);
+
+        //重新写入一次截取后的硬件信息
+        $f = fopen($txtname . "hard.txt", "w+");
+        fwrite($f, $hard_content);
+        fclose($f);
+
+        $yingpan = "";
+        $f3 = fopen($txtname . "hard.txt", "r+");
+        while (!feof($f3)) {
+            $yingpan.=fgets($f3) . "|||";
+        }
+
+        $arr2 = explode("|||", $yingpan);
+
+
+        $hard_str = "";
+        foreach ($arr2 as $k => $v) {
+            if (mb_strpos($v, "产品") > 0) {
+                $hard_str.=trim(str_replace("产品", "", $v));
+            }
+            if (mb_strpos($v, "大小") > 0) {
+                $hard_str.=" " . trim(str_replace("大小", "", $v)) . "|||";
+            }
+        }
+        $hard_str = mb_substr($hard_str, 0, -3);
+        $arr3 = explode("|||", $hard_str); //得出的硬盘的信息
+
+
+        $result = '';
+        $styleid = I('param.styleid');
+
+        //入库的时候
+        if ($styleid == 1) {
+
+            foreach ($arr as $k2 => $v2) {   //获取的硬件数组
+                foreach ($dict as $k => $v) {   //字典表
+                    //判断字典里的列，如果在硬件参数列表里
+                    if (mb_strpos($v2, $v['type_name'])) {
+                        $result[][$v['type_name']]= trim(str_replace($v['type_name'], "", $v2)) . "。\n";
+                    }
+                }
+            }
+
+            foreach ($arr3 as $k => $v) {
+                $result[]["硬盘" . ($k + 1)] = $v . "。\n";
+            }
+
+            $result[]["主板日期"] = $CreateTime;
+
+
+        } else {  //领用的时候
+
+
+            if ($main == 1) { //如果是整机
+
+                $ztime = "<div style='width:100px;float:left;height:30px;line-height:30px;'>主板日期</div><input readonly='readonly' name='CreateTime' type='text' class='text input-large' value='" . $CreateTime . "' style='float:left;'>" . "<div style='clear:both;'></div>";
+            }
+
+
+            foreach ($arr as $k2 => $v2) {   //获取的硬件数组
+                foreach ($dict as $k => $v) {   //字典表
+                    //判断字典里的列，如果在硬件参数列表里
+                    if (mb_strpos($v2, $v['type_name'])) {
+                        $result.="<div style='width:100px;float:left;height:30px;line-height:30px;'>" . $v['type_name'] . "</div><input readonly='readonly' name='Description[]' type='text' class='text input-large' value='" . trim(str_replace($v['type_name'], "", $v2)) . "' style='float:left;'><input type='hidden' name='Type_class[]' value='" . $v['id'] . "' />" . "<div style='clear:both;'></div>";
+                        if ($v['type_name'] == "主板") {
+                            $ztime = "<div style='width:100px;float:left;height:30px;line-height:30px;'>主板日期</div><input readonly='readonly' name='CreateTime' type='text' class='text input-large' value='" . $CreateTime . "' style='float:left;'>" . "<div style='clear:both;'></div>";
+                        }
+                    }
+                }
+            }
+
+            foreach ($dict as $k => $v) {
+                foreach ($arr3 as $k3 => $v3) {
+                    $hname = "硬盘" . ($k3 + 1);
+                    if ($v['type_name'] == $hname) {
+                        $result2.="<div style='width:100px;float:left;height:30px;line-height:30px;'>硬盘" . ($k3 + 1) . "</div><input readonly='readonly' name='Description[]' type='text' class='text input-large' value='" . $v3 . "' style='float:left;'><input type='hidden' name='Type_class[]' value='" . $v['Type'] . "' />" . "<div style='clear:both;'></div>";
+                    }
+                }
+            }
+
+            $result = $result . $result2 . $ztime;
+        }
+
+   /// dump($result);die;
+
+        return $result;
+    }
+
+
+    /**
+     * 资产明细
+     * zzp
+     * 2017.9.27
+     */
+    public function	mingxi(){
+        $type = $_GET['id'];
+        // $type = I('param.id');
+		// var_dump();
+		$map = $this -> _search();
+
+        //dump($map);die;
+
+        if (method_exists($this, '_search_filter')) {
+            $this -> _search_filter($map);
+        }
+		
+        $map['type'] = $type;
+        $map['is_del'] = 0;
+        $map['status'] = 1;//入库时的状态
+
+        //$list= M('Asset')->where($map)->select();
+		$model = D("Asset");
+        $this -> _list($model, $map, 'id');
+        // $this -> assign("list",$list);
+        $this -> display();
+    }
+    /**
+     * 删除
+     * zzp
+     * 2017.9.27
+     */
+    public function del(){
+        $ids = I('param.id');
+
+        $whwer['id'] = array('in',$ids);
+
+        $data['is_del'] = 1;
+
+        $last= M('Asset')->where($whwer)->save($data);
+
+        if ($last !== false) {
+            $this -> assign('jumpUrl', get_return_url());
+            $this -> success("删除成功");
+        } else {
+            $this -> error('删除失败!');
+        }
+    }
+
+    //编辑库存信息
+    public function edit() {
+        $tid = I('param.tid');
+
+        if (!empty( $tid)) {
+
+            $id =  I('param.id');
+            $map['id'] = $id ;
+            $info = M('Asset')->where($map)->find();
+
+            $this->assign('info',$info);
+
+            //设备类型
+            $type_map['is_del'] = 0;
+            $data = M('AssetType')->where($type_map)->select();
+            $data = $this -> limitless($data);
+            $this->assign('data', $data);
+            /// dump($data);die;
+
+            $this->assign('id',$id);
+            $this->assign("tid", $tid);
+            $rst = M('AssetDescriptionType')->field("ispart")->where("type=" . $tid)->find();
+            $is_show = $rst['ispart'];
+            $this->assign("is_show", $is_show);
+        }else{
+            $id =  I('param.id');
+            $map['id'] = $id ;
+            $info = M('Asset')->where($map)->find();
+            $this->assign('info',$info);
+           // dump($info);
+            //设备类型
+            $type_map['is_del'] = 0;
+            $data = M('AssetType')->where($type_map)->select();
+            $data = $this -> limitless($data);
+            $this->assign('data', $data);
+            $this->assign('id',$id);
+        }
+
+        $this->display();
+    }
+
+    //领用
+    public function lingyong(){
+        $id =  I('param.id');
+        $map['id'] = $id ;
+        $info = M('Asset')->where($map)->find();
+       /// dump($info);die;
+        $dept_map['is_del'] = 0;
+      ///  $dept_map['sort']= array('neq',null);
+        $dept = M('Dept')->where($dept_map)->order('sort')->select();
+
+        $depts = $this->limitless($dept);
+
+        $this->assign('depts',$depts);
+
+        $this->assign('info',$info);
+
+        $this->display();
+
+    }
+
+    //根据部门找到当前部门的所有成员
+    public function get_user_name() {
+
+        $id = $_POST['id'];
+
+        $list = D('User')->field('id')->where('dept_id=' . $id)->select();
+
+        //dump($list);die;
+
+        $result = "";
+        $result.="<option value=''>" ."--请选择人员--" ."</option>";
+
+        foreach ($list as $k => $v) {
+            $rst = M('User')->field("id,name")->where("id=" . $v['id'])->find();
+
+            if (!empty($rst['id'])) {
+
+                $result.="<option value=" . $rst['id'] . ">" . $rst['name'] . "</option>";
+            }
+        }
+        echo $result;
+    }
+
+
+    //领用保存
+    public function save_lingyong(){
+		
+		// var_dump($_POST);die;
+        $id =  $_POST['id'];
+		$map['id'] = $_POST['receive_userid'] ;
+		$wh['id'] = $_POST['receive_deptid'];
+		
+        if(!empty($_POST)){
+			
+            $_POST['receive_time']= time();
+            $_POST['update_time']= time();
+			$_POST['receive_username'] = M('User')->where($map)->getField('name');
+			$_POST['receive_deptname'] = M('Dept')->where($wh)->getField('name');
+			
+			// var_dump($_POST['receive_deptname']);die;
+            $islowvalue    = $_POST['islowvalue'];
+            $islow_amount  = $_POST['amount'];
+
+            if($islowvalue==1){ //是低值易耗(设备属性)
+
+                $info = M('Asset')->find($id);
+                $islow_count = $info['amount'];
+
+                if($islow_count >= $islow_amount){
+                    $_POST['amount'] = $islow_count - $islow_amount;
+					// var_dump(1);
+                    //写入log中
+                    $last = M("Asset")->save($_POST);
+					
+                    $log= $this->asset_log($_POST);
+
+                    if($last!=false && $log){
+                        $this->success('成功领用',U('Asset/index'));
+                    }else{
+                        $this->error('领用失败');
+                    }
+                }else{
+                    $this->error('您领用的数量超出了库存，请重新选择领用数量');
+                }
+
+
+            }else if($islowvalue !== 1){//不是低值易耗(设备属性)
+
+                $_POST['status'] = 2; //领用状态   入库状态是1
+
+                ///dump($_POST);die;
+
+                $last = M("Asset")->save($_POST);
+
+                //写入log中
+                $log= $this->asset_log($_POST);
+
+               // dump($log);die;
+
+                if($last!=false && $log){
+                    $this->success('成功领用',U('Asset/index'));
+                }else{
+                    $this->error('领用失败');
+                }
+
+            }
+
+        }
+
+    }
+
+    /**
+     * 记录用户行为日志
+     * @param int $id 触发行为的id
+     * @return boolean
+     * @author
+     */
+    public function asset_log($data = null){
+        //参数检查
+        if(empty($data)){
+            return '参数不能为空';
+        }
+
+        //插入行为日志表asset_log
+        $data['create_time'] = time();
+        //dump($data);die;
+        $log = M("Asset_log")->add($data);
+
+        if($log){
+            return $log;
+        }else{
+            return false;
+        }
+
+
+    }
+
+
+    //正在使用中的页面统计
+    public function useing(){
+
+        $type_map['is_del'] = 0;
+
+        $type= M("AssetType")->where($type_map)->select();
+
+        $data = $this -> limitless($type);
+
+        $this->assign('list',$data);
+		
+		// $dept_map = $this -> _search();
+		
+		// if (method_exists($this, '_search_filter')) {
+            // $this -> _search_filter($map);
+        // }
+
+        $dept_map['is_del'] = 0;
+        // $dept_map['pid'] = array("neq",0);
+		$dept_map['pid'] = array('neq',0);
+        // $dept_map['sort'] = array('gt',0); //部门排序要大于0，才会有效
+        $depts= M("Dept")->where($dept_map)->order('sort asc')->select();
+        //$dep = M("Dept")->getLastSql();
+		//var_dump($dep);die;
+
+        $this->assign('depts',$depts);
+
+        $this->display();
+    }
+
+
+    //正在使用中的部门设备类型的使用明细
+    public function use_mingxi(){
+
+        $dept_id= $_GET['dept_id'];
+        // $dept_id= I('param.dept_id');
+        $type= $_GET['type'];
+		$model = M("Position");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('position_list', $list);
+		
+		$model = M("Dept");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('dept_list', $list);
+
+        $model = M("User");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('emp_no,name');
+        $this -> assign('agent_list', $list);
+
+        if(!empty($type) && !empty($dept_id)){
+
+            $map['type'] = $type;
+            $map['receive_deptid'] = $dept_id;
+            $map['status'] = 2;
+			$map = $this -> _search();
+
+			//dump($map);die;
+
+			if (method_exists($this, '_search_filter')) {
+				$this -> _search_filter($map);
+			}
+			
+			$model = D("Asset");
+			$this->assign('type',$type);
+            $this->assign('dept_id',$dept_id);
+			// $this -> _list($model, $map, 'id');
+            // $list =M('Asset')->where($map)->order('receive_time')->select();
+			if (!empty($model)) {
+				$this -> _list($model, $map, "id");
+			}
+            //dump($list);die;
+
+            // if(!empty($list)){
+                // $this->assign('list',$list);
+            // }else{
+                // $this->assign('list','');
+            // }
+			
+			
+           
+
+            $this->display();
+        }else{
+            $this->error('您没有请求到数据',U('Asset/useing'));
+        }
+    }
+
+    //退回
+    public function regres() {
+
+
+        dump($_POST);die;
+       $this->asset_log(implode(",",$emp_no)); //记录更新日志
+    }
+	
+	//报废审请
+    public function bf(){
+        $id =  I('param.id');
+		
+        $map['id'] = $id ;
+        $info = M('Asset')->where($map)->find();
+        /// dump($info);die;
+        $dept_map['is_del'] = 0;
+        ///  $dept_map['sort']= array('neq',null);
+        $dept = M('Dept')->where($dept_map)->order('sort')->select();
+
+        $depts = $this->limitless($dept);
+
+        $this->assign('depts',$depts);
+
+        $this->assign('info',$info);
+        $this->display();
+
+    }
+
+    //维修审请
+    public function service(){
+        $id =  I('param.id');
+        $map['id'] = $id ;
+        $info = M('Asset')->where($map)->find();
+        /// dump($info);die;
+        $dept_map['is_del'] = 0;
+        ///  $dept_map['sort']= array('neq',null);
+        $dept = M('Dept')->where($dept_map)->order('sort')->select();
+
+        $depts = $this->limitless($dept);
+
+        $this->assign('depts',$depts);
+
+        $this->assign('info',$info);
+        $this->display();
+
+    }
+
+
+    public function save_service(){
+        $id = $_POST['id'];
+		$model = M("Asset");
+
+        if(empty($id)){
+            $this->error('参数有误');
+        }
+        $info = $model->find($id);
+		unset($info['id']);
+        // dump($info);die;
+        $m = M("Asset_log")->add($info);
+       /// dump($_POST);die;
+        if(empty($id)  && !isset($id)){
+               $this->assign('数据丢失，请重新提交');
+        }else{
+
+            $_POST['status'] = 3; //领用状态   入库状态是1
+            $_POST['repair_time'] = time();
+            $last = M("Asset")->save($_POST);
+
+            if($last!=false){
+                $this->success('提交维修成功',U('Asset/serviceList'));
+            }else{
+                $this->error('提交维修失败');
+            }
+        }
+
+    }
+
+
+    public function serviceList(){
+
+        $map['is_del'] = 0;
+        $map['status'] = 3;//入库时的状态
+
+        $list= M('Asset')->where($map)->select();
+
+        $this -> assign("list",$list);
+
+        $this -> display();
+
+    }
+
+
+    //维修记录详情
+    public function service_info(){
+        $id =  I('param.id');
+        $map['id'] = $id ;
+        $map['status'] = 3;
+        $info = M('Asset')->where($map)->find();
+        $this->assign('info',$info);
+        $this->display();
+
+    }
+
+
+
+
+    /**
+     * 我的资产
+     */
+    public function MyAsset(){
+
+        $uid= get_user_id();
+
+        $map['receive_userid'] = $uid;
+        $map['status']  = 2;
+
+        $list = M('Asset')->where($map)->select();
+
+       // dump($list);die;
+
+        $this->assign('list',$list);
+
+        $this->display();
+
+    }
+	
+	public function quanbu(){
+		$type_map['is_del'] = 0;
+
+        $type= M("AssetType")->where($type_map)->select();
+
+        $data = $this -> limitless($type);
+
+        $this->assign('list',$data);
+
+
+        $this -> display();
+	}
+
+    /**
+     * 报废资产列表
+     */
+    public function baofeilist(){
+        $model = M("Asset");
+        $map['status'] = 4;
+        $list = $model->where($map)->select();
+        $this->assign('list',$list);
+
+        $this->display();
+    }
+
+    /**
+     * 报废资产
+     */
+    public function Baofei(){
+        $model = M("Asset");
+        $id = I('param.id');
+
+        if(empty($id)){
+            $this->error('参数有误');
+        }
+        $info = $model->find($id);
+		unset($info['id']);
+        // dump($info);die;
+        $m = M("Asset_log")->add($info);
+
+        if(empty($id)){
+            $this->error('参数有误');
+        }
+        $data['id'] = $id;
+        $data['update_time'] = time();
+        $data['status'] = 4;//正在使用中
+
+        $last  = $model->save($data);
+
+        if($last!=false){
+            $this->success('报废成功',U('Asset/baofeilist'));
+        }else{
+            $this->error('提交维修失败');
+        }
+
+    }
+
+    public function guiku(){
+
+        $model = M("Asset");
+        $id = I('param.id');
+
+        if(empty($id)){
+            $this->error('参数有误');
+        }
+        $info = $model->find($id);
+		unset($info['id']);
+        // dump($info);die;
+        $m = M("Asset_log")->add($info);
+
+        $data['id'] = $id;
+        $data['update_time'] = time();
+        $data['asset_status'] = 2;//归库
+        $data['status'] = 1;//重新入库或者 新加的库存
+        $data['guiku_time'] =time();
+
+        $data['receive_userid']='';
+        $data['receive_deptid']='';
+        $data['receive_roomid']='';
+        $data['receive_time']='';
+        $data['remarks']='';
+        $data['fault_info']='';
+        $data['repair_record']='';
+
+        $data['is_repair']='';
+        $data['repair_time']='';
+        $data['repair_finsh_time']='';
+
+       // dump($data);die;
+
+        $last  = $model->save($data);
+
+        if($last!=false){
+            $this->success('归库成功',U('Asset/useing'));
+        }else{
+            $this->error('归库失败');
+        }
+    }
+	
+	public function bianji(){
+		
+        $tid = I('param.tid');
+
+        if (!empty( $tid)) {
+
+            $id =  I('param.id');
+            $map['id'] = $id ;
+            $info = M('Asset')->where($map)->find();
+
+            $this->assign('info',$info);
+
+            //设备类型
+            $type_map['is_del'] = 0;
+            $data = M('AssetType')->where($type_map)->select();
+            $data = $this -> limitless($data);
+            $this->assign('data', $data);
+            /// dump($data);die;
+
+            $this->assign('id',$id);
+            $this->assign("tid", $tid);
+            $rst = M('AssetDescriptionType')->field("ispart")->where("type=" . $tid)->find();
+            $is_show = $rst['ispart'];
+            $this->assign("is_show", $is_show);
+        }else{
+            $id =  I('param.id');
+            $map['id'] = $id ;
+            $info = M('Asset')->where($map)->find();
+            $this->assign('info',$info);
+           // dump($info);
+            //设备类型
+            $type_map['is_del'] = 0;
+            $data = M('AssetType')->where($type_map)->select();
+            $data = $this -> limitless($data);
+            $this->assign('data', $data);
+            $this->assign('id',$id);
+        }
+
+        $this->display();
+	}
+
+
+    public function guihuan(){
+
+        $model = M("Asset");
+        $id = I('param.id');
+
+        if(empty($id)){
+            $this->error('参数有误');
+        }
+        $data['id'] = $id;
+        $data['update_time'] = time();
+        $data['asset_status'] = 1;//归还
+        $data['status'] = 2;//正在使用中
+
+        $last  = $model->save($data);
+
+        $info = $model->find($id);
+
+        $m  = M('Asset_log')->add($info);
+
+        if($last && $m){
+            $this->success('归还成功',U('Asset/useing'));
+        }else{
+            $this->error('归还失败');
+        }
+    }
+
+
+    //做数据的导入功能
+
+    public function import(){
+
+    }
+
+
+
+
+
+}
+
+?>

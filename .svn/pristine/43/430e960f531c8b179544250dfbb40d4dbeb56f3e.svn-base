@@ -1,0 +1,897 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'基本资料','search'=>'N'))}
+	<!--<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-right">
+				<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
+			</div>
+		</div>
+	</div>-->
+    <style>
+        .backgroundcolor{
+           background-color: #F5F5F5;
+        }
+    </style>
+
+	<div class="row">
+		<div class="col-xs-12">
+
+            <div class="tabbable">
+
+
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#basic" data-toggle="tab">基本资料</a></li>
+                    <li><a href="#expand" data-toggle="tab">详细资料</a></li>
+                    <li><a href="#stady" data-toggle="tab">教育培训经历</a></li>
+                </ul>
+
+
+
+                <form id="form_data" name="form_data" method="post" class="form-horizontal">
+                    <input type="hidden" name="id" id="id"  value="{$vo.id}">
+                    <input type="hidden" name="pic" id="pic" value="{$vo.pic}">
+                    <input type="hidden" name="ajax" id="ajax" value="0">
+                    <input type="hidden" name="opmode" id="opmode" value="">
+
+                    <div class="tab-content">
+                        <!--基本资料-->
+                      <div class="tab-pane active" id="basic">
+                       <table class="table table-bordered" >
+                        <tr>
+                            <th class="col-10">
+                            <nobr>
+                                员工编号
+                            </nobr></th>
+                            <td colspan="2" class="col-30">
+                            <p class="form-control-static">
+                                {$vo.emp_no}
+                            </p></td>
+                            <td rowspan="4" class="col-20"><img class="img-thumbnail col-12" id="emp_pic" src="__ROOT__/{$vo.id|get_emp_pic}?t={:time()}" onerror="javascript:this.src='/Uploads/emp_pic/no_avatar.jpg'"></td>
+                        </tr>
+                        <tr class="backgroundcolor">
+                            <th>姓名</th>
+                            <td colspan="2">
+                            <p class="form-control-static">
+                                {$vo.name}
+                            </p></td>
+                        </tr>
+                        <tr>
+                            <th>性别</th>
+                            <td colspan="2">
+                            <p class="form-control-static">
+                                <if condition="$vo['sex'] eq male">
+                                    男
+                                <else/>
+                                    女
+                                </if>
+
+                             </p></td>
+
+                            <!--<select name="sex" id="sex" class="form-control col-10">
+                                <option  value="male"></option>
+                                <option value="female">女</option>
+                            </select></td>-->
+                        </tr>
+                        <tr class="backgroundcolor">
+                            <th>生日</th>
+                            <td colspan="2">
+                                <p class="form-control-static">
+                                    {$vo.birthday}
+                                </p>
+                            </td>
+                            <!--<td colspan="2"><a onclick="select_avatar();" class="btn btn-sm btn-primary">上传头像</a></td>-->
+                        </tr>
+                        <tr>
+                            <th>部门*</th>
+                            <td class="col-20">
+                            <p class="form-control-static">
+                                {$vo.dept_name}
+                            </p></td>
+                            <th class="col-10">职位</th>
+                            <td>
+                            <p class="form-control-static">
+                                {$vo.position_name}
+
+                            </p></td>
+                        </tr>
+                        <tr class="backgroundcolor">
+                            <th>
+                            <nobr>
+                                办公室电话
+                            </nobr></th>
+                            <td>
+
+                                <p class="form-control-static">
+                                    {$vo.office_tel}
+
+                                </p>
+                            </td>
+                            <th>
+                            <nobr>
+                                移动电话
+                            </nobr></th>
+                            <td>
+
+                                <p class="form-control-static">
+                                    {$vo.mobile_tel}
+
+                                </p>
+
+                            </td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <th>电子邮箱</th>
+                            <td colspan="3">
+                            <p class="form-control-static">
+                                {$vo.email}
+                            </p></td>
+                        </tr>
+                        <!--<tr>
+                            <th>
+                            <nobr>
+                                负责业务
+                            </nobr></th>
+                            <td colspan="3">
+                            <input type="text" id="duty" name="duty" class="form-control" value="{$vo.duty}">
+                            </td>
+                        </tr>-->
+				</table>
+                    </div>
+
+                        <!--详细资料-->
+
+                    <div class="tab-pane" id="expand" >
+                         <input type="hidden" name="user_id" value="{$vo.id}">
+
+                         <input type="hidden" name="opmode"  value="">
+                         <table class="table table-bordered" >
+
+                                <tr>
+                                    <th>
+                                        <nobr>
+                                            身份证号
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.sfzh}
+                                        </p>
+                                    </td>
+                                    <th>
+                                        <nobr>
+                                            籍贯
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.jiguan}
+                                        </p>
+
+                                    </td>
+                                </tr>
+
+
+
+                                <tr class="backgroundcolor">
+                                    <th>
+                                        <nobr>
+                                            出生地
+                                        </nobr></th>
+                                    <td>
+                                       <p class="form-control-static">
+                                        {$info.csd}
+                                       </p>
+
+                                    </td>
+
+                                    <th>
+                                        <nobr>
+                                            年龄
+                                        </nobr></th>
+                                    <td>
+                                       <p class="form-control-static">
+                                        {$info.age}
+                                       </p>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            民族
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.minzu}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            政治面貌
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.zzmm}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            入团时间
+                                        </nobr></th>
+                                    <td>
+                                         <p class="form-control-static">
+                                            {$info.rtsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            介绍人
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.jsr}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            加入党派时间
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.jrdpsj}
+                                        </p>
+                                    </td>
+
+                                    <th>
+                                        <nobr>
+                                            邮政编码
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.yzbm}
+                                        </p>
+                                    </td>
+
+
+                                </tr>
+
+                                <tr class="backgroundcolor">
+                                    <th>
+                                        <nobr>
+                                            家庭住址
+                                        </nobr></th>
+                                    <td colspan="3">
+                                        <p class="form-control-static">
+                                            {$info.jtdz}
+                                        </p>
+                                    </td>
+                                </tr>
+
+
+                            </table>
+
+                         <table class="table table-bordered" >
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            现任职务时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.xrzsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            工作时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gzsj}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            工龄
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gongli}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            本年度可享受带薪年休假天数
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.bndkxsdxxjts}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            来站时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.lzsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            从事本技术领域年限
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.csbjslynx}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            合同类型
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.htlx}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            聘用合同期限
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.pyhtqx}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            岗位
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.ganwei}
+                                        </p>
+
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            岗位时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gwsj}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            本岗位年限
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.bgwnx}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            岗位级别
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gwjb}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            管理或技术
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.glhjs}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            工资级别
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gzjb}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            工资级别时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.gzjbsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            已评专业技术职称
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.ypzyjszc}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            已评专业技术职称时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.ypzyjszcsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            技术等级
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                              {$info.jsdj}
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            现聘职称或级别
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.xpzchjb}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            职称级别是否聘任
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.zcjbsrpr}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <th>
+                                        <nobr>
+                                            现职称或级别聘任时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.xzchjbprsj}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            现职务级别评审时间
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.xzwjbpxsj}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                                <tr class="backgroundcolor">
+
+                                    <th>
+                                        <nobr>
+                                            最高学历
+                                        </nobr></th>
+                                    <td>
+
+                                        <p class="form-control-static">
+                                            {$info.zgxueli}
+                                        </p>
+                                    </td>
+
+
+                                    <th>
+                                        <nobr>
+                                            最高学位
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.zgxuewei}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+                                    <th>
+                                        <nobr>
+                                            在职与否
+                                        </nobr></th>
+                                    <td>
+                                        <p class="form-control-static">
+                                            {$info.zzyf}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <nobr>
+                                            备注
+                                        </nobr></th>
+                                    <td colspan="3">
+
+
+                                       <p class="form-control-static"  style="width: 100%;">
+                                            {$info.beizhu}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                     </div>
+
+
+
+                        <!--教育培训经历-->
+                     <div  class="tab-pane" id="stady">
+
+                        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+                                <thead>
+
+                                <tr>
+                                    <th width="15%">入学时间</th>
+                                    <th width="15%">毕业时间</th>
+                                    <th width="30%">学校名称</th>
+                                    <th width="10%">专业</th>
+                                    <th width="10%">学制</th>
+                                    <th width="10%">学历</th>
+                                    <th width="10%">操作</th>
+                                </tr>
+
+
+                                </thead>
+
+                                 <tbody id='all_goods'> <!--编辑-->
+                                    <tr id='goods'></tr>
+                                 </tbody>
+
+
+
+
+
+                            </table>
+
+                         <input type="hidden" id="jiaoyu" name="jiaoyu" value="{$info.jiaoyu}">
+
+                        </div>
+
+                    </div>
+
+			</form>
+
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function reset_pwd() {
+		winopen("{:U('password')}",560, 470);
+		}
+		function select_avatar() {
+		winopen("{:U('popup/avatar')}?id="+$("#id").val(),560, 470);
+		}
+		function save() {
+			sendForm("form_data","{:U('save')}","{:U('index')}");
+		}
+		$(document).ready(function() {
+		set_return_url();
+		set_val('sex','{$vo.sex}');
+		});
+	</script>
+
+
+    <script type="text/javascript">
+
+        // alert(111111);
+
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete"){
+                //当页面加载状态为完全结束时进入
+
+                var str = '';
+                str = document.getElementById("jiaoyu").value;
+                /// alert(str);
+                if(str !== null){
+                    ///  alert(2222222);
+                    viewTableData();
+
+                }
+
+            }
+        }
+
+        //显示表格数据
+
+        function viewTableData(){
+
+            var str ={$str};
+
+            if(typeof str === 'object'){
+                json = str;
+            }else{
+                json = eval(str);
+            }
+
+            /// alert(json);
+
+            var html ='';
+            for(var i=0; i<json.data.length; i++){
+                //alert(json.data[i].class);
+                html += '<tr>';
+                html += '<td><input type="text" name="jy_rxsj[]" id="jy_rxsj" onblur="tableDate();" class="form-control input-date" value="' + json.data[i].jy_rxsj + '"  style="width:100%"> </td>';
+                html += '<td><input type="text" name="jy_bysj[]" id="jy_bysj" onblur="tableDate();" class="form-control input-date" value="' + json.data[i].jy_bysj + '" style="width:100%"> </td>';
+                html += '<td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  onblur="tableDate();" value="' + json.data[i].jy_xxmc + '" style="width:100%"> </td>';
+                html += '<td><input type="text" name="jy_zy[]" id="jy_zy" onblur="tableDate();" value="' + json.data[i].jy_zy + '" style="width:100%"> </td>';
+
+
+                html += '<td>';
+                html += '<select class="form-control person_xz" id="jy_xz"  onchange="tableDate();">';
+                /* html += "<option value='" + json.data[i].jy_xz + "'>" + json.data[i].jy_xz + "</option>";*/
+                html += ' <option value="2年">2年</option>';
+                html += ' <option value="3年">3年</option>';
+                html += '<option value="4年">4年</option>';
+                html += '</select>';
+                html += '</td>';
+
+                html += '<td>';
+                html += ' <select class="form-control person_xl" id="jy_xl"  onchange="tableDate();" >';
+                /*html += "<option value='" + json.data[i].jy_xl + "'>" + json.data[i].jy_xl + "</option>";*/
+                html += ' <option value="大专">大专</option>';
+                html += ' <option value="本科">本科</option>';
+                html += ' <option value="硕士">硕士</option>';
+                html += ' <option value="博士">博士</option>';
+                html += ' <option value="其它">其它</option>';
+                html += '</select>';
+                html += '</td>';
+
+                html += '</tr>';
+            }
+
+            ///alert(55555);
+
+            $('#goods').before(html);
+
+            var count = 0;
+            $('.person').each(function(){
+                var parent_tr = $(this).parent().parent();//指向外面的tr对象
+                var temp_select_obj = parent_tr.find('td').eq(2).find('select');
+
+                temp_select_obj.empty();
+                var name = json.data[count].wu_type;
+                for(var i = 0; i < arr_person.length; i++)
+                {
+                    if(arr_person[i].name == name)
+                    {
+                        for(var j = 0; j < arr_person[i].data.length; j++)
+                        {
+                            temp_select_obj.append("<option value='" + arr_person[i].data[j].name + "'>" + arr_person[i].data[j].name + "</option>");
+                        }
+                        break;
+                    }
+                }
+
+                $(this).val(json.data[count].wu_type);
+                temp_select_obj.val(json.data[count].wu_class);
+                count++;
+            });
+
+
+            $(document).ready(function() {
+
+                $('.input-date').datetimepicker({
+                    format : 'yyyy-mm-dd',
+                    minView: "month",
+                    locale : 'zh-cn',
+                    //locale: moment.locale('zh-cn'),
+                    ignoreReadonly : true,
+                    autoclose: 1,
+                    widgetPositioning : {
+                        horizontal : 'auto',
+                        vertical : 'bottom'
+                    },
+                });
+
+                $(".input-daterange input").datetimepicker({
+                    format : "yyyy-mm-dd",
+                    locale : 'zh-cn',
+                    minView: "month",
+                    showTodayButton : true,
+                    showClose : true,
+                    ignoreReadonly : true,
+                    widgetPositioning : {
+                        horizontal : 'auto',
+                        vertical : 'bottom'
+                    },
+                });
+
+                $("#start_date").on("dp.change", function(e) {
+                    if ($("#end_date").length > 0) {
+                        $('#end_date').data("DateTimePicker").minDate(e.date);
+                    }
+                });
+
+                $("#end_date").on("dp.change", function(e) {
+                    if ($("#start_date").length > 0) {
+                        $('#start_date').data("DateTimePicker").maxDate(e.date);
+                    }
+                });
+
+                $(".input-date-time").datetimepicker({
+                    format : 'yyyy-mm-dd',
+                    locale : 'zh',
+                    minView: "month",
+                    sideBySide : true,
+                    autoclose: 1,
+                    showTodayButton : true,
+                    showClose : true,
+                    ignoreReadonly : true,
+                    widgetPositioning : {
+                        horizontal : 'auto',
+                        vertical : 'bottom'
+                    },
+                });
+
+            });
+
+
+        }
+
+
+    </script>
+
+    <!--教育培训经历 js -->
+    <script type="text/javascript">
+
+
+        //获取Table数据
+        function tableDate()
+        {
+            var tableJson = '{"data":[';
+            $('#all_goods').find('tr').each(function(){
+                var wu_number = $(this).find('td').eq(0).find('input').val();
+                if(typeof(wu_number) != 'undefined'){
+                    //var wu_number = $(this).find('td').eq(0).find('select').val();
+                    tableJson += '{"jy_rxsj":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                    tableJson += '"jy_bysj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                    tableJson += '"jy_xxmc":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                    tableJson += '"jy_zy":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                    tableJson += '"jy_xz":"' + $(this).find('td').eq(4).find('select').val() + '",';
+                    tableJson += '"jy_xl":"' + $(this).find('td').eq(5).find('select').val() + '"},';
+                }
+            });
+            tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段 豆号
+            tableJson += "]}";
+
+            /// alert(tableJson);
+
+            document.getElementById("jiaoyu").value = tableJson;
+
+        }
+
+    </script>
+
+
+</block>

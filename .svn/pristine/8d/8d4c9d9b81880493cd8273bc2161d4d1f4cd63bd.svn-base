@@ -1,0 +1,109 @@
+
+<!--获奖情况 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        <!-- <th width="5%">序号</th> -->
+        <th width="12%">获奖(荣誉)时间</th>
+        <th width="20%">获奖(荣誉)名称</th>
+        <th width="20%">颁发(授予)单位</th>
+        <th width="10%">奖项分类</th>
+        
+        <th width="15%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="awardinfo">
+        <tbody id='all_huojiangs'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value=""   style="width:100%"> </td>
+
+            <td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value=""   style="width:100%"> </td>
+
+            <td><input type="text" name="hj_danwei[]" id="hj_danwei"  value=""   style="width:100%"></td>
+
+            <td>
+			<!--<input type="text" name="hj_leixing[]" id="hj_leixing"   value=""  onblur="huojiang_tableDate();" style="width:100%">-->
+			<select class="form-control" id="hj_leixing"   >
+                    <option value=''>请选择</option>
+                    <option value='荣誉类'>荣誉类</option>
+                    <option value='学术类'>学术类</option>
+                    
+                </select>
+			</td>
+
+           
+
+            <td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value=""  style="width:100%"></td>
+
+            
+        </tr>
+        <tr id='huojiangs'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_huojiangs'> <!--编辑-->
+        <volist name="awardinfo" id="data">
+
+            <tr  name="{$data.id}{$data.hj_status}">
+
+                <td><input type="hidden" name="hj_id[]" id="hj_id" value="{$data.id}">
+                    <input type="text" name="hj_time[]" id="hj_time" value="{$data.hj_time}" class="form-control input-date"  style="width:100%"> </td>
+
+            <td><input type="text" name="hj_name[]" id="hj_name" value="{$data.hj_name}" style="width:100%"> </td>
+
+            <td><input type="text" name="hj_unit[]" id="hj_unit" value="{$data.hj_unit}" style="width:100%"></td>
+
+            <td>
+            <select class="form-control" id="hj_type" name="hj_type[]">
+                <option {$data['hj_type']==''?'selected':''} value=''>请选择</option>
+                <option {$data['hj_type']=='荣誉类'?'selected':''} value='荣誉类'>荣誉类</option>
+                <option {$data['hj_type']=='学术类'?'selected':''} value='学术类'>学术类</option>
+                    
+            </select>
+            </td>
+
+           
+
+            <td><input type="text" name="hj_remark[]" id="hj_remark"   value="{$data.hj_remark}"   style="width:100%"></td>
+
+            <!-- <td><a href="javascript:void(0);" onclick="delete_goods('{$data.id}{$data.hj_status}')" class="delrow">删除</a></td> -->
+
+            </tr>
+            <tr name="{$data.id}{$data.hj_status}">
+
+                <td colspan="5">
+
+                    <empty name="data.hj_add_file">
+                       {:W('FileUpload/add',array('hj_add_file[]',$data['id'].$data['hj_status']))}
+                       <else/>
+                       
+                       {:W('FileUpload/edit',array('hj_add_file[]'=>$data['hj_add_file'],'hj_add_file[]',$data['id'].$data['hj_status']))}
+                       
+                   </empty>
+
+
+
+               </td>
+               
+           </tr>
+            <tr name="{$data.id}{$data.hj_status}" class="backgroundcolor"><td colspan="8"></td></tr>
+       </volist>
+        </tbody>
+
+    </empty>
+
+
+</table>
+<input type="hidden" id="huojiang" name="huojiang" value="{$info.huojiang}">
+
+
+
+
+
+

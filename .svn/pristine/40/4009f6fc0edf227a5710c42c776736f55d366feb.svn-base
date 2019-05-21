@@ -1,0 +1,110 @@
+
+<!--年度考核 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        
+        <th width="20%">时间</th>
+        <th width="20%">考核结果</th>
+      
+		<th width="20%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="checkinfo">
+        <tbody id='all_kaohes'>  <!--添加-->
+        <tr>
+            
+            <td>
+				<select class="form-control" id="kaohe_time"   >
+					<!--{:fill_option_name($hjnf,$kaohe_str['kaohe_time'])}-->
+                </select>
+				<!--<input type="text" name="kaohe_time[]" id="kaohe_time"  class="form-control " value="" onblur="kaohe_tableDate();" style="width:100%"> -->
+			</td>
+
+            <td>
+                <select class="form-control" id="kaohe_jieguo"   >
+                    <option value=''>请选择</option>
+                    <option value='优秀'>优秀</option>
+                    <option value='合格'>合格</option>
+					<option value='基本合格'>基本合格</option>
+                    <option value='不合格'>不合格</option>
+                    <option value='其它'>其它</option>
+                </select>
+            </td>
+			<td><input type="text" name="kaohe_beizhu[]" id="kaohe_beizhu"  value=""  style="width:100%"></td>
+            
+        </tr>
+        <tr id='kaohes'></tr>
+        </tbody>
+
+
+        <else />
+        
+        <tbody id='all_kaohes'> <!--编辑-->
+        <volist name="checkinfo" id="data">
+
+            <tr  name="{$data.id}{$data.check_status}">
+
+                <td><input type="hidden" name="check_id[]" value="{$data.id}">
+                    <select class="form-control" id="check_year" name="check_year[]">
+                        {:fill_option_name($hjnf,$data['year'])}
+                    </select> 
+                </td>
+                
+                <td>
+                    <select class="form-control" id="check_result" name="check_result[]" >
+                        <option {$data['result']=='优秀'?'selected':''} value='优秀'>优秀</option>
+                        <option {$data['result']=='合格'?'selected':''} value='合格'>合格</option>
+                        <option {$data['result']=='基本合格'?'selected':''} value='基本合格'>基本合格</option>
+                        <option {$data['result']=='不合格'?'selected':''} value='不合格'>不合格</option>
+                        <option {$data['result']=='其它'?'selected':''} value='其它'>其它</option>
+                    </select>
+                </td>
+                <td ><input type="text" name="check_remark[]" id="check_remark"  value="{$data.remark}" class="form-control" style="width:100%"></td>
+
+                <!-- <td >
+
+                    <a href="javascript:void(0);" onclick="delete_goods('{$data.id}{$data.check_status}');" class="delrow">删除</a>
+
+                </td> -->
+
+
+            </tr>
+           <!--  <tr name="{$data.id}{$data.check_status}">
+
+                <td colspan="5">
+
+                    <empty name="data.check_add_file">
+                       {:W('FileUpload/add',array('check_add_file[]',$data['id'].$data['check_status']))}
+                       <else/> -->
+                       <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+                     <!--  {:W('FileUpload/edit',array('check_add_file[]'=>$data['check_add_file'],'check_add_file[]',$data['id'].$data['check_status']))}-->
+                       <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+                  <!-- </empty>
+
+
+
+               </td>
+               
+           </tr>
+            <tr name="{$data.id}{$data.check_status}" class="backgroundcolor"><td colspan="8"></td></tr> -->
+       </volist>
+   </tbody>
+        
+
+    </empty>
+
+    
+
+</table>
+<input type="hidden" id="kaohe" name="kaohe" value="{$info.kaohe}">
+<input type="hidden" id="hjnf" name="hjnf" value="{$hjnf}">
+
+
+
+
+
+

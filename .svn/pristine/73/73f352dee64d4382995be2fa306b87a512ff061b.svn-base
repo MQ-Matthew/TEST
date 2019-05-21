@@ -1,0 +1,81 @@
+
+<!--年度考核 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        
+        <th width="20%">时间</th>
+        <th width="20%">考核结果</th>
+      
+		<th width="20%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="info.kaohe">
+        <tbody id='all_kaohes'>  <!--添加-->
+        <tr>
+            
+            <td>
+				<select class="form-control" id="kaohe_time"   >
+					<!--{:fill_option_name($hjnf,$kaohe_str['kaohe_time'])}-->
+                </select>
+				<!--<input type="text" name="kaohe_time[]" id="kaohe_time"  class="form-control " value="" onblur="kaohe_tableDate();" style="width:100%"> -->
+			</td>
+
+            <td>
+                <select class="form-control" id="kaohe_jieguo"   >
+                    <option value=''>请选择</option>
+                    <option value='优秀'>优秀</option>
+                    <option value='合格'>合格</option>
+					<option value='基本合格'>基本合格</option>
+                    <option value='不合格'>不合格</option>
+                    <option value='其它'>其它</option>
+                </select>
+            </td>
+			<td><input type="text" name="kaohe_beizhu[]" id="kaohe_beizhu"  value=""  style="width:100%"></td>
+            
+        </tr>
+        <tr id='kaohes'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_kaohes'> <!--编辑-->
+             <tr id='kaohes'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+       
+        <td colspan="10" >
+		选择考核模板：<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjigongqin.doc">下载工勤技能人员模板</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjiguanli.doc">下载管理人员模板</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjijishu.doc">下载专业技术人员模板</a>
+		</td>
+    </tr>
+
+</table>
+<input type="hidden" id="kaohe" name="kaohe" value="{$info.kaohe}">
+<input type="hidden" id="hjnf" name="hjnf" value="{$hjnf}">
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" >考核资料(附件)：</label>
+    <div class="col-sm-10">
+        <empty name="info.kaohe_add_file">
+             {:W('FileUpload/add',array('kaohe_add_file'))}
+        <else/>
+            <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+            {:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file'],'kaohe_add_file'))}
+            <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+        </empty>
+
+    </div>
+</div>
+
+
+

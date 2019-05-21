@@ -1,0 +1,32 @@
+﻿<extend name="Layout/ins_popup" />
+<block name="content">
+	{:W('PageHeader/popup',array("修改批语"))}
+	<form id="form_data">
+		<input type="hidden" value="1" name="state"/>
+		<input type="hidden" value="{$id}" name="id"/>
+		<div class="col-xs-12">
+			<textarea id="content" name="content"  style="width:100%;height:400px;">{$remarks}</textarea>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+　　  
+     }); 
+		function save() {
+
+			var vars = $("#form_data").serialize();
+			sendAjax("{:U('edit_readover')}", vars,function(data){
+				if (data.status) {
+						ui_alert(data.info, function() {
+						myclose();
+						});
+					} else {
+						ui_error(data.info);
+					}
+			})
+		}
+
+	</script>
+</block>

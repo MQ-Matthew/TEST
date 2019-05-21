@@ -1,0 +1,1137 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'基本资料','search'=>'N'))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-right">
+				<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
+			</div>
+		</div>
+	</div>
+
+    <style>
+        .backgroundcolor{
+            background-color: #F5F5F5;
+        }
+		#tab3{
+			border-top:none;
+
+			border-bottom:none;
+		}
+        /*table tr:hover{background-color: #F5F5F5 ;}*/
+    </style>
+	<div class="row">
+		<div class="col-xs-12">
+        <div class="tabbable">
+
+
+            <ul class="nav nav-tabs nav-justified" style="margin-bottom: 10px;">
+                <li class="active"><a href="#basic" data-toggle="tab">基本资料</a></li>  
+                <li><a href="#expand" data-toggle="tab">详细资料</a></li>
+                <li><a href="#stady" data-toggle="tab">教育经历</a></li>
+
+                <li><a href="#peixunjingli" data-toggle="tab">培训经历</a></li>
+                <li><a href="#niandukaohe" data-toggle="tab">年度考核</a></li>
+                <li><a href="#huojianqingkuan" data-toggle="tab">获奖情况</a></li>
+                <li><a href="#gongzuojingli" data-toggle="tab">工作经历</a></li>
+
+            </ul>
+
+            <form id="form_data" name="form_data" method="post" class="form-horizontal">
+
+                <div class="tab-content">
+                    <!--基本资料-->
+                    <div class="tab-pane active" id="basic">
+
+                        <input type="hidden" name="id" id="id"  value="{$vo.id}">
+                        <input type="hidden" name="pic" id="pic" value="{$vo.pic}">
+                        <input type="hidden" name="ajax" id="ajax" value="1">
+                        <input type="hidden" name="opmode" id="opmode" value="">
+                        <table class="table table-bordered" >
+                            <tr>
+                                <th class="col-10">
+                                    <nobr>
+                                        姓名
+                                    </nobr>
+                                </th>
+                                <td colspan="2" class="col-30">
+                                <p class="form-control-static">
+                                    {$vo.name}
+                                </p></td>
+                                <td rowspan="3" class="col-20"><img class="img-thumbnail col-12" id="emp_pic" src="__ROOT__/{$vo.id|get_emp_pic}?t={:time()}" onerror="javascript:this.src='/Uploads/emp_pic/no_avatar.jpg'"></td>
+                            </tr>
+
+                            <tr class="backgroundcolor">
+                                <th>性别</th>
+                                <td colspan="2">
+                                    <select name="sex" id="sex" class="form-control col-10">
+                                        <option  value="male">男</option>
+                                        <option value="female">女</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>用户身份*</th>
+                                <td colspan="2">
+                                    <p class="form-control-static">
+                                        {$vo.identity_name}
+                                    </p>
+                                    <input name="identity" id="identity" type="hidden" value="{$vo.identity}"/>
+									<input name="birthday" id="birthday" type="hidden" value="{$vo.birthday}"/>
+                                </td>
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+                                <th>电子邮箱</th>
+                                <td colspan="2">
+                                    <p class="form-control-static">
+                                        <input type="text" id="email" name="email" class="form-control" value="{$vo.email}" onblur="checkmail()">
+                                    </p>
+                                </td>
+                                <td colspan="2"><a onclick="select_avatar();" class="btn btn-sm btn-primary">上传照片</a></td>
+                            </tr>
+
+                            <tr>
+                                <th class="col-15"> 办公室电话</th>
+                                <td>
+                                    <input type="text" id="office_tel" name="office_tel" class="form-control" value="{$vo.office_tel}">
+                                </td>
+
+                                <th class="col-30">移动电话</th>
+                                <td>
+                                    <input type="text" id="mobile_tel" name="mobile_tel" class="form-control" value="{$vo.mobile_tel}">
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                            <!--新加的内容
+                            <tr  class="backgroundcolor">
+                                <th class="col-15"> 岗位职责</th>
+                                <td>
+                                    <input type="text" id="" name="" class="form-control" value="">
+                                </td>
+
+                                <th class="col-15">现任职务</th>
+                                <td>
+                                    <input type="text" id="" name="" class="form-control" value="">
+                                </td>
+                            </tr>-->
+
+                        </table>
+
+                    </div>
+
+                    <!--详细资料-->
+                    <div class="tab-pane" id="expand" >
+                        <input type="hidden" name="user_id" value="{$vo.id}">
+
+                        <input type="hidden" name="opmode"  value="">
+                        <table class="table table-bordered" >
+
+                            <tr>
+
+
+                                <th>
+                                    <nobr>
+                                        身份证号
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="sfzh" name="sfzh" class="form-control" onblur="shenfengzhihao()" value="{$info.sfzh}">
+                                </td>
+                                <th>
+                                    <nobr>
+                                        籍贯
+                                    </nobr></th>
+                                <td>
+
+                                    <select class="" name="jiguan" id="jiguan">
+                                        {:fill_option_name($shenfen,$info['jiguan'])}
+                                    </select>
+
+                                    <input type="text" id="jiguan_shi"  name="jiguan_shi" class="" value="{$info.jiguan_shi}">
+
+                                </td>
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+                                <th>
+                                    <nobr>
+                                        出生地
+                                    </nobr></th>
+                                <td>
+
+                                    <select class="" name="csd" id="csd">
+                                        {:fill_option_name($shenfen,$info['csd'])}
+                                    </select>
+
+                                    <input type="text" id="csd_shi"  name="csd_shi" class="" value="{$info.csd_shi}">
+                                </td>
+
+                                <th>
+                                    <nobr>
+                                        年龄
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="age"  name="age" class="form-control" value="{$info.age}" readonly>
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+
+                                <th>
+                                    <nobr>
+                                        民族
+                                    </nobr></th>
+                                <td>
+
+                                    <select class="form-control" name="minzu" id="minzu">
+                                        {:fill_option_name($minzu,$info['minzu'])}
+                                    </select>
+
+
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        政治面貌
+                                    </nobr></th>
+                                <td>
+
+                                    <select class="form-control" name="zzmm" id="zzmm">
+                                        {:fill_option_name($zzmm,$info['zzmm'])}
+                                    </select>
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        入团时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text"  id="rtsj" name="rtsj" class="form-control input-date" value="{$info.rtsj}">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        入团介绍人
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="rtjsr" name="rtjsr" class="form-control" value="{$info.rtjsr}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <th>
+                                    <nobr>
+                                        加入党派时间
+                                    </nobr></th>
+                                <td>
+                                    <input   type="text" id="jrdpsj" name="jrdpsj" class="form-control input-date" value="{$info.jrdpsj}">
+                                </td>
+
+                                <th>
+                                    <nobr>
+                                        入党介绍人
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="rdjsr" name="rdjsr" class="form-control" value="{$info.rdjsr}">
+                                </td>
+
+
+                            </tr>
+
+                            <tr class="backgroundcolor">
+                                <th>
+                                    <nobr>
+                                        家庭住址
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="jtdz" name="jtdz" class="form-control" value="{$info.jtdz}">
+                                </td>
+								
+								<th>
+                                    <nobr>
+                                        邮政编码
+                                    </nobr></th>
+								<td>
+                                    <input   type="text" id="yzbm" name="yzbm" class="form-control" value="{$info.yzbm}">
+                                </td>
+                            </tr>
+
+
+                            
+
+                        </table>
+
+                        <hr style="height:1px;border:none;border-top:1px solid #000000;" />
+
+                        <table class="table table-bordered" style="border-bottom:none;" >
+
+                            <tr class="backgroundcolor">
+                                <th>
+                                    <nobr>
+                                        现任职务时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="xrzsj" name="xrzsj" class="form-control input-date" value="{$info.xrzsj}">
+                                </td>
+
+								<th>
+                                    <nobr>
+                                        现任职务
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="xrzw" name="xrzw" class="form-control" value="{$info.xrzw}">
+                                </td>
+                                
+
+                            </tr>
+
+							</table>
+							
+							<table class="table table-bordered" id="tab3" style="margin-top:-20px;border-bottom:none;">
+                            <tr class="">
+							
+                                <th>
+                                    <nobr>
+                                        工龄
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gongli" name="gongli" class="form-control" value="{$info.gongli}">
+                                </td>
+								
+                                <th>
+                                    <nobr>
+                                        工作时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gzsj" name="gzsj" class="form-control input-date" onchange="timeinput()" value="{$info.gzsj}">
+                                </td>    
+                                
+
+                                <th>
+                                    <nobr>
+                                        本年度可享受带薪年休假天数
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="bndkxsdxxjts" name="bndkxsdxxjts" class="form-control" value="{$info.bndkxsdxxjts}">
+                                </td>
+							
+                            </tr>
+							</table>
+							<table class="table table-bordered" style="margin-top:-20px">
+                            <tr  class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        来站时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="lzsj" name="lzsj" class="form-control input-date" value="{$info.lzsj}">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        从事本技术领域年限
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="csbjslynx" name="csbjslynx" class="form-control" value="{$info.csbjslynx}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="">
+
+                                <th>
+                                    <nobr>
+                                        合同类型
+                                    </nobr></th>
+                                <td>
+                                    <!--<input type="text" id="htlx" name="htlx" class="form-control" value="{$info.htlx}">-->
+
+                                    <select name="htlx" class="form-control">
+                                        <option value="">请选择合同类型</option>
+                                        <option <if condition="$info.htlx eq '短期'">selected='selected'</if> value="短期">短期</option>
+                                        <option <if condition="$info.htlx eq '中期'">selected='selected'</if> value="中期">中期</option>
+                                        <option <if condition="$info.htlx eq '长期'">selected='selected'</if>  value="长期">长期</option>
+                                     </select>
+
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        聘用合同期限
+                                    </nobr></th>
+                                <td colspan="3">
+                                    <input type="text" id="pyhtqx" name="pyhtqx" class="input-date" value="{$info.pyhtqx}"> ~
+									<input type="text" id="pyhtqxjs" name="pyhtqxjs" class="input-date" value="{$info.pyhtqxjs}">
+                                </td>
+
+                            </tr>
+
+                            <tr class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        现聘岗位
+                                    </nobr></th>
+                                <td>
+                                    <select name="xpgw_type" id="xpgw_type" onchange="getVal()" >
+                                        <option value="">请选择岗位</option>
+                                        <option <if condition="$info['xpgw_type'] eq '管理'">selected='selected'</if> value="管理">管理</option>
+                                        <option <if condition="$info['xpgw_type'] eq '技术'">selected='selected'</if> value="技术">技术</option>
+                                        <option <if condition="$info['xpgw_type'] eq '工勤'">selected='selected'</if> value="工勤">工勤</option>
+
+                                     </select>
+                                    <!--<input type="text" id="xpgw" name="xpgw" class="" value="{$info.xpgw}">-->
+									<select name="xpgw" id="xpgw">
+									<option>{$info['xpgw']}</option>
+									</select>
+                                </td>
+								
+								<th>
+                                    <nobr>
+                                        本岗位时间及年限
+                                    </nobr></th>
+                                <td colspan="3">
+                                    <input type="text" id="gwsj" name="gwsj" class="input-date" onblur="timeinput1()" value="{$info.gwsj}">
+                                    <input type="text" id="bgwnx" name="bgwnx" class="" value="{$info.bgwnx}">
+
+                                </td>
+
+                                
+
+                            </tr>
+
+
+
+                            
+
+
+
+                            <tr>
+
+                                <th>
+                                    <nobr>
+                                        岗位级别
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gwjb" name="gwjb" class="form-control" value="{$info.gwjb}">
+                                </td>
+
+                                <th>
+                                    <nobr>
+                                        岗位级别时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gwjb_time" name="gwjb_time" class="form-control input-date" value="{$info.gwjb_time}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        工资级别
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gzjb" name="gzjb" class="form-control" value="{$info.gzjb}">
+                                </td>
+
+                                <th>
+                                    <nobr>
+                                        工资级别时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="gzjbsj" name="gzjbsj" class="form-control input-date" value="{$info.gzjbsj}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr >
+                                <th>
+                                    <nobr>
+                                        已评专业技术职称
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="ypzyjszc" name="ypzyjszc" class="form-control" value="{$info.ypzyjszc}">
+                                </td>
+
+                                <th>
+                                    <nobr>
+                                        已评专业技术职称时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="ypzyjszcsj" name="ypzyjszcsj" class="form-control input-date" value="{$info.ypzyjszcsj}">
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        现聘职称
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="xpzc" name="xpzc" class="form-control" value="{$info.xpzc}">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        现聘职称时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="xpzc_time" name="xpzc_time" class="form-control input-date" value="{$info.xpzc_time}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr >
+
+                                <th>
+                                    <nobr>
+                                        技术等级
+                                    </nobr></th>
+                                <td>
+                                    <select class="form-control" name="jsdj" id="jsdj">
+                                        {:fill_option_name($jsdj,$info['jsdj'])}
+                                    </select>
+
+                                </td>
+								
+								<th>
+                                    <nobr>
+                                        现聘职称评审时间
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="xzwjbpxsj" name="xzwjbpxsj" class="form-control input-date" value="{$info.xzwjbpxsj}">
+                                </td>
+
+
+                                
+
+                            </tr>
+
+
+                            <tr class="backgroundcolor">
+
+                                
+
+
+                                
+
+                            </tr>
+
+                            <tr class="backgroundcolor">
+
+                                <th>
+                                    <nobr>
+                                        最高学历
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="zgxueli" name="zgxueli" class="form-control" value="{$info.zgxueli}">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        最高学位
+                                    </nobr></th>
+                                <td>
+                                    <input type="text" id="zgxuewei" name="zgxuewei" class="form-control" value="{$info.zgxuewei}">
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    <nobr>
+                                        工作状态
+                                    </nobr></th>
+                                <td>
+
+                                    <select name="gzzt" class="form-control" >
+                                        {:fill_option_name($gzzt,$info['gzzt'])}
+                                    </select>
+
+                                </td>
+
+                            </tr>
+
+                            <tr class="backgroundcolor">
+                                <th>
+                                    <nobr>
+                                        备注
+                                    </nobr></th>
+                                <td colspan="3">
+                                   <textarea style="width: 100%;min-height: 80px;resize:none;" name="beizhu">{$info.beizhu} </textarea>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <!--教育经历-->
+                    <div  class="tab-pane" id="stady">
+                        <include file="./Application/Home/View/Default/User/jiaoyu.html" />
+                    </div>
+
+                    <!--培训经历-->
+                    <div  class="tab-pane" id="peixunjingli">
+                        <include file="./Application/Home/View/Default/User/peixun.html" />
+                    </div>
+
+                    <!--年度考核-->
+                    <div  class="tab-pane" id="niandukaohe">
+                        <include file="./Application/Home/View/Default/User/kaohe.html" />
+                    </div>
+
+                    <!--获奖情况-->
+                    <div  class="tab-pane" id="huojianqingkuan">
+                        <include file="./Application/Home/View/Default/User/huojiang.html" />
+                    </div>
+                    <!--工作经历-->
+                    <div  class="tab-pane" id="gongzuojingli">
+                        <include file="./Application/Home/View/Default/User/gongzuo.html" />
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+		</div>
+	</div>
+</block>
+<block name="js">
+
+    <script type="text/javascript">
+
+        /**
+         * 验证身份证的信息正确与否
+         */
+        function shenfengzhihao(){
+
+            // 验证身份证
+            if($('#sfzh').val() != false) {
+                var str = $('#sfzh').val();
+                if(str){
+                    code(str);
+                }
+            }
+        }
+		
+		/**
+         * 验证工作时间是否有输入
+         */
+		 function timeinput(){
+
+            
+            if($('#gzsj').val() != false) {
+                var str = $('#gzsj').val();
+                if(str){
+                    //timeyear(str);
+					var years = str;
+					//alert(years);
+					var age = '';
+					if(years){
+							age = ages(years);
+							$("#gongli").val(age+'年');
+						}else{
+							$("#gongli").val('');
+						}
+                }
+            }
+        }
+		
+		function timeinput1(){
+
+           
+            if($('#gwsj').val() != false) {
+                var str = $('#gwsj').val();
+                if(str){
+                    var years = str;
+					//alert(years);
+					var age = '';
+					if(years){
+							age = ages(years);
+							$("#bgwnx").val(age+"年");
+						}else{
+							$("#bgwnx").val('');
+						}
+                }
+            }
+        }
+		
+		function getVal(){
+			var gw = $("#xpgw_type").val();
+			var xpgw = $("#xpgw");
+			
+			//alert(xpgw);
+			//alert(gw);
+			//var ds_id = $("#ds_id"); 
+			$("option",xpgw).remove(); //清空原有的选项，也可使用 ds_id.empty(); 
+			//xpgw.empty();
+			if(gw=="管理"){
+			//alert(gw);
+				var option = "<option value=''>请选择</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理一级'>管理一级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理二级'>管理二级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理三级'>管理三级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理四级'>管理四级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理五级'>管理五级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理六级'>管理六级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理七级'>管理七级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理八级'>管理八级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理九级'>管理九级</option>";
+				xpgw.append(option); 
+				var option = "<option value='管理十级'>管理十级</option>";
+				xpgw.append(option); 
+				
+				
+			}else if(gw=='技术'){
+				var option = "<option value=''>请选择</option>";
+				xpgw.append(option); 
+				var option = "<option value='技术一级'>技术一级</option>";
+				xpgw.append(option); 
+				var option = "<option value='技术二级'>技术二级</option>";
+				xpgw.append(option); 
+				var option = "<option value='技术三级'>技术三级</option>";
+				xpgw.append(option); 
+				var option = "<option value='技术四级'>技术四级</option>";
+				xpgw.append(option); 
+				var option = "<option value='技术五级'>技术五级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术六级'>技术六级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术七级'>技术七级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术八级'>技术八级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术九级'>技术九级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术十级'>技术十级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术十一级'>技术十一级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术十二级'>技术十二级</option>";				
+				xpgw.append(option);
+				var option = "<option value='技术十三级'>技术十三级</option>";				
+				xpgw.append(option);
+			}else if(gw=='工勤'){
+				var option = "<option value=''>请选择</option>";
+				xpgw.append(option); 
+				var option = "<option value='工勤一级'>工勤一级</option>"; 
+				xpgw.append(option);
+				var option = "<option value='工勤二级'>工勤二级</option>";
+				xpgw.append(option);
+				var option = "<option value='工勤三级'>工勤三级</option>";
+				xpgw.append(option);
+				var option = "<option value='工勤四级'>工勤四级</option>";
+				xpgw.append(option);
+				var option = "<option value='工勤五级'>工勤五级</option>";
+				xpgw.append(option);
+			}else{
+				var option = "<option value=''>请选择</option>";
+				xpgw.append(option);
+			}
+			
+		}
+		
+		/*$().ready(function(){ 
+		if($("#xpgw_type").val()){
+			getVal(); 
+		}
+		//
+		});*/
+		
+		/**function timeyear(str){
+		    var years = str;
+			//alert(years);
+			var age = '';
+			if(years){
+                    age = ages(years);
+                    $("#gongli").val(age);
+                }else{
+                    $("#gongli").val('');
+                }
+			
+		}**/
+		
+
+        /**
+         * 验证邮箱
+         */
+        function checkmail(){
+
+            if($('#email').val() != '') {
+                var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+                if (myReg.test($('#email').val())) {
+
+                    return true;
+                }else{
+                    ui_error("邮箱格式不对!");
+                }
+
+            }
+        }
+
+
+        /**
+         * 根据出生日期计算年龄
+         */
+        function ages(str) {
+            if(!str){
+                return("输入的日期格式错误！");
+            }
+
+            var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+            if(r==null)return   false;
+            var d=   new   Date(r[1],   r[3]-1,   r[4]);
+            if(d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4]){
+                var Y = new   Date().getFullYear();
+                return(Y-r[1]);
+            }
+        }
+
+        //身份证号合法性验证
+        //支持15位和18位身份证号
+        //支持地址编码、出生日期、校验位验证
+        function code(code) {
+            var newcode = code;
+
+            var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+            var tip = "";
+            var pass= true;
+
+            if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+                tip = "身份证号格式错误";
+
+                pass = false;
+            }else if(!city[code.substr(0,2)]){
+                tip = "地址编码错误";
+
+                pass = false;
+            }else{
+                //18位身份证需要验证最后一位校验位
+                if(code.length == 18){
+                    code = code.split('');
+					//alert("asdda");
+                    //∑(ai×Wi)(mod 11)
+                    //加权因子
+                    var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                    //校验位
+                    var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+                    var sum = 0;
+                    var ai = 0;
+                    var wi = 0;
+                    for (var i = 0; i < 17; i++)
+                    {
+                        ai = code[i];
+                        wi = factor[i];
+                        sum += ai * wi;
+                    }
+                    var last = parity[sum % 11];
+                    if(parity[sum % 11] != code[17]){
+                        tip = "身份证号校验位错误";
+
+                        pass =false;
+                    }
+                }
+            }
+
+            if(!pass){
+                ui_error(tip);
+
+            }else{
+
+
+                var home='';
+                var birthday ='';
+                var sex ='';
+                //省份
+                var ncode= newcode;
+
+                home = city[ncode.substring(0,2)];
+
+
+                //生日
+                birthday = ncode.substring(6,10)+'-'+ncode.substring(10,12)+'-'+ncode.substring(12,14);
+				
+
+                var age = '';
+                if(birthday){
+                    age = ages(birthday);
+                    $("#age").val(age);
+                    $("#birthday").val(birthday);
+                }else{
+                    $("#age").val('');
+                    $("#birthday").val('');
+                }
+
+                //性别
+                if(ncode.length==15){
+                    var sex = ncode.substring(14,15)%2==0 ? '女':'男';
+                }else if(ncode.length==18){
+                    var sex = ncode.substring(14,17)%2==0 ? '女':'男';
+                }
+
+            }
+
+            return pass;
+        }
+		
+		function timeyear(str){
+		    var years = str;
+			//alert(years);
+			var age = '';
+			if(years){
+                    age = ages(years);
+                    $("#gongli").val(age);
+                }else{
+                    $("#gongli").val('');
+                }
+			
+		}
+
+
+    </script>
+
+
+	<script type="text/javascript">
+		/*function reset_pwd() {
+		winopen("{:U('password')}",560, 470);
+		}
+		function select_avatar() {
+		winopen("{:U('popup/avatar')}?id="+$("#id").val(),560, 470);
+		}*/
+		function save() {
+			
+			sendForm("form_data","{:U('User/user_save')}","{:U('User/member_edit',array('id'=>$vo['id']))}");
+		}
+
+        $(document).ready(function() {
+		set_return_url();
+		set_val('sex','{$vo.sex}');
+		});
+
+	</script>
+
+    <!--<script type="text/javascript">
+        function add() {
+            winopen("{:U('add')}", 560, 470);
+        };
+        function del_pwd() {
+            if ($("input[name='user_id[]']:checked").length == 0) {
+                ui_error('请选择要清空密码的人员 ');
+                return;
+            }
+            var vars = $("#form_user").serialize();
+            ui_confirm('确定要清空密码吗?', function() {
+
+                sendAjax("{:U('del_pwd')}", vars, function(data) {
+                    if (data.status) {
+                        ui_alert(data.info, function() {
+                            location.reload(true);
+                        });
+                    }
+                });
+            });
+        }
+
+        function del() {
+            if ($("input[name='user_id[]']:checked").length == 0) {
+                ui_error('请选择要删除的人员 ');
+                return;
+            }
+            var vars = $("#form_user").serialize();
+            ui_confirm('确定要删除吗?', function() {
+                sendAjax("{:U('del')}", vars, function(data) {
+                    if (data.status) {
+                        ui_alert(data.info, function() {
+                            location.reload(true);
+                        });
+                    }
+                });
+            });
+        }
+
+        function reset_pwd() {
+            if ($("#id").val().length < 1) {
+                ui_error("请选择用户");
+                return false;
+            }
+            winopen("{:U('password')}?id=" + $("#id").val(), 560, 470);
+        }
+
+        function import_user() {
+            window.open("{:U('import')}", "_self");
+            return false;
+        }
+
+        function select_dept() {
+            winopen("{:U('dept/winpop2')}", 560, 470);
+        }
+
+        function select_agent() {
+            if ($("#id").val().length < 1) {
+                ui_error("请选择用户");
+                return false;
+            }
+            winopen("{:U('popup/agent')}", 560, 470);
+        }
+
+        function weixin_sync() {
+            winopen("{:U('weixin_sync')}",560, 470);
+        }
+
+        function select_avatar() {
+            if ($("#id").val().length < 1) {
+                ui_error("请选择用户");
+                return false;
+            }
+            winopen("{:U('popup/avatar')}?id=" + $("#id").val(), 560, 470);
+        }
+
+        function select_identity() {
+            if ($("#id").val().length < 1) {
+                ui_error("请选择用户");
+                return false;
+            }
+            winopen("{:U('popup/identity')}?id=" + $("#id").val(), 560, 470);
+        }
+
+        function select_signature() {
+            if ($("#id").val().length < 1) {
+                ui_error("请选择用户");
+                return false;
+            }
+            winopen("{:U('popup/signature')}?id=" + $("#id").val(), 560, 470);
+        }
+
+        function btn_search() {
+            sendForm("form_search", "__SELF__");
+            $("#form_search").submit();
+        }
+
+        function key_search() {
+            if (event.keyCode == 13) {
+                sendForm("form_search", "__SELF__");
+                return false;
+            }
+        }
+
+      /*  function save() {
+            //alert(document.getElementById("agent").value);
+            sendForm("form_data", "{:U('save')}");
+        }*/
+
+        function showdata(result) {
+            //alert(result.data.agent);
+            $("#form_data select ").each(function() {
+                $(this).find('option:first').attr('selected', 'selected');
+            });
+            for (var s in result.data) {
+                set_val(s, result.data[s]);
+            }
+            $("#dept_name").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
+
+            $("#agent_name").val($("#agent_list option[value='" + $("#agent").val() + "']").text());
+
+            img_url = $("#pic").val();
+            if (img_url != "") {
+                img_url += "?t=" + Math.random();
+                $("#emp_pic").attr("src", img_url);
+            } else {
+                $("#emp_pic").attr("src", "/Uploads/emp_pic/no_avatar.jpg");
+            }
+
+            $("#save_name").val("");
+            $("#opmode").val("edit");
+        }
+
+        function del_agent(){
+            $("#agent_name").val("");
+            $("#agent").val("");
+        }
+
+        $(document).ready(function() {
+            set_return_url();
+            set_val('eq_is_del', "{$eq_is_del}");
+            $(".sub_left_menu tbody td.click").click(function() {
+                $tr = $(this).parent();
+                $(".sub_left_menu tbody tr.active").removeClass("active");
+                $tr.addClass("active");
+                sendAjax("{:U('read')}", "id=" + $tr.attr("id"), function(data) {
+                    showdata(data);
+                });
+                return false;
+            });
+        });
+
+    </script>-->
+
+    <script type="text/javascript">
+
+       $(document).ready(function() {
+           //给select 赋值 并选中
+		   //var jjgg = $("#kaohe_time").val;
+		   //var jjgg = $("#kaohe_time option:selected").text();  
+		   //alert(jjgg);
+           set_val("jiguan","{$info.jiguan}");
+           set_val("csd","{$info.csd}");
+           set_val("minzu","{$info.minzu}");
+           set_val("zzmm","{$info.zzmm}");
+		   set_val("zzmm","{$info.zzmm}");
+		   //set_val("kaohe_time","{$kaohe_str['kaohe_time']}");
+		   //alert(<?php var_dump($kaohe_str['kaohe_time']); ?>);
+			
+       });
+
+    </script>
+
+</block>

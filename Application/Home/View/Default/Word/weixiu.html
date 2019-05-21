@@ -1,0 +1,243 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml>
+</head>
+
+<foreach name="daochu" item="val">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" height="710">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td height="60" align="center" valign="top" style="font-size:22px;"><strong>资产维修类申请表</strong></td>
+                    </tr>
+                </table>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="50%"><strong>申请科室：{$list['dept_name']}</strong></td>
+                        <td width="50%" align="right">单号：{$list['doc_no']}</td>
+                    </tr>
+                </table>
+
+            <!--这儿需要数据循环的内容-->
+
+
+              <table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-top:1px solid #000;border-right:1px solid #000;">
+
+
+                    <tr>
+                          <td width="20%" rowspan="3" align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;"><strong><br>拟<br><br>修<br><br>资<br><br>产<br><br>项<br><br>目</strong></td>
+                          <td width="15%" align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;">
+                         <br> <div style="text-align:center">名称</div>
+    <br></td>
+                            <td width="35%" style="border-left:1px solid #000;border-bottom:1px solid #000"><br>
+    <div style="text-align:center">{$val.list.name0}</div></td>
+
+
+                            <td width="15%" align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:13px;"><br>
+    <div style="text-align:center">单价(预算)<br>(元)</div>
+    <br></td>
+                            <td width="15%" align="right" style="border-left:1px solid #000;border-bottom:1px solid #000"><br>
+    <div style="text-align:center">{$val.list.name1}</div></td>
+
+
+                    </tr>
+                    <tr>
+                        <td width="15%" align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;">
+                            <br> <div style="text-align:center">规格型号</div>
+                            <br></td>
+                        <td style="border-left:1px solid #000;border-bottom:1px solid #000"><br>
+<div style="text-align:center">{$val.list.name2}</div></td>
+                        <td align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;"><br>
+<div style="text-align:center">拟修数量<br>(台、套)</div>
+<br></td>
+                        <td align="right" style="border-left:1px solid #000;border-bottom:1px solid #000">
+<br>
+<div style="text-align:center">{$val.list.name3}</div></td>
+
+                    </tr>
+                    <tr>
+                        <td align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;"><br>
+<div style="text-align:center">参考厂家</div>
+<br>
+</td>
+                        <td style="border-left:1px solid #000;border-bottom:1px solid #000"><br>
+<div style="text-align:center">{$val.list.name4}</div></td>
+                        <td align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;"><br>
+<div style="text-align:center">拟需金额<br>(元)</div>
+<br></td>
+                        <td align="right" style="border-left:1px solid #000;border-bottom:1px solid #000"><br>
+<div style="text-align:center">{$val.list.name5}</div></td>
+
+                    </tr>
+
+                  <tr>
+                      <td align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;">
+                          <div style="text-align:center">维修类型</div>
+
+                      </td>
+                      <td colspan="6" style="border-left:1px solid #000;border-bottom:1px solid #000">
+                          <div style="text-align:center">{$val.list.name6}</div>
+                      </td>
+                  </tr>
+
+                    <tr>
+                        <td align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;font-size:14px;">
+
+                          <br>申<br>请<br>原<br>因
+                        </td>
+                        <td colspan="6" style="border-left:1px solid #000;border-bottom:1px solid #000">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td colspan="5"><br>
+<div style="text-align:left">{$val.list.name7}</div>
+<br></td>
+                                </tr>
+                                <tr>
+                                    <td width="39%" height="20">&nbsp;</td>
+                                    <td width="14%" style="font-size:14px;"><strong>申请人:</strong></td>
+                                    <td width="17%">{$list['user_name']}</td>
+                                    <td width="10%" style="font-size:14px;"><strong>日期:</strong></td>
+                                    <td width="20%">{$list.create_time|date="Y-m-d",###}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+
+           </table>
+
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tr>
+                        <td valign="middle" style="height: 60px;border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000"><strong>&nbsp;经费来源</strong>：{$val.list.name8}</td>
+                    </tr>
+                </table>
+
+
+
+             <!--审核步骤的记录 start-->
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+
+
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                            <td width="33.34%" height="28" valign="top" style="border-left:1px solid #000;"><strong>申报科室主任：</strong></td>
+                            <else/>
+                            <td width="33.34%" height="28" valign="top" style="border-left:1px solid #000;"><strong>申报科室主任：</strong></td>
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                            <td width="33.34%" valign="top" style="border-left:1px solid #000;"><strong>项目管理室审核：</strong></td>
+                            <else/>
+                            <td width="33.34%" valign="top" style="border-left:1px solid #000;"><strong>项目管理室审核：</strong></td>
+                        </if>
+
+                        <!-- <if condition="$flow_log[2]['step'] eq 23">
+                              <td width="25%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>信息化室审核（如需要）：</strong></td>
+                         <else/>
+                             <td width="25%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>信息化室审核（如需要）：</strong></td>
+                         </if>-->
+
+                        <if condition="$flow_log[2]['step'] eq 23">
+                            <td width="33.34%" valign="top" style="border-right:1px solid #000;border-left:1px solid #000;
+border-left:1px solid #000;"><strong>财务科审核：</strong></td>
+                            <else/>
+                            <td width="33.34%" valign="top" style="border-right:1px solid #000;border-left:1px solid #000;"><strong>财务科审核：</strong></td>
+                        </if>
+                    </tr>
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[0]['user_name']}&nbsp;:&nbsp;{$flow_log[0]['comment']}<br><span style="font-size:14px;">{$flow_log[0]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[1]['user_name']}&nbsp;:&nbsp;{$flow_log[1]['comment']}<br><span style="font-size:14px;">{$flow_log[1]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+
+                        <!-- <if condition="$flow_log[2]['step'] eq 23">
+                         <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[2]['user_name']}&nbsp;:&nbsp;{$flow_log[2]['comment']}<br><span style="font-size:14px;">{$flow_log[2]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                             <else/>
+                             <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                         </if>-->
+
+                        <if condition="$flow_log[2]['step'] eq 23">
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000">{$flow_log[2]['user_name']}&nbsp;:&nbsp;{$flow_log[2]['comment']}<br><span style="font-size:14px;border-right:1px solid #000;">{$flow_log[2]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;border-right:1px solid #000;"></span></td>
+                        </if>
+
+                    </tr>
+
+                </table>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tr>
+                        <if condition="$flow_log[3]['step'] eq 24">
+                            <td width="53%" height="28" valign="top" style="border-left:1px solid #000;"><strong>中心主管（申报科室）副主任审批：</strong></td>
+                            <else/>
+                            <td width="53%" height="28" valign="top" style="border-left:1px solid #000;"><strong>中心主管（申报科室）副主任审批：</strong></td>
+                        </if>
+
+                        <if condition="$flow_log[4]['step'] eq 25">
+                            <td width="47%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>中心主管（采购）副主任审批：</strong></td>
+                            <else/>
+                            <td width="47%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>中心主管（采购）副主任审批：</strong></td>
+                        </if>
+                    </tr>
+                    <tr>
+                        <if condition="$flow_log[3]['step'] eq 24">
+                            <td height="50" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[3]['user_name']}&nbsp;:&nbsp;{$flow_log[3]['comment']}<br><span style="font-size:14px;">{$flow_log[3]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+
+                        <if condition="$flow_log[4]['step'] eq 25">
+                            <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[4]['user_name']}&nbsp;:&nbsp;{$flow_log[4]['comment']}<br><span style="font-size:14px;">{$flow_log[4]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+
+                    </tr>
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                    <tr>
+                        <if condition="$flow_log[5]['step'] eq 26">
+                            <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>站领导审批：</strong></td>
+                            <else/>
+                            <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>站领导审批：</strong></td>
+                        </if>
+                    </tr>
+                    <tr>
+                        <if condition="$flow_log[5]['step'] eq 26">
+                            <td height="50" style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[5]['user_name']}&nbsp;:&nbsp;{$flow_log[5]['comment']}<br><span style="font-size:14px;">{$flow_log[5]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+                    </tr>
+                </table>
+
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="6%" align="right" valign="bottom"><strong style="font-size:14px;">注：</strong></td>
+                        <td width="94%" valign="bottom">1、本表一式三份，财务科一份，总务科一份，使用科室留存一份。</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td height="30">2、2000元以下中心主管副主任签字，2000元以上中心主任签字。</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+<hr>
+</foreach>

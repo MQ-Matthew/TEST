@@ -1,0 +1,95 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml>
+</head>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td height="710" valign="top">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="60" align="center" valign="top" style="font-size:22px;"><strong>北京市环境保护监测中心科研绩效部门奖金分配表审批单</strong></td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="50%"><strong>申请科室：{$list['dept_name']}</strong></td>
+                            <td width="50%" align="right">编号：{$list['doc_no']}</td>
+                        </tr>
+                    </table>
+                    <table  cellspacing="0" style="width: 100%;" border="1" cellspacing="0" cellpadding="5"> 
+                        <tr>
+                            <td width="10%" style="border:1px solid #000;font-size:14px;">项目名称</td> <td width="40%" style="border:1px solid #000;font-size:14px;">{$list['name']}</td> 
+                            <td width="10%" style="border:1px solid #000;font-size:12px;">申请人</td><td width="10%" style="border:1px solid #000;font-size:12px;">{$list['user_name']}</td>
+                            <td width="10%" style="border:1px solid #000;font-size:12px;">日期</td><td width="20%" style="border:1px solid #000;font-size:12px;">{$list.create_time|date="Y-m-d",###}</td>
+                        </tr>
+
+                    </table>
+                    <table  cellspacing="0" style="width: 100%;" border="1" cellspacing="0" cellpadding="5">
+                         <thead>
+
+                            <tr>
+                                <th width="10%" style="border:1px solid #000;font-size:14px;">序号</th>
+                                <th width="15%" style="border:1px solid #000;font-size:14px;">部门名称</th>
+                                <th width="15%" style="border:1px solid #000;font-size:14px;">人数</th>
+                                <th width="15%" style="border:1px solid #000;font-size:14px;">经费来源</th>
+                                <th width="15%" style="border:1px solid #000;font-size:14px;">金额</th>
+                                <th width="30%" style="border:1px solid #000;font-size:14px;">备注</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <volist name="array" id="vo">
+                                <tr>
+                                    <td width="10%"  style="border:1px solid #000;font-size:14px;">{$vo.wu_no}</td>
+                                    <td width="15%" style="border:1px solid #000;font-size:14px;">{$vo.wu_deptname}</td>
+                                    <td width="15%" style="border:1px solid #000;font-size:14px;">{$vo.wu_number}</td>
+                                    <td width="15%" style="border:1px solid #000;font-size:14px;">{$vo.wu_laiyuan}</td>
+                                    <td width="15%" style="border:1px solid #000;font-size:14px;">{$vo.wu_total}</td>
+                                    <td width="30%" style="border:1px solid #000;font-size:14px;">{$vo.wu_remark}</td>
+                                </tr>
+                            </volist>
+
+                        </tbody>
+
+                    </table>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td width="70%" style="border-left:1px solid #000;border-bottom:1px solid #000;"></td>
+                    <td width="30%" style="border:1px solid #FFFFFF;border-left:1px solid #FFFFFF;border-right:1px solid #000;border-bottom:1px solid #000;font-size:14px;"><strong>合计&nbsp;:&nbsp;{$field_list.3.val}元</strong></td>
+                </tr>
+            </table>
+
+
+ <!--审核步骤的记录 start-->
+     <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse;border:1px solid #000;">
+                      
+            <volist name="flow_log" id="flow_log">
+                <tr>
+                        <td>{$flow_log.confirm_name}意见</td>
+                        <td colspan="3" valign="top">
+                        <div style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">审批意见：{$flow_log.comment}</div>
+                        <div style="text-align:right;padding-right:320px;">审批人：{$flow_log.user_name} &nbsp;&nbsp;日期：{$flow_log.update_time|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+                       
+            </volist>
+     </table> 
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="6%" align="right" valign="bottom"><strong style="font-size:14px;">注：</strong></td>
+                    <td width="94%" valign="bottom">1、本表一式贰份，财务科一份，使用科室留存一份。</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td height="30">2、2000元以下中心主管副主任签字，2000元以上中心主任签字。</td>
+                </tr>
+    </table>
+
+        </td>
+    </tr>
+</table>

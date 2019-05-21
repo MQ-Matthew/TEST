@@ -1,0 +1,91 @@
+
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml>
+    <style>
+        li{
+            height: 20px;
+            line-height: 20px;
+        }
+        
+
+    </style>
+</head>
+    <div class="table" style="font-size:12px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
+            <tr>
+                <td height="710" valign="top">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="60" align="center" valign="top" style="font-size:22px;"><strong>奖金分配审批单</strong></td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+                        <tr>
+                            <td align="left"><strong>申请科室：{:get_dept_name(get_dept_id($list['user_id']))}</strong></td>
+                            <td  align="right">编号：{$list['doc_no']}</td>
+                        </tr>
+                    </table>
+                    <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse;border:1px solid #000; text-align:center;">
+                        <tr height=30>
+                            <td width="20%">项目名称</td><td width="30%">{$list['name']}</td> 
+                            <td width="12%">申请人</td><td width="12%">{$list['user_name']}</td>
+                            <td width="10%">日期</td><td width="16%">{$list.create_time|date="Y-m-d",###}</td>
+                        </tr>
+                        <tr height=30>
+                         <td>总金额</td><td>{$list['total']}元</td>
+                         <td>总人数</td><td>{$list['usercount']}人</td>
+                         <td></td><td></td>
+                     </tr>
+                    </table>
+
+
+                 <!--审核步骤的记录 start-->
+                 <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse;border:1px solid #000;">
+                    
+                    <tr height=50  align="left" >
+                        <td rowspan="3" width="20%" align="center">初审</td>
+                        <td width="20%" style="text-align:center;">组织人事科主任审批意见</td>
+                        <td  valign="top" width="60%" >
+                            <span >{$fistFlowLog[0].comment}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span>审批人：{$fistFlowLog[0].user_name}, &nbsp;&nbsp;{$fistFlowLog[0].update_time|to_date='Y-m-d H:i'}</span><br/>
+                        </td>
+                    </tr>
+
+                    <tr height=50  align="left">
+                        <td width="20%" style="text-align:center;">中心分管副主任审批意见</td>
+                        <td  valign="top" width="60%" >
+                            <span >{$fistFlowLog[1].comment}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span >审批人：{$fistFlowLog[1].user_name}, &nbsp;&nbsp;{$fistFlowLog[1].update_time|to_date='Y-m-d H:i'}</span><br/>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse;border:1px solid #000;">
+                    <tr><td  rowspan="17" width="20%">复审</td>
+                        <td width="80%">各科室审批记录</td></tr>
+                    <foreach name="secondFlow" item="vo">
+                        <tr height=50  align="left">
+                            <td width="20%" style="text-align:center;">{$vo['name']}</td>
+                            <td width="60%" style="text-align:left;">
+                                <foreach name="vo['flow_log']" item="flow_log">
+                                    
+                                        <li>
+                                            {$flow_log.comment} 审批人：{$flow_log.user_name} 日期：{$flow_log.update_time|to_date='Y-m-d H:i'}
+                                        </li>
+                                    
+                                </foreach>
+                            </td>
+                        </tr> 
+                    </foreach>                      
+                </table> 
+
+            </td>
+        </tr>
+    </table>
+</div>
+</html>
+    <!--
+</div>
+</block>-->

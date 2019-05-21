@@ -1,0 +1,67 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'修改组成员信息','search'=>'N'))}
+	<form id="form_data" name="form_data" method="post" action="" class="form-horizontal well">
+		<input type="hidden" name="ajax" id="ajax" value="1">
+		<input type="hidden" id="opmode" name="opmode" value="edit">
+		<input type="hidden" name="id" id="id" value="{$list.id}">
+		<input type="hidden" name="user_id" id="user_id" value="{$list.user_id}">
+		<input type="hidden" name="emp_no" id="emp_no" value="{$list.emp_no}">
+		<input type="hidden" name="group_id" id="group_id" value="{$list.group_id}">
+		<input type="hidden" name="is_del" id="is_del" value="{$list.is_del}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >员工姓名：</label>
+			<div class="col-sm-10">
+				<input class="form-control col-20" readonly="readonly" name="user_name" id="user_name" value="{$list.user_name}"  >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >奖金管理部门：</label>
+			<div class="col-sm-10">
+				<select name="dept_id" id="dept_id" class="form-control col-20" msg="请选择部门" check="require">
+					{:fill_option($dept_list)}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >奖金值预设：</label>
+			<div class="col-sm-10">
+				<input class="form-control col-20"  name="amount" id="amount" value="{$list.amount}"  >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >备注：</label>
+			<div class="col-sm-10">
+				<input class="form-control col-20"  name="remark" id="remark" value="{$list.remark}"  >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >人员排序：</label>
+			<div class="col-sm-10">
+				<input class="form-control col-20"  name="sort" id="sort" value="{$list.sort}"  >
+			</div>
+		</div>
+		<span id="msg"></span>
+		<div class="form-group">
+			<div class="col-sm-10 col-sm-offset-2">
+				<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">		
+		function save() {
+			sendForm("form_data", "{:U('update_user')}", "{:U('user')}&id={$list.group_id}");
+			/*
+			sendAjax("{:U('update_user')}", vars, function(data) {
+				ui_info(data.info);
+			});*/
+		}
+
+		$(function(){
+			//$("#dept_id").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
+			$("#dept_id").val("{$list.dept_id}");
+		});
+	</script>
+</block>

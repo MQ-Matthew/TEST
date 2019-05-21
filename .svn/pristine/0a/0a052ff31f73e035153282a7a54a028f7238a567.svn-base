@@ -1,0 +1,582 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'新建结清单','search'=>'N'))}
+	<form method='post' id="form_data" class="well form-horizontal">
+		<!-- <input type="hidden" name="opmode" value="add">
+		<input type="hidden" name="ajax" id="ajax" value="1"> -->
+        <div class="form-group">
+			<label class="col-sm-2 control-label" for="type">类型*：</label>
+			<div class="col-sm-7">
+				<select name="type" id="type" class="form-control" onchange="typeAddRow()" check="require">
+					<option value="">请选择</option>
+					<option  value="1">北京市环境保护监测中心内部调动结清通知单（内部调动使用）</option>
+					<option  value="2">北京市环境保护监测中心调出人员结清通知单（解除合同使用）</option>
+					<option  value="3">北京市环境保护监测中心调出人员结清通知单（退休使用）</option>
+					<option  value="4">北京市环境保护监测中心调出人员结清通知单（系统内部调出使用）</option>
+					<option  value="5">北京市环境保护监测中心外派人员结清通知单（外派人员使用）</option>
+					<option  value="6">北京市环境保护监测中心外派人员结清通知单（援疆援藏使用）</option>
+				</select>
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-2 control-label" for="name">结清单标题*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="name" name="name" check="require" >
+				<!-- <input class="form-control" type="hidden" id="title" name="title"  msg="请输入名称"> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="title">表头*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="title" name="title" check="require" >
+				<!-- <input class="form-control" type="hidden" id="title" name="title"  msg="请输入名称"> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="agent_name">选择员工*：</label>
+            <div class="col-sm-7">
+            	<input name="agent" id="agent" type="hidden"/>
+            	<input class="form-control" name="agent_name"  id="agent_name" type="text" readonly="readonly" />
+                <a class="btn btn-sm btn-primary" onclick="select_agent();" > <i class="fa fa-search" ></i> </a>
+                <a onclick="del_agent()"  class="btn btn-sm btn-danger">清除</a>
+            </div>
+        </div>
+        
+        
+		
+		
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="place" >住址邮编联系电话*：</label>
+			<div class="col-sm-7" >
+				<textarea class="form-control" name="place" rows="5" class="col-xs-12" ></textarea>
+			</div>
+		</div>
+
+
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="dicard">身份证号*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="idcard" name="idcard" check="require" >
+			</div>
+		</div>
+
+		
+		<div class="form-group" id="typebefore">
+			<div class="col-sm-10 col-sm-offset-7 action">
+				<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+				<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+            // $("#title").val($("#type").html());
+            // alert($("#title").val());
+			sendForm("form_data", "{:U('Knotlist/save')}", "{:U('Knotlist/index')}");
+		}
+		
+		function select_agent() {
+            // if ($("#id").val().length < 1) {
+            //     ui_error("请选择用户");
+            //     return false;
+            // }
+            winopen("{:U('popup/agent')}", 560, 470);
+        }
+
+        function del_agent(){
+            $("#agent_name").val("");
+            $("#agent").val("");
+        }
+
+        function typeAddRow()
+	    {
+	    	// alert($("#type").val());
+	    	var type = $("#type").val();
+	    	if(type == 1){
+	    		$("#typetable").remove();
+	    		
+	    		$("#title").val("    同志由        调整到        ，请有关科室协助办理结清手续，并在签字栏内签章。请于      年   月   日前办理完毕。");
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心内部调动结清通知单（内部调动使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作、公有财产、物品等交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="党办"><input type="hidden" name="dept_id[]" value="13">党办</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >办理组织关系接转等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="总务科"><input type="hidden" name="dept_id[]" value="26">总务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >固定资产移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>4</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >调整办公电脑、其OA办公系统、考勤信息等其它相关事项（其OA办公系统、考勤信息请于 月 日前调整）</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>5</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工资关系等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}else if (type == 2) {
+	    		$("#typetable").remove();
+	    		$("#title").val("      同志与单位解除聘用合同，请有关科室协助办理结清手续，并在签字栏内签章。请于     年   月    日前办理完毕。");
+	    		
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心调出人员结清通知单（解除合同使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作、公有财产、物品等交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="党办"><input type="hidden" name="dept_id[]" value="13">党办</td>';
+				
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >办理组织关系接转,计生手续移交,工会会费结清等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="办公室"><input type="hidden" name="dept_id[]" value="10">办公室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >清退公文、档案；值班安排等相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>4</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >清退办公电脑、电子签章，并于 月 日前调整OA办公系统、考勤信息等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>5</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="质量管理室"><input type="hidden" name="dept_id[]" value="16">质量管理室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >体系文件移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>6</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="财务科"><input type="hidden" name="dept_id[]" value="11">财务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作、公有财产、物品等交接及其它事项；借款（现金、支票）、公积金、医疗等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>7</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="总务科"><input type="hidden" name="dept_id[]" value="26">总务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >供暖费、物业费、购房付款、宿舍移交、户口关系、实验室门卡、饭卡、衣服牌号、办公室钥匙、固定资产移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>8</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="综合计划室"><input type="hidden" name="dept_id[]" value="25">综合计划室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >收回所发报告书等秘密文件等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>9</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工资、行政介绍信，医疗等四险的关系转出，违约金办理，档案转接，合同变更，工作证收回等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}else if (type == 3) {
+	    		$("#typetable").remove();
+	    		$("#title").val("      同志于    年    月退休，请有关科室协助办理结清手续，并在签字栏内签章。请于    年    月    日前交组织人事科。");
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心调出人员结清通知单（退休使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="办公室"><input type="hidden" name="dept_id[]" value="10">办公室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作、公有财产、物品等交接及其它事项；清退公文、档案；值班安排等相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="党办"><input type="hidden" name="dept_id[]" value="13">党办</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >办理组织关系接转工作、公有财产、物品、子女情况等交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>4</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >清退办公电脑、电子签章，并于 月 日前调整OA办公系统、考勤信息等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>5</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="质量管理室"><input type="hidden" name="dept_id[]" value="16">质量管理室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >体系文件移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>6</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="财务科"><input type="hidden" name="dept_id[]" value="11">财务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >借款（现金、支票）、公积金、医疗等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>7</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="总务科"><input type="hidden" name="dept_id[]" value="26">总务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >供暖费、物业费、购房付款、实验室门卡、饭卡、衣服牌号、办公室钥匙、固定资产移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>8</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="综合计划室"><input type="hidden" name="dept_id[]" value="25">综合计划室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >收回所发报告书等秘密文件及其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>9</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >核定退休金；医疗保险在职转退休，停止三险、工作证收回等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}else if (type == 4) {
+	    		$("#typetable").remove();
+	    		$("#title").val("          同志调入                 工作，请有关科室协助办理结清手续，并在签字栏内签章。请于      年    月   日前办理完毕。");
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心调出人员结清通知单（系统内部调出使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="党办"><input type="hidden" name="dept_id[]" value="13">党办</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >办理组织关系接转工作、公有财产、物品、子女情况等交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="办公室"><input type="hidden" name="dept_id[]" value="10">办公室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >清退公文、档案；值班安排等相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>4</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >清退办公电脑、电子签章，并于月日前调整OA办公系统、考勤信息等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>5</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="质量管理室"><input type="hidden" name="dept_id[]" value="16">质量管理室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >体系文件移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>6</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="财务科"><input type="hidden" name="dept_id[]" value="11">财务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >借款（现金、支票）、公积金、医疗等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>7</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="总务科"><input type="hidden" name="dept_id[]" value="26">总务科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >供暖费、物业费、购房付款、实验室门卡、饭卡、衣服牌号、办公室钥匙、固定资产移交等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>8</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="综合计划室"><input type="hidden" name="dept_id[]" value="25">综合计划室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >收回所发报告书等秘密文件及其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='<tr>';
+				type1 +='<td>9</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工资、行政介绍信，医疗等四险的关系转出，违约金办理，档案转接，合同变更，工作证收回等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}else if (type == 5) {
+	    		$("#typetable").remove();
+	    		$("#title").val("      同志将于    年   月   日至    年   月   日借调到      工作，请有关科室办理结清手续，并在签字栏内签章。请于      年   月   日前办理完毕。");
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心外派人员结清通知单（外派人员使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >请将本人OA办公系统、考勤信息等于月日前调整到人事科</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工资关系等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}else if (type == 6) {
+	    		$("#typetable").remove();
+	    		$("#title").val("        同志将于    年   月   日至    年   月   日参加       工作，请有关科室办理结清手续，并在签字栏内签章。请于      年   月   日前办理完毕。");
+	    		var type1 = '';
+	    		type1 += '<div class="panel panel-default" id="typetable">';
+		        type1 += '<div class="panel-heading">';
+		        type1 += '北京市环境保护监测中心外派人员结清通知单（援疆援藏使用）';
+		        type1 += '</div>';
+		        type1 += '<div class="panel-body">';
+		        type1 += '<div class="table-responsive">';
+		        type1 += '<table class="table table-striped table-bordered table-hover">';
+		        type1 += '<thead>';
+				type1 += '<tr>';
+				type1 +='<th width="10%">#</th>';
+				type1 +='<th width="10%">单位</th>';
+				type1 +='<th width="30%">相关事项</th>';
+				type1 +='<th width="25%">结、交情况</th>';
+				type1 +='<th width="15%">科室负责人签字</th>';
+				type1 +='</tr>';
+				type1 +='</thead>';
+				type1 +='<tbody>';
+				type1 +='<tr>';
+				type1 +='<td>1</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value=""><input type="hidden" name="dept_id[]" value="">本科室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工作交接及其它事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+				type1 +='</tr><tr>';
+				type1 +='<td>2</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="党办"><input type="hidden" name="dept_id[]" value="13">党办</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >办理组织关系接转工作</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>3</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="信息化室"><input type="hidden" name="dept_id[]" value="30">信息化室</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >请将本人OA办公系统、考勤信息等于月日前调整到人事科</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr><tr>';
+				type1 +='<td>4</td>';
+				type1 +='<td><input type="hidden" name="dept_name[]" value="组织人事科"><input type="hidden" name="dept_id[]" value="17">组织人事科</td>';
+				type1 +='<td><textarea class="form-control" name="matter[]" rows="5" class="col-xs-12" >工资关系等其它相关事项</textarea></td>';
+				type1 +='<td></td>';
+				type1 +='<td></td>';
+
+				type1 +='</tr>';
+				type1 +='</tbody>';
+				type1 +='</table>';
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+
+				
+				type1 +='</div>';
+	    	}
+	        
+	        
+
+
+
+	        $('#typebefore').before(type1);
+
+
+	        
+	    }
+	</script>
+</block>

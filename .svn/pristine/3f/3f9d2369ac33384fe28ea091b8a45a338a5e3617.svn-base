@@ -1,0 +1,725 @@
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式 -->
+<if condition="$on_edit eq add">
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">申请单名称：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入申请名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="" check="require" msg="请选择日期"  >
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control"  value='<?php echo(get_dept_name()) ?>' >
+                <input type="hidden"  class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='<?php echo(get_dept_id()) ?>' >  
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.4.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                        
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' > 
+                <input type="hidden" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" value='{$data.3.val}' >
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+               
+                <tr>
+                    <th width="10%">序号</th>
+                    <th width="15%">人员类别</th>
+                    <th width="15%">代发分类</th>
+                    <th width="15%">经费来源</th>
+                    <th width="15%">金额</th>
+                    <th width="20%">备注</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td><input type="text" name="wu_number[]" id="wu_number" value="" style="width:100%" onblur="tableDate();"> </td>                    
+                    <td> 
+                        <input type="hidden" name="wu_type[]" id="wu_type" value="" style="width:100%">
+                        <select class="form-control" id="wu_type">
+                            <option value='在职人员'>在职人员</option>
+                            <option value='离休人员'>离休人员</option>
+                            <option value='退休人员'>退休人员</option>
+                            <option value='其他'>其他</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden" name="wu_class[]" id="wu_class" value="" style="width:100%">
+                        <select class="form-control" id="wu_class">
+                            <option value='奖金'>奖金</option>
+                            <option value='绩效'>绩效</option>
+                            <option value='劳务合作人员工资'>劳务合作人员工资</option>
+                            <option value='抚恤金'>抚恤金</option>
+                            <option value='丧葬费'>丧葬费</option>
+                            <option value='补发工资'>补发工资</option>
+                            <option value='物业补贴'>物业补贴</option>
+                            <option value='采暖补贴'>采暖补贴</option>
+                            <option value='公园年票'>公园年票</option>
+                            <option value='监测津贴'>监测津贴</option>
+                            <option value='福利费'>福利费</option>
+                            <option value='订报费'>订报费</option>
+                            <option value='职称评审费'>职称评审费</option>
+                            <option value='生育医疗费'>生育医疗费</option>
+                            <option value='节日补贴'>节日补贴</option>
+                            <option value='住房补贴'>住房补贴</option>
+                            <option value='其他'>其他（需备注）</option>
+                        </select>
+                    </td>
+                    <td> 
+                        <input type="hidden" name="wu_laiyuan[]" id="wu_laiyuan" value="" style="width:100%">
+                        <select class="form-control" id="wu_laiyuan">
+                            <option value='基本经费'>基本经费</option>
+                            <option value='离休经费'>离休经费</option>
+                            <option value='退休经费'>退休经费</option>
+                            <option value='其他经费'>其他经费（需备注）</option>
+                        </select>
+                    </td>                     
+                    <td><input type="text" name="wu_total[]" id="wu_total"  value="" onkeyup="clearNoNum(this); total_change(this);" style="width:70%"> 元</td>
+                    <td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();"  style="width:100%"> </td>
+                    <td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>
+                </tr>
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+                <!-- <td id="total_all_goods" colspan="10" style="text-align:right;">总计：{$info.total_price|default=0}元</td>
+                <td><button class="btn btn-small btn-success" type="button" id="browse">导入</button>&nbsp;&nbsp;<a class="btn btn-primary" href="/{:C('TEMPLETE_PATH')}/caigoumoban.xls" target="_blank"><i class="fa fa-download"></i>下载模板</a></td> -->
+                <td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="" style="width:70%"> 元</td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+<!--编辑模式 -->
+<elseif condition="$on_edit eq edit"/>
+    <table class="table table-bordered" class="table table-bordered">
+         <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">申请单名称：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入申请名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}" check="require" msg="请选择日期"  >
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$vo.dept_name}
+                <input type="hidden" class="form-control"  value='{$data.1.val}' >
+                <input type="hidden"  class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='<?php echo(get_dept_id()) ?>' >  
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">                
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' > 
+                <input type="hidden" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" value='{$data.3.val}' >
+            </td>
+        </tr>
+    </table>
+    <p>
+    <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+        <thead>
+            <tr>
+               <tr>
+                   <th width="10%">序号</th>
+                    <th width="15%">人员类别</th>
+                    <th width="15%">代发分类</th>
+                    <th width="15%">经费来源</th>
+                    <th width="15%">金额</th>
+                    <th width="20%">备注</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </tr>
+        </thead>
+        <tbody id='all_goods'>
+            <tr id='goods'></tr>
+        </tbody>
+        <tr>
+            <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+               <td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.3.val}" style="width:70%"> 元</td><td></td><td></td>
+            </tr>
+    </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete"){
+                //当页面加载状态为完全结束时进入
+                var str = '';
+                str = document.getElementById("udf_field_{$data.2.id}").value;
+                //alert(str);
+                if(str !== null)
+                    showTableData();
+            }
+        }
+
+        //显示表格数据
+        function showTableData()
+        {
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html ='';
+            for(var i=0; i<json.data.length; i++)
+            {
+                html += '<tr>';
+                html += '<td><input type="text" name="wu_number[]" id="wu_number" value="' + json.data[i].wu_number + '" style="width:100%" onblur="tableDate();"> </td>';
+                html += '<td><input type="hidden" name="wu_type[]" id="wu_type" value="'+ json.data[i].wu_type + '" style="width:100%">';
+                html += '<select class="form-control" id="wu_type[]" onchange="total_change(this);">';
+                if(json.data[i].wu_type == '在职人员'){
+                    html += '<option value="在职人员" selected>在职人员</option>';
+                    html += '<option value="离休人员">离休人员</option>';
+                    html += '<option value="退休人员">退休人员</option>'; 
+                    html += '<option value="其他">其他</option>';}                                      
+                if(json.data[i].wu_type == '离休人员'){
+                    html += '<option value="在职人员">在职人员</option>';
+                    html += '<option value="离休人员" selected>离休人员</option>';
+                    html += '<option value="退休人员">退休人员</option>';
+                    html += '<option value="其他">其他</option>';}
+                if(json.data[i].wu_type == '退休人员'){
+                    html += '<option value="在职人员">在职人员</option>';
+                    html += '<option value="离休人员">离休人员</option>';
+                    html += '<option value="退休人员" selected>退休人员</option>';
+                    html += '<option value="其他">其他</option>';}
+                if(json.data[i].wu_type == '其他'){
+                    html += '<option value="在职人员">在职人员</option>';
+                    html += '<option value="离休人员">离休人员</option>';
+                    html += '<option value="退休人员">退休人员</option>';
+                    html += '<option value="其他" selected>其他</option>';}
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="hidden" name="wu_class[]" id="wu_class" value="'+ json.data[i].wu_class + '" style="width:100%">';
+                html += '<select class="form-control" id="wu_class[]" onchange="total_change(this);">';
+                if(json.data[i].wu_class == '奖金'){
+                    html += '<option value="奖金" selected>奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>'; }                                       
+                if(json.data[i].wu_class == '绩效'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效" selected>绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '劳务合作人员工资'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资" selected>劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '抚恤金'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金" selected>抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '丧葬费'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费" selected>抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '补发工资'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资" selected>补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '物业补贴'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴" selected>物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '采暖补贴'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴" selected>采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '公园年票'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票" selected>公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '监测津贴'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴"  selected>监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '福利费'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费" selected>福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '订报费'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费" selected>订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '职称评审费'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费" selected>职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '生育医疗费'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费" selected>生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '节日补贴'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴" selected>节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '住房补贴'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴" selected>住房补贴</option>';
+                    html += '<option value="其他">其他（需备注）</option>';}
+                if(json.data[i].wu_class == '其他'){
+                    html += '<option value="奖金">奖金</option>';
+                    html += '<option value="绩效">绩效</option>';
+                    html += '<option value="劳务合作人员工资">劳务合作人员工资</option>';
+                    html += '<option value="抚恤金">抚恤金</option>';
+                    html += '<option value="丧葬费">抚丧葬费</option>';
+                    html += '<option value="补发工资">补发工资</option>';
+                    html += '<option value="物业补贴">物业补贴</option>';
+                    html += '<option value="采暖补贴">采暖补贴</option>';
+                    html += '<option value="公园年票">公园年票</option>';
+                    html += '<option value="监测津贴">监测津贴</option>';
+                    html += '<option value="福利费">福利费</option>';
+                    html += '<option value="订报费">订报费</option>';
+                    html += '<option value="职称评审费">职称评审费</option>';
+                    html += '<option value="生育医疗费">生育医疗费</option>';
+                    html += '<option value="节日补贴">节日补贴</option>';
+                    html += '<option value="住房补贴">住房补贴</option>';
+                    html += '<option value="其他" selected>其他（需备注）</option>';}
+                html += '</select>';
+                html += '</td>';               
+                html += '<td><input type="hidden" name="wu_laiyuan[]" id="wu_laiyuan" value="'+ json.data[i].wu_laiyuan + '" style="width:100%">';
+                html += '<select class="form-control" id="wu_laiyuan[]" onchange="total_change(this);">';
+                if(json.data[i].wu_laiyuan == '基本经费'){
+                    html += '<option value="基本经费" selected>基本经费</option>';
+                    html += '<option value="离休经费">离休经费</option>';
+                    html += '<option value="退休经费">退休经费</option>';
+                    html += '<option value="其他经费">其他经费（需备注）</option>';}                                       
+                if(json.data[i].wu_laiyuan == '离休经费'){
+                    html += '<option value="基本经费">基本经费</option>';
+                    html += '<option value="离休经费" selected>离休经费</option>';
+                    html += '<option value="退休经费">退休经费</option>';
+                    html += '<option value="其他经费">其他经费（需备注）</option>';}
+                if(json.data[i].wu_laiyuan == '退休经费'){
+                    html += '<option value="基本经费">基本经费</option>';
+                    html += '<option value="离休经费">离休经费</option>';
+                    html += '<option value="退休经费" selected>退休经费</option>';
+                    html += '<option value="其他经费">其他经费（需备注）</option>';} 
+                if(json.data[i].wu_laiyuan == '其他经费'){
+                    html += '<option value="基本经费" selected>基本经费</option>';
+                    html += '<option value="离休经费">离休经费</option>';
+                    html += '<option value="退休经费">退休经费</option>';
+                    html += '<option value="其他经费">其他经费（需备注）</option>';} 
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="wu_total[]" id="wu_total" value="' + json.data[i].wu_total + '" onkeyup="clearNoNum(this); total_change(this);" style="width:70%"> 元</td>';
+                html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="' + json.data[i].wu_remark + '" onblur="tableDate();" style="width:100%"> </td> ';
+                html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+<!--阅读模式 -->
+<else />
+    <table class="table table-bordered" class="table table-bordered">
+        <tbody>
+            <tr class="firstRow">
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">项目名称：</td>
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$vo.name}</td>
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$data.0.val}</td>
+            </tr>
+            <tr class="firstRow">
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">申请科室：</td>
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$vo.dept_name}</td>
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">申请人：</td>
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value="{$data.2.val}">
+                <input type="hidden" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" value="{$data.3.val}"> 
+                <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$vo.user_name}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+    <table id="data_9_table" cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+        <thead>
+            <tr>
+               <th width="10%">序号</th>
+               <th width="15%">人员类别</th>
+               <th width="15%">代发分类</th>
+               <th width="15%">经费来源</th>
+               <th width="15%">金额</th>
+               <th width="25%">备注</th>
+            </tr>
+        </thead>
+        <tbody><tr id='goods'></tr></tbody>
+        <tfooter ></tfooter>
+        <tr>
+            <td> </td>
+            <td></td><td></td><td>合计：</td>
+            <td>{$data.3.val}元</td><td></td>
+        </tr>
+    </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete"){
+                //当页面加载状态为完全结束时进入
+                var str = '';
+                str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    viewTableData();
+            }
+        }
+
+        //显示表格数据
+        function viewTableData()
+        {
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html ='';
+            for(var i=0; i<json.data.length; i++)
+            {
+                //alert(json.data[i].class);
+                html += '<tr>';
+                html += '<td>'+ json.data[i].wu_number +'</td>';                
+                html += '<td>'+ json.data[i].wu_type +'</td>';
+                html += '<td>'+ json.data[i].wu_class +'</td>';
+                html += '<td>'+ json.data[i].wu_laiyuan +'</td>';
+                html += '<td>'+ json.data[i].wu_total +'元</td>';
+                html += '<td>'+ json.data[i].wu_remark +'</td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+</if>
+
+<script type="text/javascript">
+    //添加一行
+    function tbAddRow()
+    {
+        var html = '';
+        html += '<tr>';
+        html += '<td><input type="text" name="wu_number[]" id="wu_number"  value="" style="width:100%" onblur="tableDate();"> </td> ';
+        html += '<td><input type="hidden" name="wu_type[]" id="wu_type" value="" style="width:100%"><select class="form-control" id="wu_type"><option value="在职人员">在职人员</option><option value="离休人员">离休人员</option><option value="退休人员">退休人员</option><option value="其他">其他</option></select></td>';
+        html += '<td><input type="hidden" name="wu_class[]" id="wu_class" value="" style="width:100%"><select class="form-control" id="wu_class"><option value="奖金">奖金</option><option value="绩效">绩效</option><option value="劳务合作人员工资">劳务合作人员工资</option><option value="抚恤金">抚恤金</option><option value="丧葬费">丧葬费</option><option value="补发工资">补发工资</option><option value="物业补贴">物业补贴</option><option value="采暖补贴">采暖补贴</option><option value="公园年票">公园年票</option><option value="监测津贴">监测津贴</option><option value="福利费">福利费</option><option value="订报费">订报费</option><option value="职称评审费">职称评审费</option><option value="生育医疗费">生育医疗费</option><option value="节日补贴">节日补贴</option><option value="住房补贴">住房补贴</option><option value="其他">其他（需备注）</option></select></td>';
+        html += '<td><input type="hidden" name="wu_laiyuan[]" id="wu_laiyuan" value="" style="width:100%"><select class="form-control" id="wu_laiyuan"><option value="基本经费">基本经费</option><option value="离休经费">离休经费</option><option value="退休经费">退休经费</option><option value="其他经费">其他经费（需备注）</option></select></td>';
+        html += '<td><input type="text" name="wu_total[]" id="wu_total"  value="" onkeyup="clearNoNum(this); total_change(this);" style="width:70%"> 元</td>';
+        html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+        html += '</tr>';
+        $('#goods').before(html);
+    }
+
+    //删除一行
+    function delete_goods(obj)
+    {
+        //var total_goods = 0, arr_total_one_goods, temp;
+        $(obj).parent().parent().remove();//删除一个物品对象
+        total_change(obj); //删除后更新总价
+    }
+
+    //功能：总价变化
+    //参数：obj输入文本框变化对象
+    function total_change(obj)
+    {
+        var parent_obj;
+        var number, price;
+        var total_goods = 0, arr_total_one_goods, temp;
+
+        parent_obj = $(obj).parent().parent();
+
+        parent_obj.find('#wu_total').val();
+
+        arr_total_one_goods = $('#all_goods').children('tr').find('#wu_total');
+        //alert(arr_total_one_goods);
+        $(arr_total_one_goods).each(function(){
+            temp = parseFloat($(this).val());
+            //alert(temp);
+            if(!isNaN(temp))
+                total_goods += temp;
+        });
+        //$('#total_all_goods').html('总计：'+total_goods+'元');
+        $('#total_all_goods').val(total_goods.toFixed(2));
+        tableDate(); //更新数据
+    }
+
+    //获取Table数据
+    function tableDate()
+    {
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(wu_number) != 'undefined'){
+            //var wu_number = $(this).find('td').eq(0).find('select').val();            
+                tableJson += '{"wu_number":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                tableJson += '"wu_type":"' + $(this).find('td').eq(1).find('select').val() + '",';
+                tableJson += '"wu_class":"' + $(this).find('td').eq(2).find('select').val() + '",';                
+                tableJson += '"wu_laiyuan":"' + $(this).find('td').eq(3).find('select').val() + '",';
+                tableJson += '"wu_total":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                tableJson += '"wu_remark":"' + $(this).find('td').eq(5).find('input').val() + '"},';
+            }       
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段
+        tableJson += "]}";
+        document.getElementById("udf_field_{$data.2.id}").value = tableJson;
+        document.getElementById("udf_field_{$data.3.id}").value = document.getElementById("total_all_goods").value;
+    }
+    /************
+    筛选输入必须为数字，负数，小数点后2位
+    *********/
+    function clearNoNum(obj)
+    {
+        var fh='';
+        if(obj.value.indexOf('-')==0){
+            fh='-';
+        }
+        //先把非数字的都替换掉，除了数字和.
+        obj.value = obj.value.replace(/[^\d.]/g,"");
+
+        //必须保证第一个为数字而不是.
+        obj.value = obj.value.replace(/^\./g,"");
+
+        //保证只有出现一个.而没有多个.
+        obj.value = obj.value.replace(/\.{2,}/g,".");
+
+        //保证.只出现一次，而不能出现两次以上
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+        //限制金额小数点位数为两位
+        if (/^\d+\.?\d{0,2}$/.test(obj.value)) {
+          obj.value = obj.value;
+          } else {
+            obj.value = obj.value.substring(0, obj.value.indexOf(".")+3);
+        }
+        obj.value=fh+obj.value;
+        fh='';
+    }
+</script>
+

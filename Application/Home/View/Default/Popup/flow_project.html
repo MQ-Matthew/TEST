@@ -1,0 +1,143 @@
+<extend name="Layout/ins_popup" />
+<block name="content">
+
+    <link rel="stylesheet" href="__INS__/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="__INS__/css/demo.css" type="text/css">
+
+    <input id="val" name="val"  type="hidden">
+    <input id="name" name="name" type="hidden">
+
+    <div class="popup-header clearfix">
+        <div class="pull-left">
+            <h1>请选择经费来源</h1>
+        </div>
+        <div class="pull-right">
+            <a onclick="save();" class="btn btn-sm btn-primary">确定</a>
+            <a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+        </div>
+    </div>
+    <div class="popup-body" style="height: 420px;overflow-y: auto;">
+
+
+            <textarea id="fsource" readonly="readonly" name="fsource" style="height:80px;width: 335px;margin-left:80px;"> </textarea>
+
+            <div  style="width:450px;">
+                <ul id="treeDemo" class="ztree"></ul>
+
+            </div>
+
+    </div>
+</block>
+<block name="js">
+    <script src="__INS__/js/jquery-1.7.2.min.js"></script>
+    <script src="__INS__/js/jquery.ztree.core-3.5.js"></script>
+    <script src="__INS__/js/jquery.ztree.all.js"></script>
+
+    <script type="text/javascript">
+
+     <!--    //ztree开始
+        var setting = {
+            check:{
+                enable:true
+            },
+            /*data: {
+             simpleData: {
+             enable: true
+             }
+             }*/
+            data:    {
+                simpleData:{
+                    enable:true
+                }
+            },
+            callback:{
+                onCheck:onCheck
+            }
+
+        };
+
+        var zNodes ={$zNodes};
+
+
+        function getFilePath(treeObj){
+
+            if(treeObj==null) return "";
+            var filename = treeObj.name;
+            var pNode = treeObj.getParentNode();
+
+            if(pNode!=null){
+                filename = getFilePath(pNode) +" / "+ filename;  ////用递归写的,并获取到了上级父类目录一直到顶级目录
+            }
+            return filename;
+        }
+
+        $(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        });
+
+
+        function onCheck(e,treeId,treeNode){
+
+            if(treeNode.isParent){
+
+                  return;
+
+            }else{
+
+                var treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+                        nodes=treeObj.getCheckedNodes(true),
+                        str ='';
+                for(var i=0;i<nodes.length;i++){
+
+                    if(!nodes[i].isParent){
+
+                        str += getFilePath(nodes[i])+';';
+                        ///alert(str); //获取选中节点的值
+                    }
+
+                }
+
+                document.getElementById("name").value =str;
+                document.getElementById("fsource").value = str;
+                document.getElementById("val").value = str;
+            }
+            
+            if($("#fsource").val() == '其他:（请详述）;'){
+                document.getElementById("fsource").readOnly = false;
+                ui_error("请填写具体经费来源项目");
+            }
+            
+
+        }
+        //-->//ztree结束
+        
+        function save() {
+            if($("#fsource").val() == '其他:（请详述）;'){
+                document.getElementById("fsource").readOnly = false;
+                ui_error("请填写具体经费来源项目");
+                return false;
+            }
+            if ($("#fsource").val().length > 0) {
+                $(".project .name", parent.document).val($("#fsource").val());
+                $(".project .id", parent.document).val($("#val").val());
+
+            } else {
+                ui_error("请选择经费来源项目");
+                return false;
+            }
+            myclose();
+        }
+
+
+        $(document).ready(function() {
+            $(".popup_tree_menu a").click(function() {
+                $("#val").val($(this).attr("node"));
+                $("#name").val($(this).children("span").text());
+                $(".popup_tree_menu .tree_menu  a.active").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+    </script>
+</block>
+
+

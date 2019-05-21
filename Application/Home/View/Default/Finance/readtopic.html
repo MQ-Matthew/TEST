@@ -1,0 +1,72 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'新建结清单','search'=>'N'))}
+	<form method='post' id="form_data" class="well form-horizontal">
+		<!-- <input type="hidden" name="opmode" value="add">
+		<input type="hidden" name="ajax" id="ajax" value="1"> -->
+        <div class="form-group">
+			<label class="col-sm-2 control-label" for="number">课题编号*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="number" name="number" check="require"  value="{$result.number}">
+				<input type="hidden" name="id" value="{$result.id}">
+				<!-- <input class="form-control" type="hidden" id="title" name="title"  msg="请输入名称"> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="title">课题名称*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="name" name="name" value="{$result.name}" check="require" >
+				<!-- <input class="form-control" type="hidden" id="title" name="title"  msg="请输入名称"> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="title">选择负责人*：</label>
+            <div class="col-sm-7">
+            	<input name="agent" id="agent" type="hidden" value="{$result.user_name}"/>
+            	<input class="form-control" name="agent_name"  id="agent_name" type="text" readonly="readonly" value="{$result.user_name}" check="require"/>
+                <a class="btn btn-sm btn-primary" onclick="select_agent();" > <i class="fa fa-search" ></i> </a>
+                <a onclick="del_agent()"  class="btn btn-sm btn-danger">清除</a>
+            </div>
+        </div>
+        
+        
+		
+		
+
+
+
+		
+		<div class="form-group" id="typebefore">
+			<div class="col-sm-10 col-sm-offset-7 action">
+				<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+				<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+            // $("#title").val($("#type").html());
+            // alert($("#title").val());
+			sendForm("form_data", "{:U('Finance/save')}", "{:U('Finance/index')}");
+		}
+		
+		function select_agent() {
+            // if ($("#id").val().length < 1) {
+            //     ui_error("请选择用户");
+            //     return false;
+            // }
+            winopen("{:U('popup/agent')}", 560, 470);
+        }
+
+        function del_agent(){
+            $("#agent_name").val("");
+            $("#agent").val("");
+        }
+
+        
+	</script>
+</block>

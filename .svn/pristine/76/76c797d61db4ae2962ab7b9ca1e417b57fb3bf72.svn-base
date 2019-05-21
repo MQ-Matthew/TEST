@@ -1,0 +1,125 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+
+    <style>
+        .backgroundcolor{
+            background-color: #F5F5F5;
+        }
+        table tr:hover{background-color: #CCCCCC ;}
+        .page-header{
+            border-bottom: 0px solid #eee;
+        }
+        .pull-left{
+            margin-bottom: -20px;
+        }
+        .pull-right{
+            margin-bottom: -20px;
+        }
+
+    </style>
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                {:W('PageHeader/simple',array('name'=>'资产管理'))}
+
+            </div>
+            <div class="pull-right">
+                <a href="{:U('Asset/add')}" class="btn btn-sm btn-primary">入库</a>
+                <a onclick="del()"  class="btn btn-sm btn-danger">删除</a>
+                <a onclick="javascript:window.history.back(-1);" class="btn btn-sm btn-primary">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 sub_left_menu ">
+            <form id="form_user" name="form_data" method="post" class="form-horizontal">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr  style="background-color:#000000;text-align: center;">
+                            <th class="text-center col-4"><label class="inline pull-left">
+                                <input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+                                <span class="lbl"></span></label></th>
+                            <th>资产类型</th>
+                            <th>设备码</th>
+                            <th>资产名称</th>
+                            <th>品牌</th>
+                            <th>数量</th>
+                            <th>入库日期</th>
+                            <th>入库人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <empty name="list">
+                            <tr class="tbody">
+                                <td colspan="9" style="text-align: center;"><span>暂无数据</span></td>
+                            </tr>
+                         <else/>
+
+                          <volist name="list" id="data">
+                            <tr id="{$data.id}" class="tbody">
+                                    <td class="text-center col-3"><label class="inline pull-left">
+                                        <input class="ace" type="checkbox" name="id[]" value="{$data.id}" />
+                                        <span class="lbl"></span></label>
+                                    </td>
+
+                                    <td >{$data.type|get_assettype}</td>
+                                    <td class="">{$data.code}</td>
+                                    <td class="">{$data.name}</td>
+                                    <td class="">{$data.brand}</td>
+                                    <td class="">{$data.amount}</td>
+                                    <td class="">{$data.input_time|date="Y-m-d H:i:s",###}</td>
+                                    <td class="">{$data.input_name|get_user_name}</td>
+                                    <td class="">
+                                        <a href="{:U('Asset/edit',array('id'=>$data['id']))}">编辑</a> |
+                                        <a href="{:U('Asset/lingyong',array('id'=>$data['id'],'typeid'=>$data['type']))}">领用</a> |
+										 <a href="{:U('Asset/service',array('id'=>$data['id'],'typeid'=>$data['type']))}">维修</a> |
+										  <a href="{:U('Asset/bf',array('id'=>$data['id'],'typeid'=>$data['type']))}">报废</a> 
+                                    </td>
+
+
+                            </tr>
+                          </volist>
+                        </empty>
+
+                    </tbody>
+                </table>
+            </form>
+            <div class="pagination">
+                {$page}
+            </div>
+        </div>
+
+    </div>
+
+
+</block>
+
+<block name="js">
+    <script type="text/javascript">
+
+
+        function del() {
+            if ($("input[name='id[]']:checked").length == 0) {
+                ui_error('请选择要删除的人员 ');
+                return;
+            }
+            var vars = $("#form_user").serialize();
+            ui_confirm('确定要删除吗?', function() {
+                sendAjax("{:U('del')}", vars, function(data) {
+                    if (data.status) {
+                        ui_alert(data.info, function() {
+                            location.reload(true);
+                        });
+                    }
+                });
+            });
+        }
+
+
+
+
+    </script>
+</block>

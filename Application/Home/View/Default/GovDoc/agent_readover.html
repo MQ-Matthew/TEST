@@ -1,0 +1,355 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'文电批阅(代批)','search'=>'N'))}
+	<style>
+		.tree_suggestion {
+			overflow-x: hidden;
+			overflow-y: scroll;
+			margin-bottom: 15px;
+			border: 1px solid #ccc;
+			height: 200px;
+			background-color: #ffffff;
+		}
+		.li_bg {
+			text-align: center;
+			height: 30px;
+			background-color: #33cc99;
+		}
+		.li_bg b {
+			color: #F8FAFB;
+		}
+	</style>
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-right">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+
+		</div>
+	</div>
+	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   >
+		<input type="hidden"value="{$gov_doc_id}"name="gov_doc_id"/>
+		<div  class="well form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="name">标题：</label>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<input type="hidden"value="{$wendian['title']}"name="title"/>
+						{$wendian['title']}
+					</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="content">文号：</label>
+				<div class="col-xs-10">
+					<div class="task_content form-control-static">
+						{$wendian['doc_no']}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="content">类型：</label>
+				<div class="col-xs-10">
+					<div class="task_content form-control-static">
+
+						<switch name="wendian['doc_type']">
+							<case value="0">
+								文电
+							</case>
+							<case value="1">
+								电报
+							</case>
+
+						</switch>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="content">文档：</label>
+				<div class="col-xs-10">
+					<div class="task_content form-control-static">
+						{:W('FileUpload/view',array('add_file'=>$wendian['add_file'],'mode'=>'show'))}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+
+		<div class="row">
+
+			<div class=" col-sm-6">
+				<div class="col-10">
+					<select class="form-control"  id="type1" name="type1" onchange="create_type('1',this.id)">
+						<option value="阅处">阅处</option>; <option value="牵头">牵头</option>; <option value="督办">督办</option>; <option value="阅示">阅示</option>; <option value="配合">配合</option>; <option value="阅知">阅知</option>;
+					</select>
+				</div>
+				<div class="page_tree_menu">
+					<div  class="tree_suggestion">
+						<ul class="tree_menu">
+							<li class="li_bg">
+								<b> <span>各级领导</span> </b>
+							</li>
+							<volist name="list" id="vo">
+								<li>
+									<a> <label> &nbsp&nbsp
+										<input id="ld_{$vo.id}"{:is_disable($gov_doc_id,$vo['id'])}onclick="create('1','{$vo.id}','{$vo.nickname}')" type="checkbox" name="ld_id[]" value="{$vo.id}"/>
+										<span>{$vo.nickname}</span> </label> </a>
+								</li>
+							</volist>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-10">
+					<select class="form-control"  id="type2" name="type2" onchange="create_type('2',this.id)">
+						<option value="阅知">阅知</option>; <option value="牵头">牵头</option>; <option value="督办">督办</option>; <option value="阅示">阅示</option>; <option value="配合">配合</option>; <option value="阅处">阅处</option>;
+					</select>
+				</div>
+				<div class="page_tree_menu">
+					<div  class="tree_suggestion">
+						<ul class="tree_menu">
+							<li class="li_bg">
+								<b> <span>各级领导</span> </b>
+							</li>
+							<volist name="list" id="vo">
+								<li>
+									<a> <label> &nbsp&nbsp
+										<input id="ld2_{$vo.id}"{:is_disable($gov_doc_id,$vo['id'])} onclick="create('2','{$vo.id}','{$vo.nickname}')" type="checkbox" name="ld2_id[]" value="{$vo.id}"/>
+										<span>{$vo.nickname}</span> </label> </a>
+								</li>
+							</volist>
+
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="col-10">
+					<select class="form-control"  id="type3" name="type3" onchange="create_type('3',this.id)">
+						<option value="阅办">阅办</option>; <option value="牵头">牵头</option>; <option value="督办">督办</option>; <option value="阅示">阅示</option>; <option value="配合">配合</option>;
+
+					</select>
+				</div>
+				<div class="page_tree_menu">
+					<div  class="tree_suggestion">
+						<ul class="tree_menu">
+							<li class="li_bg">
+								<b> <span>各部门</span> </b>
+							</li>
+							<volist name="list2" id="vo">
+								<li>
+									<a> <label> &nbsp&nbsp
+										<input id="bm_{$vo.id}" {:is_disable($gov_doc_id,$vo['id'])}onclick="create('3','{$vo.id}','{$vo.dept_name}')" type="checkbox" name="bm_id[]" value="{$vo.dept_id}" data="{$vo.dept_name}"/>
+										<span>{$vo.dept_name}</span> </label> </a>
+								</li>
+							</volist>
+
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-10">
+					<select class="form-control"  id="type4" name="type4" onchange="create_type('4',this.id)">
+						<option value="配合">配合</option>; <option value="牵头">牵头</option>; <option value="督办">督办</option>; <option value="阅示">阅示</option>; <option value="阅办">阅办</option>;
+
+					</select>
+				</div>
+				<div class="page_tree_menu">
+					<div  class="tree_suggestion">
+						<ul class="tree_menu">
+							<li class="li_bg">
+								<b> <span>各部门</span> </b>
+							</li>
+							<volist name="list2" id="vo">
+								<li>
+									<a> <label> &nbsp&nbsp
+										<input id="bm2_{$vo.id}"{:is_disable($gov_doc_id,$vo['id'])} onclick="create('4','{$vo.id}','{$vo.dept_name}')" type="checkbox" name="bm2_id[]" value="{$vo.dept_id}"/>
+										<span>{$vo.dept_name}</span> </label> </a>
+								</li>
+							</volist>
+
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 control-label" for="content"> 常用批语： </label>
+			<div class="col-xs-12">
+				<select class="form-control" id="changyongpiyu">
+					<volist name="useful_word_list" id="vo">
+						<option>{$vo.val}</option>;
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 control-label" for="content"> 其他批语： </label>
+			<div class="col-xs-12">
+				<textarea id="qitapiyu"style="width:100%;height:100px;"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 control-label" for="content"> 批语结果： </label>
+			<div class="col-xs-12">
+				<textarea id="content" name="content" readonly="readonly" style="width:100%;height:100px;"></textarea>
+			</div>
+		</div>
+	</form>
+
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+
+			<div class="col-sm-12 col-sm-offset-5">
+				<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+				<input class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+			</div>
+
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		var obj1 = {};
+		var all_lingdao_name = "";
+
+		var obj2 = {};
+		var all_lingdao2_name = "";
+
+		var obj3 = {};
+		var all_bumen_name = "";
+
+		var obj4 = {};
+		var all_bumen2_name = "";
+
+		var type1 = "阅处";
+		var type2 = "阅知";
+		var type3 = "阅办";
+		var type4 = "配合";
+		function create_type(state, id) {
+			if (state == '1') {
+				type1 = $("#" + id).val();
+				create(1);
+			} else if (state == '2') {
+				type2 = $("#" + id).val();
+				create(2);
+			} else if (state == '3') {
+				type3 = $("#" + id).val();
+				create(3);
+			} else if (state == '4') {
+				type4 = $("#" + id).val();
+				create(4);
+			}
+		}
+
+		function create(state, id, name) {
+			var prefix = "";
+			if (state == '1') {
+				var name_list = "请"
+				var type = type1;
+				prefix = "ld_";
+				obj = obj1
+			} else if (state == '2') {
+				var name_list = "请"
+				var type = type2;
+				prefix = "ld2_";
+				obj = obj2;
+			} else if (state == '3') {
+				var name_list = "请"
+				var type = type3;
+				prefix = "bm_";
+				obj = obj3
+			} else if (state == '4') {
+				var name_list = "请"
+				var type = type4;
+				prefix = "bm2_";
+				obj = obj4;
+			}
+
+			if ($("#" + prefix + id).is(':checked')) {
+				eval("obj." + prefix + id + "=" + "'" + name + "，'")
+			} else {
+				eval("delete obj." + prefix + id)
+			}
+			for (var i in obj) {
+				name_list += eval("obj." + i);
+			}
+			name_list += type + "，";
+			if (!isNotNullObj(obj)) {
+				name_list = "";
+			}
+
+			if (state == '1') {
+				all_lingdao_name = name_list;
+			} else if (state == '2') {
+				all_lingdao2_name = name_list;
+			} else if (state == '3') {
+				all_bumen_name = name_list;
+			} else if (state == '4') {
+				all_bumen2_name = name_list;
+			}
+			var all_name = all_lingdao_name + all_lingdao2_name + all_bumen_name + all_bumen2_name;
+			all_name=all_name.substring(0,all_name.length-1);
+			all_name=all_name.replace(/，阅处/, "阅处")
+			all_name=all_name.replace(/，阅知/, "阅知")
+			all_name=all_name.replace(/，配合/, "配合")
+			all_name=all_name.replace(/，督办/, "督办")
+			all_name=all_name.replace(/，牵头/, "牵头")
+			all_name=all_name.replace(/，阅办/, "阅办")
+			$("#content").val(all_name+'。');
+			if($("#content").val()=='。'){
+            	$("#content").val("");
+            }
+		}
+
+		function isNotNullObj(obj) {
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+
+		$('#changyongpiyu').change(function() {
+			$('#qitapiyu').val($('#changyongpiyu').val())
+		});
+
+		$("#qitapiyu").bind("input propertychange", function() {
+			var all_name = all_lingdao_name + all_lingdao2_name + all_bumen_name + all_bumen2_name+$("#qitapiyu").val();
+			all_name=all_name.replace(/，阅处/, "阅处")
+			all_name=all_name.replace(/，阅知/, "阅知")
+			all_name=all_name.replace(/，配合/, "配合")
+			all_name=all_name.replace(/，督办/, "督办")
+			all_name=all_name.replace(/，牵头/, "牵头")
+			all_name=all_name.replace(/，阅办/, "阅办")
+			$("#content").val(all_name);
+		});
+        $('#setlingdaoname').change(function() {
+			$('#pishiren_qianming').val($('#setlingdaoname').find("option:selected").text())
+		});
+		function save() {
+		
+			var vars = $("#form_data").serialize();
+			sendAjax("{:U('save_agent_readover')}", vars, function(data) {
+				if (data.status) {
+					ui_alert(data.info, function() {
+						go_return_url();
+					});
+				}
+			});
+		}
+	</script>
+</block>

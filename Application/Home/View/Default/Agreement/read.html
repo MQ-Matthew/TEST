@@ -1,0 +1,115 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+
+	{:W('PageHeader/simple',array('name'=>'合同：'.$vo['name']))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+			<div class="pull-right">
+                <notempty name="vo.flow_id">
+                    <a href="{:U('Flow/read','id='.$vo['flow_id'].'&fid='.$folder)}"  class="btn btn-sm btn-primary">查看审批记录</a> 
+				<!-- <a onclick="edit();"  class="btn btn-sm btn-primary">修改</a> -->
+                </notempty>
+			</div>
+		</div>
+	</div>
+	<form method='post' id="form_data" class="form-horizontal well">
+		<input type="hidden" name="opmode" value="edit">
+		<input type="hidden" name="ajax" id="ajax" value="1">
+		<input type="hidden" name="id" id="id" value="{$vo.id}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">合同名称</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.name}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">合同编号</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.code_number}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">合同金额</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.amount}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">业务部门</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.dept_name}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">发起人</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.user_name}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">开始日期</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.start_date}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">截止日期</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.end_date}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">合同类型</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.type}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">采购方式</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.purchase_type}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">供应商</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.supplier}">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label">质保期</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" disabled class="form-control" type="text"  value="{$vo.quality}">
+            </div>
+        </div>
+		<div class="form-horizontal">
+			<div class="form-group col-xs-12">
+				<label class="col-sm-2 control-label" for="remark" >经费来源</label>
+				<div class="col-sm-10" >
+					<textarea readonly="readonly" class="form-control" name="remark" rows="5" class="col-xs-12" >{$vo.sources}</textarea>
+				</div>
+			</div>
+		</div>
+        <div class="form-group" id="view_file">
+            <label class="col-sm-2 control-label">合同文件：</label>
+            <div class="col-sm-20">
+                {:W('FileUpload/view',array('add_file'=>$vo['add_file']))}
+            </div>
+        </div>
+		<div class="clearfix"></div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+			sendForm("form_data", "{:U('save')}", "{:U('index')}");
+		}
+
+		function edit() {
+			window.location = "{:U('edit','id='.$vo['id'])}";
+		}
+	</script>
+</block>

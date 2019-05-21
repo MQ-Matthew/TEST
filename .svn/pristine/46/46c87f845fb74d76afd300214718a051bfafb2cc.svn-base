@@ -1,0 +1,128 @@
+<!--工作经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="8">工作经历 ：</th>
+    <tr>
+        <th width="5%">序号</th>
+        <th width="12%">起始时间</th>
+        <th width="12%">结束时间</th>
+        <th width="21%">工作单位</th>
+        <th width="18%">工作部门</th>
+        <th width="10%">工作职务</th>
+        <th width="12%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="info.gongzuo">
+        <tbody id='all_gongzuos'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="gongzuo_xuhao[]" id="gongzuo_xuhao"  value=""  style="width:100%"> </td>
+
+            <td><input type="text" name="gongzuo_qishishijian[]" id="gongzuo_qishishijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_jieshushijian[]" id="gongzuo_jieshushijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+
+            <td><input type="text" name="gongzuo_danwei[]" id="gongzuo_danwei"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_bumeng[]" id="gongzuo_bumeng"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_zhiwu[]" id="gongzuo_zhiwu"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_beizhu[]" id="gongzuo_beizhu"  value=""  style="width:100%"></td>
+
+            
+        </tr>
+        <tr id='gongzuos'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_gongzuos'> <!--编辑-->
+        <tr id='gongzuos'></tr>
+        </tbody>
+
+    </empty>
+
+    
+
+</table>
+<input type="hidden" id="gongzuo" name="gongzuo" value="{$info.gongzuo}">
+
+
+
+
+<!--职称评审情况  table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">职称评审情况 </th>
+    <tr>
+        <th width="8%">序号</th>
+        <th width="12%">职称评价时间</th>
+        <th width="20%">职称（系列）名称</th>
+        <th width="20%">职称等级</th>
+		<th width="12%">备注</th>
+        
+    </tr>
+
+    <empty name="info.zhicheng">
+        <tbody id='all_zhichengs'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="zhicheng_xuhao[]" id="zhicheng_xuhao"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="zhicheng_shijian[]" id="zhicheng_shijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+
+
+            <td><input type="text" name="zhicheng_mingcheng[]" id="zhicheng_mingcheng"  value=""  style="width:100%"> </td>
+			<td>
+                <select class="form-control" id="zhicheng_dengji"   >
+                    <option value=''>请选择</option>
+                    <option value='高级'>高级</option>
+                    <option value='中级'>中级</option>
+                    <option value='初级'>初级</option>
+                </select>
+            </td>
+            
+            <td>
+                <input type="text" name="zhicheng_beizhu[]" id="zhicheng_beizhu"  value=""  style="width:100%">
+            </td>
+
+
+
+            
+        </tr>
+        <tr id='zhichengs'></tr>
+        </tbody>
+        <else />
+        <tbody id='all_zhichengs'> <!--编辑-->
+        <tr id='zhichengs'></tr>
+        </tbody>
+    </empty>
+
+    
+
+    </thead>
+
+</table>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" >职称评审(附件)：</label>
+    <div class="col-sm-10">
+        <empty name="info.zhicheng">
+            {:W('FileUpload/add',array('zhicheng_add_file'))}
+            <else/>
+            {:W('FileUpload/edit',array('add_file'=>$info['zhicheng_add_file'],'zhicheng_add_file'))}
+        </empty>
+
+    </div>
+</div>
+
+<input type="hidden" id="zhicheng" name="zhicheng" value="{$info.zhicheng}">
+
+
+
+
+
+
+
+

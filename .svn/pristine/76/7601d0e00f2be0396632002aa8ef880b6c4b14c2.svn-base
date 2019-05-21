@@ -1,0 +1,111 @@
+
+<!--年度考核 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        <!--<th width="10%">序号</th>-->
+        <th width="20%">时间</th>
+        <th width="20%">考核结果</th>
+       <!-- <th width="10%">年度考核登记表</th>-->
+		<th width="20%">备注</th>
+        <th width="15%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.kaohe">
+        <tbody id='all_kaohes'>  <!--添加-->
+        <tr>
+            <!--<td><input type="text" name="kaohe_xuhao[]" id="kaohe_xuhao"  value="" onblur="kaohe_tableDate();" style="width:100%"> </td>-->
+            <td>
+				<select class="form-control" id="kaohe_time"  onchange="kaohe_tableDate();" >
+                    <!--<option value=''>请选择</option>
+                    <option value='1990'>1990</option>
+                    <option value='1991'>1991</option>
+					<option value='1992'>1992</option>
+                    <option value='1993'>1994</option>
+                    <option value='1995'>1995</option>
+					<option value='1996'>1996</option>
+                    <option value='1997'>1997</option>
+					<option value='1998'>1998</option>
+                    <option value='1999'>1999</option>
+                    <option value='2000'>2000</option>
+					<option value='2001'>2001</option>
+                    <option value='2002'>2002</option>
+					<option value='2003'>2003</option>
+                    <option value='2004'>2004</option>
+                    <option value='2005'>2005</option>
+					<option value='2006'>2006</option>
+                    <option value='2007'>2007</option>
+					<option value='2008'>2008</option>
+                    <option value='2009'>2009</option>
+                    <option value='2010'>2010</option>
+					<option value='2011'>2011</option>
+					<option value='2012'>2012</option>
+					<option value='2013'>2013</option>
+					<option value='2014'>2014</option>
+					<option value='2015'>2015</option>
+					<option value='2016'>2016</option>
+					<option value='2017'>2017</option>
+					<!--<option value='2018'>2018</option>-->
+					
+					{:fill_option_name($hjnf,$kaohe_str['kaohe_time'])}
+                </select>
+				<!--<input type="text" name="kaohe_time[]" id="kaohe_time"  class="form-control " value="" onblur="kaohe_tableDate();" style="width:100%"> -->
+			</td>
+
+            <td>
+                <select class="form-control" id="kaohe_jieguo"  onchange="kaohe_tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='优秀'>优秀</option>
+                    <option value='合格'>合格</option>
+					<option value='基本合格'>基本合格</option>
+                    <option value='不合格'>不合格</option>
+                    <option value='其它'>其它</option>
+                </select>
+            </td>
+			<td><input type="text" name="kaohe_beizhu[]" id="kaohe_beizhu"  value="" onblur="kaohe_tableDate();" style="width:100%"></td>
+            <td><a href="javascript:void(0);" onclick="delete_kaohe(this)" class="delrow">删除</a></td>
+        </tr>
+        <tr id='kaohes'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_kaohes'> <!--编辑-->
+             <tr id='kaohes'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="kaohe_tbAddRow()">添加年度考核</button></td>
+        <td colspan="10" >
+		选择考核模板：<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjigongqin.doc">下载工勤技能人员模板</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjiguanli.doc">下载管理人员模板</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="__ROOT__/{:C('TEMPLETE_PATH')}/niandukaohedengjijishu.doc">下载专业技术人员模板</a>
+		</td>
+    </tr>
+
+</table>
+<input type="hidden" id="kaohe" name="kaohe" value="{$info.kaohe}">
+<input type="hidden" id="hjnf" name="hjnf" value="{$hjnf}">
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" >考核资料(附件)：</label>
+    <div class="col-sm-10">
+        <empty name="info.kaohe_add_file">
+             {:W('FileUpload/add',array('kaohe_add_file'))}
+        <else/>
+            <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+            {:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file'],'kaohe_add_file'))}
+            <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+        </empty>
+
+    </div>
+</div>
+
+
+

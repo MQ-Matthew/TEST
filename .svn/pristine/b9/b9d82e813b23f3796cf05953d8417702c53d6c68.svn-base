@@ -1,0 +1,850 @@
+<?php
+/*--------------------------------------------------------------------
+ 小微OA系统 - 让工作更轻松快乐
+
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
+
+ Author:  jinzhu.yin<smeoa@qq.com>
+
+ Support: https://git.oschina.net/smeoa/xiaowei
+ --------------------------------------------------------------*/
+
+// 后台用户模块
+namespace Home\Controller;
+
+class UserController extends HomeController {
+	//protected $config = array('app_type' => 'master');//如果是这个参数，在授权时将会访问不到，会是空白页面
+    protected $config = array('app_type' => 'personal');//如果是这个参数，就可以授权了
+
+	function _search_filter(&$map) {
+		$keyword = I('keyword');
+		if (!empty($keyword)) {
+			$map['name|emp_no'] = array('like', "%" . $keyword . "%");
+		}
+	}
+
+	public function index() {
+        
+		$plugin['date'] = true;
+		$this -> assign("plugin", $plugin);
+
+		$model = M("Position");
+		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+		$this -> assign('position_list', $list);
+
+		$model = M("Dept");
+		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+		$this -> assign('dept_list', $list);
+        
+        $model = M("User");
+        $list = $model -> where('is_del=0') -> order('id asc') -> getField('emp_no,name');
+        $this -> assign('agent_list', $list);
+        
+
+		if (isset($_POST['eq_is_del'])) {
+			$eq_is_del = $_POST['eq_is_del'];
+		} else {
+			$eq_is_del = "0";
+		}
+		//die;
+		$this -> assign('eq_is_del', $eq_is_del);
+
+		$map = $this -> _search();
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
+		}
+		$map['is_del'] = array('eq', $eq_is_del);
+
+		$model = D("User");
+
+		if (!empty($model)) {
+			$this -> _list($model, $map, "emp_no");
+		}
+		$this -> display();
+	}
+
+	public function add() {
+		$plugin['date'] = true;
+		$this -> assign("plugin", $plugin);
+
+		$model = M("Position");
+		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+		$this -> assign('position_list', $list);
+
+		$model = M("Dept");
+		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+		$this -> assign('dept_list', $list);
+
+		$this -> display();
+	}
+
+	// 检查帐号
+	public function check_account() {
+		if (!preg_match('/^[a-z]\w{4,}$/i', $_POST['emp_no'])) {
+			$this -> error('用户名必须是字母，且5位以上！');
+		}
+		$User = M("User");
+		// 检测用户名是否冲突
+		$name = I('emp_no'); ;
+		$result = $User -> getByAccount($name);
+		if ($result) {
+			$this -> error('该编码已经存在！');
+		} else {
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('该编码可以使用！');
+		}
+	}
+
+	// 插入数据
+	protected function _insert($name = "User") {
+		// 创建数据对象
+		$model = D("User");
+		if (!$model -> create()) {
+			$this -> error($model -> getError());
+		} else {
+            $Identity = 'dp_'.I('dept_id').'_'.I('position_id').'|';
+            $Identity_name = '<'.I('dept_name').'-'.I('position_name').'>';
+			// 写入帐号数据    
+			$model -> letter = get_letter($model -> name);
+			$model -> password = !isset($model->password) ? md5('111111'):md5($model -> emp_no);
+			$model -> dept_id = I('dept_id');
+            $model -> identity =  $Identity;
+            $model -> identity_name =  $Identity_name;
+			$model -> openid = $model -> emp_no;
+			$model -> westatus = 1;
+			$emp_no = $model -> emp_no;
+			$name = $model -> name;
+			$mobile_tel = $model -> mobile_tel;
+
+			if ($result = $model -> add()) {
+				$data['id'] = $result;
+				M("UserConfig") -> add($data);
+				if (get_system_config('system_license')) {
+					if (!empty($mobile_tel)) {
+						import("Weixin.ORG.Util.Weixin");
+						$weixin = new \Weixin();
+						$mobile_tel = trim($mobile_tel, '+-');
+						$weixin -> add_user($emp_no, $name, $mobile_tel);
+					}
+				}
+                syncdate_log('A','User',$result); //记录更新日志
+				$this -> assign('jumpUrl', get_return_url());
+				$this -> success('用户添加成功！');
+			} else {
+				$this -> error('用户添加失败！');
+			}
+		}
+	}
+
+	protected function _update($name = "User") {
+		$model = D($name);
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+        
+		// 更新数据
+		$model -> __set('letter', get_letter($model -> __get('name')));
+        //基础身份处理
+        $m_identity = I('identity');        
+        $identity_array = explode('|', substr($m_identity, 0, -1));       
+        $identity_base_array = explode('_', $identity_array[0]);       
+        $model -> dept_id =  $identity_base_array[1];      //部门id
+        $model -> position_id =  $identity_base_array[2];  //职位id
+        
+		$emp_no = $model -> emp_no;
+		$name = $model -> name;
+		$mobile_tel = $model -> mobile_tel;
+               
+		$is_del = $model -> is_del;
+		$list = $model -> save(); 
+		if (false !== $list) {
+			if (get_system_config('system_license')) {
+				if (!empty($mobile_tel)) {
+					import("Weixin.ORG.Util.Weixin");
+					$weixin = new \Weixin();
+					$mobile_tel = trim($mobile_tel, '+-');
+					$weixin -> add_user($emp_no, $name, $mobile_tel);
+					$weixin -> update_user($emp_no, $name, $mobile_tel, $is_del);
+				}
+			}
+            syncdate_log('U','User',I('id')); //记录更新日志 
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('编辑成功!');
+		} else {
+			//错误提示
+			$this -> error('编辑失败!');
+		}
+	}
+
+	private function _weixin_sync($user_list) {
+
+		import("Weixin.ORG.Util.Weixin");
+		$weixin = new \Weixin($agent_id);
+
+		$where['emp_no'] = array('in', $user_list);
+		$user_list = M("User") -> where(array('is_del' => 0)) -> getField('emp_no,name,mobile_tel');
+
+		$error_code_desc = C('WEIXIN_ERROR_CODE');
+
+		foreach ($user_list as $key => $val) {
+			$emp_no = $val['emp_no'];
+			$name = $val['name'];
+			$mobile_tel = trim($val['mobile_tel'], '+-');
+			$error_code =         json_decode($weixin -> add_user($emp_no, $name, $mobile_tel)) -> errcode;
+ //
+				//
+				// $error_code =       json_decode($weixin -> add_user($emp_no, $name, $mobile_tel)) -> errcode;
+				//
+				// $error_code =           json_decode($weixin -> add_user($emp_no, $name, $mobile_tel)) -> errcode;
+				//
+				// $error_code =           json_decode($weixin -> add_user($emp_no, $name, $mobile_tel)) -> errcode;
+				//
+				// $error_code =              json_decode($weixin -> add_user($emp_no, $name, $mobile_tel)) -> errcode;
+			
+
+			$list[$key]['error_code'] = $error_code;
+			$list[$key]['desc'] = $error_code_desc[$error_code];
+			$list[$key]['emp_no'] = $key;
+		}
+		$this -> assign('list', $list);
+		$this -> display();
+	}
+
+	protected function add_default_role($user_id) {
+		//新增用户自动加入相应权限组
+		$RoleUser = M("RoleUser");
+		$RoleUser -> user_id = $user_id;
+		// 默认加入网站编辑组
+		$RoleUser -> role_id = 3;
+		$RoleUser -> add();
+	}
+
+	//重置密码
+	public function reset_pwd() {
+		$id = $_POST['user_id'];
+		$password = $_POST['password'];
+		if ('' == trim($password)) {
+			$this -> error('密码不能为空!');
+		}
+		$User = M('User');
+		$User -> password = md5($password);
+		$User -> id = $id;
+		$result = $User -> save();
+		if (false !== $result) {
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success("密码修改成功");
+		} else {
+			$this -> error('重置密码失败！');
+		}
+	}
+
+	function del_pwd() {
+		$id = $_POST['user_id'];
+		$User = M('User');
+		$where['id'] = array('in', $id);
+		$data['pay_pwd'] = '';
+		$result = $User -> where($where) -> save($data);
+		if (false !== $result) {
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success("密码清除成功");
+		} else {
+			$this -> error('清除密码失败！');
+		}
+	}
+
+	public function password() {
+		$this -> assign("id", I('id'));
+		$this -> display();
+	}
+
+	function json() {
+		header("Content-Type:text/html; charset=utf-8");
+		$key = $_REQUEST['key'];
+
+		$model = M("User");
+		$where['name'] = array('like', "%" . $key . "%");
+		$where['emp_no'] = array('like', "%" . $key . "%");
+		$where['_logic'] = 'or';
+		$map['_complex'] = $where;
+		$list = $model -> where($map) -> field('id,name') -> select();
+		exit(json_encode($list));
+	}
+
+	function del() {
+		$id = I('user_id');
+		$admin_user_list = C('ADMIN_USER_LIST');
+ 
+		if (!empty($admin_user_list)) {
+			$where['emp_no'] = array('not in', $admin_user_list);
+		}
+		$where['id'] = array('in', $id);
+
+		$user_id = M("User") -> where($where) -> getField('id', TRUE);
+		$emp_no = M("User") -> where($where) -> getField('emp_no', TRUE);
+
+		if (get_system_config('system_license')) {
+			import("Weixin.ORG.Util.Weixin");
+			$weixin = new \Weixin();
+			$restr = $weixin -> del_user($emp_no);
+		}
+        
+        syncdate_log('D','User',implode(",",$emp_no)); //记录更新日志
+		//R('Ldap/del', array($emp_no));
+		$this -> _destory($user_id);
+	}
+
+	public function import() {
+		$opmode = $_POST["opmode"];
+		if ($opmode == "import") {
+			$import_user = array();
+			$File = D('File');
+			$file_driver = C('DOWNLOAD_UPLOAD_DRIVER');
+			$info = $File -> upload($_FILES, C('DOWNLOAD_UPLOAD'), C('DOWNLOAD_UPLOAD_DRIVER'), C("UPLOAD_{$file_driver}_CONFIG"));
+			if (!$info) {
+				$this -> error('上传错误');
+			} else {
+				//取得成功上传的文件信息
+				//$uploadList = $upload -> getUploadFileInfo();
+				Vendor('Excel.PHPExcel');
+				//导入thinkphp第三方类库
+
+				$import_file = $info['uploadfile']["path"];
+				$import_file = substr($import_file, 1);
+
+				$objPHPExcel = \PHPExcel_IOFactory::load($import_file);
+				//$objPHPExcel = \PHPExcel_IOFactory::load('Uploads/Download/Org/2014-12/547e87ac4b0bf.xls');
+				$dept = M("Dept") -> getField('name,id');
+				$position = M("Position") -> getField('name,id');
+				$role = M("Role") -> getField('name,id');
+				$sheetData = $objPHPExcel -> getActiveSheet() -> toArray(null, true, true, true);
+				$model = D("User");
+				for ($i = 2; $i <= count($sheetData); $i++) {
+					$data = array();
+					$import_user[] = $sheetData[$i]["A"];
+					$data_user['emp_no'] = $sheetData[$i]["A"];
+					$data_user['name'] = $sheetData[$i]["B"];
+
+					$data_user['dept_id'] = $dept[$sheetData[$i]["C"]];
+					$data_user['position_id'] = $position[$sheetData[$i]["D"]];
+
+					$data_user['duty'] = $sheetData[$i]["J"];
+					$data_user['office_tel'] = $sheetData[$i]["F"];
+					$data_user['mobile_tel'] = $sheetData[$i]["G"];
+					$data_user['sex'] = $sheetData[$i]["H"];
+					$data_user['birthday'] = $sheetData[$i]["I"];
+					$data_user['open_id'] = $sheetData[$i]["A"];
+					$data_user['westatus'] = 1;
+					$data_user['password'] = md5($sheetData[$i]["A"]);
+
+					$role_list = explode($sheetData[$i]["E"]);
+					foreach ($role_list as $key => $val) {
+						$data_role[] = $role[$val];
+					}
+					$user_id = M("User") -> add($data_user);
+					$this -> add_role($user_id, $data_role);
+				}
+				if (get_system_config('system_license')) {
+					$this -> _weixin_sync($import_user);
+				}
+				$this -> assign('jumpUrl', get_return_url());
+				$this -> success('导入成功！');
+			}
+		} else {
+			$this -> display();
+		}
+	}
+
+	function add_role($user_id, $role_list) {
+		$role_list = explode(",", $role_list);
+		$role_list = array_filter($role_list);
+		$RoleUser = M("RoleUser");
+		$RoleUser -> user_id = $user_id;
+		foreach ($role_list as $role_id) {
+			$RoleUser -> role_id = $role_id;
+			$RoleUser -> add();
+		}
+	}
+
+
+    /**
+     * 图表绘制 (员工信息一览)
+     * zzp
+     * 2017.9.13
+     */
+    public function member(){
+        $where_user['is_del'] = array('eq', 0);
+        $user_count = M("User") -> where($where_user) -> count();
+        $this -> assign('user_count', $user_count);
+		
+
+        $where_dept['is_del'] = array('eq', 0);
+        $dept_count = M("Dept") -> where($where_dept) -> count();
+        $this -> assign('dept_count', $dept_count);
+		
+		
+        $file_count = M("File") -> count();
+        $this -> assign('file_count', $file_count);
+		
+		
+
+        $file_spage = M("File") -> sum('size');
+        $this -> assign('file_spage', $file_spage);
+		
+		//政治面貌总人数
+		$zzmm_count = M("User_file") -> count();
+		$where_zzmm['zzmm'] = array('eq', "中共党员");
+		$zgdy_count = M("User_file") -> where($where_zzmm) -> count();
+		$fzgdy_count = $zzmm_count - $zgdy_count;
+		$this -> assign('zgdy_count', $zgdy_count);
+		$this -> assign('fzgdy_count', $fzgdy_count);
+		
+		//学历人数
+		
+		
+		
+
+        $where_size['type'] = array('eq', 1);
+        $file_size = M("SystemLog") -> where($where_size) -> getField('time,data');
+        $file_size = conv_flot($file_size);
+        $this -> assign('file_size', $file_size);
+		
+		//print_r($file_size);die;
+
+        //绘制 一览表
+        $where_position['is_del'] = array('eq', 0);
+        $position = M("Position") -> where($where_position) ->select();
+
+        foreach($position as $k=>$v){
+            $where_user['is_del'] = array('eq', 0);
+            $where_user['position_id'] = array('eq', $v['id']);
+
+            $new_position[$k]['value'] = M("User") -> where($where_user) ->count();
+            $new_position[$k]['name'] = $v['name'];
+
+        }
+
+
+
+        $this->assign('position',json_encode($new_position));
+
+
+        //print_r($new_position);die;
+
+
+
+
+        $this -> display();
+    }
+
+    //图表绘制 start  flot date 插件
+    function get_flot_data() {
+        $range=I('range');
+
+        switch ($range) {
+            case 'm':
+                $offset=mktime(0, 0 , 0,date("m")-1,date("d"),date("Y"));
+                break;
+
+            case 'q':
+                $offset=mktime(0, 0 , 0,date("m")-3,date("d"),date("Y"));
+                break;
+
+            case 'y':
+                $offset=mktime(0, 0 , 0,date("m")-112,date("d"),date("Y"));
+                break;
+            default:
+
+                break;
+        }
+        $where_size['type'] = array('eq', 1);
+        $where_size['time']=array('gt',$offset);
+        $file_size = M("SystemLog") -> where($where_size) -> getField('time,data');
+        $file_size = conv_flot($file_size);
+
+        $where_count['type'] = array('eq', 2);
+        $where_count['time']=array('gt',$offset);
+        $file_count = M("SystemLog") -> where($where_count) -> getField('time,data');
+        $file_count = conv_flot($file_count);
+
+        $return['file_size']=$file_size;
+        $return['file_count']=$file_count;
+        $this->ajaxReturn($return);
+    }
+
+    function RandAbc($length = "") {//返回随机字符串
+        $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        return str_shuffle($str);
+    }
+
+    function get_auth() {
+        $server_info = $this -> _SERVER('SERVER_NAME') . '|' . $this -> _SERVER('REMOTE_ADDR');
+        $server_info .= '|' . $this -> _SERVER('DOCUMENT_ROOT');
+
+        //$result = @file_get_contents('http://www.smeoa.com/get_auth.php?' . base64_encode($server_info));
+        $result = "";
+        return $result;
+    }
+
+    function _GET($n) {
+        return isset($_GET[$n]) ? $_GET[$n] : NULL;
+    }
+
+    function _SERVER($n) {
+        return isset($_SERVER[$n]) ? $_SERVER[$n] : '[undefine]';
+    }
+    //图表绘制 end
+
+
+    /**
+     * 员工档案
+     * zzp
+     * 2017.9.13
+     */
+    public function member_list(){
+
+       // dump($_POST);
+
+        $plugin['date'] = true;
+        $this -> assign("plugin", $plugin);
+
+        $model = M("Position");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('position_list', $list);
+		//print_r($list);die;
+        $model = M("Dept");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('dept_list', $list);
+		
+        $model = M("User");
+        $list = $model -> where('is_del=0') -> order('id asc') -> getField('emp_no,name');
+        $this -> assign('agent_list', $list);
+
+
+        if (isset($_POST['eq_is_del'])) {
+            $eq_is_del = $_POST['eq_is_del'];
+        } else {
+            $eq_is_del = "0";
+        }
+        //print_r(think_decrypt("MDAwMDAwMDAwMITdma4"));die;
+		//print_r($eq_is_del);die;
+		
+        $this -> assign('eq_is_del', $eq_is_del);
+
+        $map = $this -> _search();
+
+        //dump($map);die;
+
+        if (method_exists($this, '_search_filter')) {
+            $this -> _search_filter($map);
+        }
+
+
+        $map['is_del'] = array('eq', $eq_is_del);
+
+        $model = D("User");
+
+        if (!empty($model)) {
+            $this -> _list($model, $map, "emp_no");
+        }
+
+       // dump(M("User")->getLastSql());die;
+
+        $this -> display();
+    }
+	
+	//我的档案
+	public function my_list(){
+		$plugin['date'] = true;
+		$this -> assign("plugin", $plugin);
+		$user=D("UserView")->find(get_user_id());
+		//print_r($user);die;
+		$this->assign("vo",$user);
+
+
+
+        $map['user_id'] = array('eq',get_user_id());
+        $infos = M('User_file')->where($map)->select();
+
+        foreach($infos as $k=>$v ){
+            $info = $v;
+        }
+
+        //dump($info);die;
+
+        $this->assign('info',$info);
+
+        $this->assign('str',$info['jiaoyu']);
+		$this->assign('zz_str',$info['zz_jiaoyu']);
+
+
+
+		$this->display();
+	}
+	
+    //基础身份显示
+	public function basic_list(){
+
+       // dump($_POST);
+
+        $plugin['date'] = true;
+        $this -> assign("plugin", $plugin);
+
+        $model = M("Position");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('position_list', $list);
+
+        $model = M("Dept");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('dept_list', $list);
+
+        $model = M("User");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('emp_no,name');
+        $this -> assign('agent_list', $list);
+
+
+        if (isset($_POST['eq_is_del'])) {
+            $eq_is_del = $_POST['eq_is_del'];
+        } else {
+            $eq_is_del = "0";
+        }
+        //print_r(think_decrypt("MDAwMDAwMDAwMITdma4"));die;
+        $this -> assign('eq_is_del', $eq_is_del);
+
+        $map = $this -> _search();
+
+        //dump($map);die;
+
+        if (method_exists($this, '_search_filter')) {
+            $this -> _search_filter($map);
+        }
+
+
+        $map['is_del'] = array('eq', $eq_is_del);
+
+        $model = D("User");
+
+        if (!empty($model)) {
+            $this -> _list($model, $map, "emp_no");
+        }
+
+       // dump(M("User")->getLastSql());die;
+
+        $this -> display();
+    }
+    /**
+     * 员工档案 的列表信息
+     * zzp
+     * 2017.9.9
+     */
+    public function member_edit(){
+        $plugin['date'] = true;
+        $plugin['uploader'] = true;
+        $this -> assign("plugin", $plugin);//控件
+
+        $id = I('param.id');
+
+        $vo = M('User')->find($id);
+        $this -> assign('vo', $vo);//基本信息
+
+        $map['user_id'] = array('eq',$id);
+        $infos = M('User_file')->where($map)->select();
+
+        foreach($infos as $k=>$v ){
+            $info = $v;
+        }
+
+        //print_r($info);die;
+        $this->assign('info',$info);//详细信息
+
+
+
+        if(empty($info['jiaoyu'])){
+            $this->assign('str',"''");//全日制教育信息
+        }else{
+            $this->assign('str',$info['jiaoyu']);//全日制教育信息
+        }
+
+        if(empty($info['zz_jiaoyu'])){
+            $this->assign('zz_str',"''");//在职教育信息
+        }else{
+            $this->assign('zz_str',$info['zz_jiaoyu']);//在职教育信息
+        }
+		
+		if(empty($info['peixun'])){
+            $this->assign('px_str',"''");//培训经历
+        }else{
+            $this->assign('px_str',$info['peixun']);//培训经历
+        }
+
+        if(empty($info['kaohe'])){
+            $this->assign('kaohe_str',"''");//年度考核
+        }else{
+            $this->assign('kaohe_str',$info['kaohe']);//年度考核
+        }
+
+        if(empty($info['huojiang'])){
+            $this->assign('huojiang_str',"''");//年度考核
+        }else{
+            $this->assign('huojiang_str',$info['huojiang']);//年度考核
+        }
+
+        if(empty($info['gongzuo'])){
+            $this->assign('gongzuo_str',"''");//工作经历
+        }else{
+            $this->assign('gongzuo_str',$info['gongzuo']);//工作经历
+        }
+		
+		if(empty($info['zhicheng'])){
+            $this->assign('zhicheng_str',"''");//职称经历
+        }else{
+            $this->assign('zhicheng_str',$info['zhicheng']);//职称经历
+        }
+
+
+
+
+
+
+        //民族
+        $minzu = array("请选择","汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族","瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈僳族","佤族","畲族","高山族","拉祜族","水族","东乡族","纳西族","景颇族","柯尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族","毛南族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族","德昂族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族");
+        //省份
+        $shenfen = array("请选择","北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省","吉林省","黑龙江省","上海市","江苏省","浙江省","安徽省","福建省","江西省","山东省","河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","重庆市","四川省","贵州省","云南省","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区","新疆维吾尔自治区","香港特别行政区","澳门特别行政区","台湾省","其它");
+        //政治面貌
+        $zzmm= array("请选择","中共党员","中共预备党员","共青团员","民革党员","民盟盟员","民建会员","民进会员","农工党党员","致公党党员","九三学社社员","台盟盟员","无党派人士","群众");
+        //技术级别
+        $jsdj = array("请选择","正高级","副高级","中级","初级","高级工","中级工","初级工","普通工");
+        //工作状态
+        $gzzt = array('请选择','在岗','借调','援藏','援疆','其他');
+        $this->assign('gzzt',$gzzt);
+        $this->assign('jsdj',$jsdj);
+        $this->assign('minzu',$minzu);
+        $this->assign('shenfen',$shenfen);
+        $this->assign('zzmm',$zzmm);
+
+        $this->display();
+    }
+    //上传
+    public function upload() {
+        $this -> _upload();
+    }
+    //下载
+    function down($attach_id) {
+        $this -> _down($attach_id);
+    }
+    /**
+     * 员工档案的添加
+     * zzp
+     * 2017.9.10
+     */
+    public function user_add() {
+        $plugin['date'] = true;
+        $this -> assign("plugin", $plugin);
+
+        $model = M("Position");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('position_list', $list);
+
+        $model = M("Dept");
+        $list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
+        $this -> assign('dept_list', $list);
+
+        $this -> display();
+    }
+
+    /**
+     * 员工档案 的添加,编辑  保存
+     * zzp
+     * 2017.9.9
+     */
+    public function user_save(){
+
+       // echo "<pre>";
+           // print_r($_POST);die;
+
+        $model = M('User');
+
+        if(empty($_POST['id'])){
+            if (false === $model -> create() ) {
+                $this -> error($model -> getError());
+            }
+
+            $list = $model -> add();
+
+            if ($list !== false) {//保存成功
+
+                $this -> success('保存成功!',U('User/member_edit',array('id'=>$_POST['id'])));
+            } else {
+                $this -> error('保存失败!');
+                //失败提示
+            }
+
+
+        }else{
+
+            $list = $model -> save($_POST);
+			
+
+            if ($list !== false) {//保存成功
+                $this -> assign('jumpUrl',U('User/member_edit',array('id'=>$_POST['id'])));
+
+               /// $this -> success('保存成功222222!');
+
+                if(!empty($_POST['user_id'])){
+
+                    $mod = M('User_file');
+                    $map['user_id'] = $_POST['user_id'];
+                    $select = $mod->where($map)->select();
+
+                    $uid = $select[0]['uid'];
+
+                    ///echo $uid;
+
+                    if(empty($select)){
+
+                        if (false === $mod -> create() ) {
+                            $this -> error($mod -> getError());
+                        }
+
+                        $list_file = $mod -> add();
+
+                        if ($list_file !== false) {//保存成功
+
+                            $this -> success('保存成功!');
+                           // $this -> success('新增成功!');
+                        } else {
+                            $this -> error('保存失败!');
+                            //失败提示
+                        }
+
+
+                    }else{
+
+                         $_POST['uid'] = $uid;
+
+                         $list_info = $mod -> save($_POST);
+
+                         if ($list_info !== false) {//保存成功
+                             $this -> assign('jumpUrl', get_return_url());
+                             $this -> success('保存成功!',U('User/member_edit',array('id'=>$_POST['id'])));
+                         } else {
+                             $this -> error('保存失败!');
+                             //失败提示
+                         }
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+}
+
+
+
+?>

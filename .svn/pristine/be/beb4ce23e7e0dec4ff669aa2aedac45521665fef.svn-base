@@ -1,0 +1,52 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+<div class="consume">
+    <table border="1" cellspacing="0" cellpadding="0" border-collapse:collapse >
+        <tr>
+            <td colspan='4' style="position: relative;"><h3 style="margin:0;">消耗材料月计划</h3><span style="position: absolute;top: 50%;font-size: 14px;transform: translate(60%,-40%);">(当前审批中48件)</span></td>
+        </tr>
+        <tr>
+            <th>2019年</th>
+            <td>已完结48件</td>
+            <td>已审批48件</td>
+            <td>待审批48件</td>
+        </tr>
+        <tr>
+            <th>2019年</th>
+            <td>已完结48件</td>
+            <td>已审批48件</td>
+            <td>待审批48件</td>
+        </tr>
+    </table>
+</div>
+
+</block>
+<block name="js">
+<style>
+    .consume{
+        text-align: center;
+    }
+    .consume table{
+        width: 100%;
+        margin: 0 auto;
+        border-collapse: initial;
+        border-color: #ddd;
+    }
+    .consume table tr{
+        height: 38px;
+    }
+    .consume table tr:first-child{
+        background-color: #e7eaec;
+    }
+    .consume table tr th, table tr td { 
+        vertical-align: middle;
+        text-align: center;
+        border-color:#ddd; 
+    }
+</style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		set_return_url();
+	}); 
+</script>
+</block>

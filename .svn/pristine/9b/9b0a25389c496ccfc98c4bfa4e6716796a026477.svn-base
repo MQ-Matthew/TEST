@@ -1,0 +1,60 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : xampp_localhost_3306
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : oa
+
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
+
+Date: 2018-01-22 10:14:37
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for oa_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_dept`;
+CREATE TABLE `oa_dept` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `dept_no` varchar(20) NOT NULL DEFAULT '' COMMENT '部门编号',
+  `dept_grade_id` int(11) NOT NULL DEFAULT '0' COMMENT '部门等级ID',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `short` varchar(20) NOT NULL DEFAULT '' COMMENT '简称',
+  `sort` varchar(20) NOT NULL DEFAULT '' COMMENT '排序',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_dept
+-- ----------------------------
+INSERT INTO `oa_dept` VALUES ('1', '0', '', '1', '监测中心行政机构', '监测中心行政机构', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('10', '1', '', '2', '办公室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('11', '1', '', '2', '财务科', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('12', '1', '', '2', '大气室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('13', '1', '', '2', '党委办公室', '党委办公室', '2', '', '0');
+INSERT INTO `oa_dept` VALUES ('14', '1', '', '2', '分析实验室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('15', '1', '', '2', '环境监测室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('16', '1', '', '2', '技术质量管理室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('17', '1', '', '2', '人事科', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('18', '1', '', '2', '水室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('19', '1', '', '2', '污染源室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('21', '1', '', '2', '现场监测室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('22', '1', '', '2', '遥感监测室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('23', '1', '', '2', '站领导', '站领导', '1', '', '0');
+INSERT INTO `oa_dept` VALUES ('24', '1', '', '2', '自动监测室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('25', '1', '', '2', '综合计划室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('26', '1', '', '2', '总务科', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('30', '1', '', '2', '信息化室', '', '', '', '0');
+INSERT INTO `oa_dept` VALUES ('31', '1', '', '2', '物理室', '', '', '', '1');
+INSERT INTO `oa_dept` VALUES ('35', '0', '', '1', '监测中心组织机构', '组织机构', '', '', '1');
+INSERT INTO `oa_dept` VALUES ('36', '35', '', '2', '工会组织', '工会组织', '1', '', '1');
+INSERT INTO `oa_dept` VALUES ('37', '35', '', '2', '其他组织', '其他组织', '3', '', '1');
+INSERT INTO `oa_dept` VALUES ('38', '1', '', '2', '项目管理室', '项目管理室', '', '', '1');

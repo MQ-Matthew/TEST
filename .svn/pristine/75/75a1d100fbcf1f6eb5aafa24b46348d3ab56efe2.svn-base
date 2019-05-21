@@ -1,0 +1,95 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : 127.0.0.1
+Source Server Version : 50540
+Source Host           : localhost:3306
+Source Database       : oa
+
+Target Server Type    : MYSQL
+Target Server Version : 50540
+File Encoding         : 65001
+
+Date: 2017-11-07 09:31:57
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for oa_user_file
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_user_file`;
+CREATE TABLE `oa_user_file` (
+  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '只是叫UID,和正常ID没有区别',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `sfzh` varchar(50) DEFAULT NULL COMMENT '身份证号',
+  `jiguan` varchar(30) DEFAULT NULL COMMENT '籍贯',
+  `rdjsr` varchar(20) DEFAULT NULL COMMENT '入党介绍人',
+  `jiguan_shi` varchar(100) DEFAULT NULL COMMENT '籍贯后面的市区县 ',
+  `jrdpsj` varchar(30) DEFAULT NULL COMMENT '加入党派时间',
+  `csd` varchar(50) DEFAULT NULL COMMENT '出生地',
+  `csd_shi` varchar(100) DEFAULT NULL COMMENT '出生地后面的市区县 ',
+  `jtdz` varchar(100) DEFAULT NULL COMMENT '家庭住址',
+  `yzbm` int(15) DEFAULT NULL COMMENT '邮政编码',
+  `tel` varchar(30) DEFAULT NULL COMMENT '电话 ',
+  `xrzw` varchar(30) DEFAULT NULL COMMENT '现任职务 ',
+  `xrzsj` varchar(20) DEFAULT NULL COMMENT '现任职务时间',
+  `age` int(10) DEFAULT NULL COMMENT '年龄',
+  `minzu` varchar(20) DEFAULT NULL COMMENT '民族',
+  `gzsj` varchar(20) DEFAULT NULL COMMENT '工作时间',
+  `gongli` varchar(20) DEFAULT NULL COMMENT '工龄',
+  `bndkxsdxxjts` varchar(20) DEFAULT NULL COMMENT '本年度可享受带薪年休假天数',
+  `lzsj` varchar(20) DEFAULT NULL COMMENT '来站时间',
+  `csbjslynx` varchar(20) DEFAULT NULL COMMENT '从事本技术领域年限',
+  `htlx` varchar(10) DEFAULT NULL COMMENT '合同类型',
+  `pyhtqx` varchar(20) DEFAULT NULL COMMENT '聘用合同期限',
+  `xpgw_type` varchar(10) DEFAULT NULL COMMENT '现聘岗位类型',
+  `xpgw` varchar(25) DEFAULT NULL COMMENT '现聘岗位',
+  `gwsj` varchar(25) DEFAULT NULL COMMENT '岗位时间',
+  `bgwnx` varchar(25) DEFAULT NULL COMMENT '本岗位年限',
+  `gwjb` varchar(25) DEFAULT NULL COMMENT '岗位级别',
+  `gwjb_time` varchar(30) DEFAULT NULL COMMENT '岗位级别时间',
+  `gzjb` varchar(20) DEFAULT NULL COMMENT '工资级别',
+  `gzjbsj` varchar(30) DEFAULT NULL COMMENT '工资级别时间',
+  `zzmm` varchar(20) DEFAULT NULL COMMENT '政治面貌',
+  `rtjsr` varchar(25) DEFAULT NULL COMMENT '入团介绍人',
+  `rtsj` varchar(30) DEFAULT NULL COMMENT '入团时间',
+  `ypzyjszc` varchar(50) DEFAULT NULL COMMENT '已评专业技术职称',
+  `ypzyjszcsj` varchar(30) DEFAULT NULL COMMENT '已评专业技术职称时间',
+  `jsdj` varchar(30) DEFAULT NULL COMMENT '技术等级',
+  `xpzc` varchar(30) DEFAULT NULL COMMENT '现聘职称',
+  `xpzc_time` varchar(30) DEFAULT NULL COMMENT '现聘职称时间',
+  `zcjbsrpr` varchar(20) DEFAULT NULL COMMENT '职称级别是否聘任',
+  `xzchjbprsj` varchar(30) DEFAULT NULL COMMENT '现职称或级别聘任时间',
+  `xzwjbpxsj` varchar(30) DEFAULT NULL COMMENT '现职务级别评审时间',
+  `zgxueli` varchar(30) DEFAULT NULL COMMENT '最高学历',
+  `zgxuewei` varchar(30) DEFAULT NULL COMMENT '最高学位',
+  `gzzt` varchar(10) DEFAULT NULL COMMENT '工作状态',
+  `beizhu` varchar(300) DEFAULT NULL COMMENT '备注',
+  `jiaoyu` text COMMENT '教育经历',
+  `zz_jiaoyu` text COMMENT '在职教育',
+  `kaohe` text COMMENT '年度考核',
+  `kaohe_add_file` varchar(200) DEFAULT NULL COMMENT '考核的附件',
+  `huojiang` text COMMENT '获奖情况',
+  `huojiang_add_file` varchar(200) DEFAULT NULL COMMENT '获奖资料(附件)',
+  `gongzuo` text COMMENT '工作',
+  `zhicheng` text COMMENT '职称评审情况',
+  `zhicheng_add_file` varchar(200) DEFAULT NULL COMMENT '职称评审情况(附件)',
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_user_file
+-- ----------------------------
+INSERT INTO `oa_user_file` VALUES ('9', '210', '', '北京市', null, null, '', '北京市', null, '', '0', null, null, '', '0', '汉族', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '中共党员', '', '', '', '', '', '', null, '', '', '', '', '', '', '      ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('10', '180', '', '北京市', null, null, '', '北京市', null, '', '0', null, null, '', '0', '汉族', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '中共党员', '', '', '', '', '', '', null, '', '', '', '', '', '', ' ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('11', '245', '', '北京市', null, null, '', '北京市', null, '', '0', null, null, '', '0', '汉族', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '中共党员', '', '', '', '', '', '', null, '', '', '', '', '', '', ' ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('12', '74', '110102197212310816', '广东省', null, null, '', '请选择', null, '', '0', null, null, '', '45', '请选择', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '请选择', '', '', '', '', '', '', null, '', '', '', '', '', '', '    ', '{', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('13', '7', '', '北京市', null, null, '', '北京市', null, '', '0', null, null, '', '0', '汉族', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '中共党员', '', '', '', '', '', '', null, '', '', '', '', '', '', ' ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('14', '313', '622301198901153132', '请选择', null, null, '2017-10-26', '请选择', null, '甘肃武威 凉州', '2147483647', null, null, 'sadasdsa', '28', '请选择', 'asdasdasd', '12', '', 'aaaaaaaa', '', 'cccccc', '', null, 'ddddd', '', 'eeeee', '', null, '', '', '请选择', '张三', '2017-10-03', '', '', '', '', null, '', '', '', '', '', '', '        ', '{', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('7', '1', '622301198901153132', '内蒙古自治区', null, null, '2017-09-11', '山西省', null, '甘肃武威 凉州', '2147483647', null, null, 'erwerwe', '0', '维吾尔族', 'rqew', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '民建会员', '13261505986', '2017-09-10', '', '', '', '', null, '', '', '', '', '', '', ' ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('8', '303', '', '北京市', null, null, '', '北京市', null, '', '0', null, null, '', '0', '汉族', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '中共党员', '', '', '', '', '', '', null, '', '', '', '', '', '', ' ', '{\"data\":[{\"jy_rxsj\":\"2017-08-27\",\"jy_bysj\":\"2017-08-30\",\"jy_xxmc\":\"aaaaaaaa\",\"jy_zy\":\"ssss\",\"jy_xz\":\"3年\",\"jy_xl\":\"本科\"},{\"jy_rxsj\":\"2017-09-05\",\"jy_bysj\":\"2017-09-16\",\"jy_xxmc\":\"qqqqqqqqqqqqqq\",\"jy_zy\":\"www\",\"jy_xz\":\"2年\",\"jy_xl\":\"本科\"}]}', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('16', '305', '622301198901153132', '请选择', null, null, '', '请选择', null, '甘肃武威 凉州', '0', null, null, '', '28', '请选择', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '请选择', '张三', '', '', '', '', '', null, '', '', '', '', '', '', '    ', '{', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('15', '314', '622301198901153132', '请选择', null, null, '2017-10-12', '请选择', null, '甘肃武威 凉州', '2147483647', null, null, '萨达sd', '25', '请选择', 'dasdas', '102', '', 'asdas', '', 'dddd', '', null, '', '', '', '', null, '', '', '请选择', '张三', '2017-09-25', '', '', '', '', null, '', '', '', '', '', '', '      ', '{', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('17', '306', '622301198901153132', '请选择', null, null, '', '请选择', null, '', '0', null, null, '', '28', '请选择', '', '', '', '', '', '', '', null, '', '', '', '', null, '', '', '请选择', '张三', '', '', '', '', '', null, '', '', '', '', '', '', '  ', '', null, null, null, null, null, null, null, null);
+INSERT INTO `oa_user_file` VALUES ('18', '268', '622301198901153132', '天津市', '', 'aaaaaaaaaaa', '', '天津市', 'ssssssssss', '', '0', null, '', 'aaaaaaaaaaa', '28', '彝族', '', '10003', '10000', '5486', '9845', '中期', '', '技术', 'PHP程序猿', '', '', 'asdasdasddasd', '', '', '', '农工党党员', 'dfafsadfas', '', '', '', '正高级', '', '', '', '', '', '', '', '借调', 'sdfdsf fsdfsdfsdfsdffssd                                                                                       ', '{\"data\":[{\"jy_rxsj\":\"2017-11-01\",\"jy_bysj\":\"2017-11-08\",\"jy_xxmc\":\"aaaaaaaaaaaaaaaaaaaaaa\",\"jy_zy\":\"aaaaaaaaaaaaaa\",\"jy_xz\":\"aaaaaaaaaaaaaaaaa\",\"jy_xl\":\"本科\",\"jy_xw\":\"sdssd\"}]}', '', '{\"data\":[{\"kaohe_xuhao\":\"10\",\"kaohe_time\":\"2017-11-01\",\"kaohe_jiegauo\":\"不合格\"},{\"kaohe_xuhao\":\"20\",\"kaohe_time\":\"2017-11-17\",\"kaohe_jiegauo\":\"合格\"},{\"kaohe_xuhao\":\"\",\"kaohe_time\":\"\",\"kaohe_jiegauo\":\"\"}]}', 'MDAwMDAwMDAwMISnd2s;MDAwMDAwMDAwMISne60;MDAwMDAwMDAwMISne64;', '{\"data\":[{\"hj_xuhao\":\"20\",\"hj_shijian\":\"2017-11-09\",\"hj_mingcheng\":\"aaaaaaaaa\",\"hj_danwei\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"hj_leixing\":\"aaaaaaaaaaaaaaa\",\"hj_jibie\":\"aaaaa\",\"hj_beizhu\":\"aaaaaaaaaaaaaaaaaa\"},{\"hj_xuhao\":\"30\",\"hj_shijian\":\"2017-11-15\",\"hj_mingcheng\":\"sssssssss\",\"hj_danwei\":\"ssssssssssssssssssss\",\"hj_leixing\":\"sssssssssssssss\",\"hj_jibie\":\"ssssssssssss\",\"hj_beizhu\":\"sssssssssssssss\"}]}', 'MDAwMDAwMDAwMISne68;MDAwMDAwMDAwMISne7A;MDAwMDAwMDAwMISne2Y;', '', null, '');

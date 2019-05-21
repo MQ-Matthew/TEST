@@ -1,0 +1,313 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml>
+
+
+
+</head>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td height="710" valign="top">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td height="60" align="center" valign="top" style="font-size:22px;"><strong>差旅费用报销单</strong></td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="50%" align="right"></td>
+                            <td width="50%" align="right">项目编号：{$list['doc_no']}</td>
+                        </tr>
+                    </table>
+
+
+                    <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+                        <tr valign="middle">
+                            <td width="15%" height="40px" style="line-height: 40px" align="center">部门</td>
+                            <td width="18%" height="40px" style="line-height: 40px"  align="center">{$field_list.0.val}</td>
+                            <td width="15%" height="40px" style="line-height: 40px" align="center">出差人</td>
+                            <td width="18%" height="40px" style="line-height: 40px" align="center">{$field_list.1.val}</td>
+                            <td width="15%" height="40px" style="line-height: 40px"  align="center">报销日期</td>
+                            <!-- <td width="15%" align="right">报销日期：</td> -->
+                            <td width="19%" height="40px" style="line-height: 40px"  align="center">{$field_list.6.val}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%;" border="1"   cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="15%">经费来源</td>
+
+                            <td width="85%">{$field_list.4.val}</td>
+                        </tr>
+                        <tr>
+                            <td>出差事由</td>
+
+                            <td>{$field_list.5.val}</td>
+                        </tr>
+                    </table>
+
+
+
+                    <table  cellspacing="0" style="width: 100%;" border="1" cellspacing="0" cellpadding="5">
+                         <thead>
+                            <tr>
+                                <th width="30%" >出发</th>
+                                <th width="30%" >到达</th>
+                                <th width="8%"> </th>
+                                <th width="16%" >交通</th>
+                                <th width="16%" >出差补助</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="6%">月</td>
+                                <td width="6%">日</td>
+                                <td width="6%">时</td>
+                                <td width="12%">地点</td>
+                                <td width="6%">月</td>
+                                <td width="6%">日</td>
+                                <td width="6%">时</td>
+                                <td width="12%">地点</td>
+                                <td width="8%">人数</td>
+                                <td width="8%">工具</td>
+                                <td width="8%">天数</td>
+                                <td width="8%">补助标准</td>
+                                <td width="8%">金额</td>
+                            </tr>
+
+                            <volist name="array" id="vo">
+                                <tr>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.start_month}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.start_day}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.start_hour}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.start_place}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.arrive_month}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.arrive_day}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.arrive_hour}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.arrive_place}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.cl_number}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.cl_mode}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.cl_days}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.cl_buzhu}</td>
+                                    <td  style="border:1px solid #000;font-size:14px;">{$vo.cl_money}</td>
+                                    
+                                </tr>
+                            </volist>
+
+                        </tbody>
+
+                    </table>
+
+
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td width="92%" align="center" style="border-left:1px solid #000;border-bottom:1px solid #000;border-right:1px solid #000;">合计</td>
+                    <td width="8%" style="border:1px solid #FFFFFF;border-left:1px solid #FFFFFF;border-right:1px solid #000;border-bottom:1px solid #000;font-size:14px;">{$field_list.7.val}</td>
+                </tr>
+            </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="20%" colspan="3" style="height: 60px;border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000;line-height: 60px"><strong>&nbsp;报销总额</strong></td>
+                            <td width="55%" style="border:0px solid #FFFFFF;border-bottom:1px solid #000;font-size:14px;line-height: 60px"><strong>人民币（大写）{$field_list.12.val}</strong></td>
+                            
+                            
+                            <td width="25%" style="border:0px solid #FFFFFF;border-right:1px solid #000;border-bottom:1px solid #000;font-size:14px;line-height: 60px"><strong>￥{$field_list.11.val}</strong></td>
+                        </tr>
+                    </table>
+
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td width="25%" style="border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000;">附单据张数</td>
+                    <td width="75%" style="border:1px solid #FFFFFF;border-left:1px solid #FFFFFF;border-right:1px solid #000;border-bottom:1px solid #000;font-size:14px;">{$field_list.10.val}</td>
+                </tr>
+            </table>
+
+
+
+
+
+ <!--审核步骤的记录 start-->
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+
+
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                            <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.0}：</strong></td>
+                          <else/>
+                            <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.0}：</strong></td>
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.1}：</strong></td>
+                        <else/>
+                            <td width="50%" valign="top" style="border-left:1px solid #000;"><strong>{$match.1}：</strong></td>
+                        </if>
+
+                    </tr>
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                             <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[0]['user_name']}&nbsp;:&nbsp;{$flow_log[0]['comment']}<br><span style="font-size:14px;">{$flow_log[0]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                        <td height="50" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000">{$flow_log[1]['user_name']}&nbsp;:&nbsp;{$flow_log[1]['comment']}<br><span style="font-size:14px;">{$flow_log[1]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+
+
+                    </tr>
+
+        </table>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <if condition="$flow_log[2]['step'] eq 23">
+                        <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.2}：</strong></td>
+                        <else/>
+                        <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.2}：</strong></td>
+                    </if>
+
+                    <if condition="$flow_log[3]['step'] eq 24">
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.3}：</strong></td>
+                        <else/>
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.3}：</strong></td>
+                    </if>
+                </tr>
+                <tr>
+                    <if condition="$flow_log[2]['step'] eq 23">
+                        <td height="50" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[2]['user_name']}&nbsp;:&nbsp;{$flow_log[2]['comment']}<br><span style="font-size:14px;">{$flow_log[2]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td height="50" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+
+                    <if condition="$flow_log[3]['step'] eq 24">
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[3]['user_name']}&nbsp;:&nbsp;{$flow_log[3]['comment']}<br><span style="font-size:14px;">{$flow_log[3]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <if condition="$flow_log[4]['step'] eq 25">
+                        <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.4}：</strong></td>
+                        <else/>
+                        <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.4}：</strong></td>
+                    </if>
+
+                    <if condition="$match[5] neq ''">
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.5}：</strong></td>
+                        <else/>
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong></strong></td>
+                    </if>
+                </tr>
+                <tr>
+                    <if condition="$flow_log[4]['step'] eq 25">
+                        <td height="50" style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[4]['user_name']}&nbsp;:&nbsp;{$flow_log[4]['comment']}<br><span style="font-size:14px;">{$flow_log[4]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+
+                    <if condition="$flow_log[5]['step'] eq 26">
+                        <td height="50" style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[5]['user_name']}&nbsp;:&nbsp;{$flow_log[5]['comment']}<br><span style="font-size:14px;">{$flow_log[5]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+                </tr>
+            </table>
+
+            <if condition="$match[6] neq ''">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <if condition="$match[6] neq ''">
+                        <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.6}：</strong></td>
+                        <else/>
+                        <td height="28" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong></strong></td>
+                    </if>
+
+                    <if condition="$match[7] neq ''">
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.7}：</strong></td>
+                        <else/>
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong></strong></td>
+                    </if>
+                </tr>
+                <tr>
+                    <if condition="$flow_log[6]['step'] eq 27">
+                        <td height="50" style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[6]['user_name']}&nbsp;:&nbsp;{$flow_log[6]['comment']}<br><span style="font-size:14px;">{$flow_log[6]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+
+                    <if condition="$flow_log[7]['step'] eq 28">
+                        <td height="50" style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[7]['user_name']}&nbsp;:&nbsp;{$flow_log[7]['comment']}<br><span style="font-size:14px;">{$flow_log[7]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                        <else/>
+                        <td style="border-right:1px solid #000;border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                    </if>
+                </tr>
+            </table>
+            </if>
+
+
+            <!-- <table width="100%" border="0" cellspacing="0" cellpadding="5">
+
+
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                            <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.0}：</strong></td>
+                          <else/>
+                            <td width="50%" height="28" valign="top" style="border-left:1px solid #000;"><strong>{$match.0}：</strong></td>
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                        <td width="50%" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;"><strong>{$match.1}：</strong></td>
+                        <else/>
+                            <td width="50%" valign="top" style="border-left:1px solid #000;"><strong>{$match.1}：</strong></td>
+                        </if>
+
+                    </tr>
+                    <tr>
+                        <if condition="$flow_log[0]['step'] eq 21">
+                             <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000">{$flow_log[0]['user_name']}&nbsp;:&nbsp;{$flow_log[0]['comment']}<br><span style="font-size:14px;">{$flow_log[0]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+
+                        </if>
+
+                        <if condition="$flow_log[1]['step'] eq 22">
+                        <td height="50" valign="top" style="border-left:1px solid #000;border-right:1px solid #000;border-bottom:1px solid #000">{$flow_log[1]['user_name']}&nbsp;:&nbsp;{$flow_log[1]['comment']}<br><span style="font-size:14px;">{$flow_log[1]['update_time']|to_date='Y-m-d H:i'}</span></td>
+                            <else/>
+                            <td height="50" valign="top" style="border-left:1px solid #000;border-bottom:1px solid #000"><br><span style="font-size:14px;"></span></td>
+                        </if>
+
+
+                    </tr>
+
+        </table> -->
+
+
+
+            <!-- <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="6%" align="right" valign="bottom"><strong style="font-size:14px;">注：</strong></td>
+                            <td width="94%" valign="bottom">1、本表一式三份，财务科一份，总务科一份，使用科室留存一份。</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td height="30">2、2000元以下中心主管副主任签字，2000元以上中心主任签字。</td>
+                        </tr>
+            </table> -->
+
+        </td>
+    </tr>
+</table>

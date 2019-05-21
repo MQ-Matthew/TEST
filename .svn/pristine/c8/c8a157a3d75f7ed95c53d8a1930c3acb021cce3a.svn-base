@@ -1,0 +1,224 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : oa
+
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
+
+Date: 2018-07-18 17:44:27
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `oa_group_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_group_user`;
+CREATE TABLE `oa_group_user` (
+  `group_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `emp_no` varchar(20) DEFAULT NULL,
+  `user_name` varchar(20) DEFAULT NULL,
+  `dept_id` int(11) DEFAULT NULL,
+  `dept_name` varchar(20) DEFAULT NULL,
+  `position_id` int(11) DEFAULT NULL,
+  `position_name` varchar(20) DEFAULT NULL,
+  `is_del` tinyint(3) DEFAULT NULL,
+  `sort` int(3) DEFAULT NULL,
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_group_user
+-- ----------------------------
+INSERT INTO `oa_group_user` VALUES ('1', '6', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('1', '74', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('1', '180', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('1', '210', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('1', '245', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('3', '7', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '4', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '5', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '9', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '36', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '60', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '88', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '108', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '123', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '207', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '86', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('5', '34', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '253', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '292', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '283', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '285', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '286', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '290', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '56', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '295', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '90', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '289', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '209', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '186', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '259', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '80', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '31', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '255', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '51', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '303', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '275', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '165', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '113', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '208', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '174', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '231', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '99', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '213', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '101', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '271', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '178', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '298', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '264', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '117', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '92', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '212', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '229', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '126', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '87', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '302', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '142', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '58', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '136', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '144', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '216', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '135', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '260', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '256', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '167', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '300', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '235', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '221', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '129', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '194', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '176', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '211', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '145', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '137', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '122', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '143', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '206', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '127', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '257', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '94', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '157', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '63', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '279', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '241', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '268', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '69', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '76', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '226', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '10', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '294', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '116', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '162', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '115', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '61', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '140', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '38', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '124', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '273', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '158', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '49', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '301', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '141', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '114', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '242', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '71', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '234', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '109', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '72', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '53', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '81', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '50', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '203', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '91', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '41', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '45', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '100', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '252', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '84', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '125', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '251', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '118', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '265', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '187', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '288', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '181', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '44', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '182', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '79', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '54', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '272', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '166', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '304', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '57', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '223', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '192', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '224', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '274', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '134', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '170', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '103', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '59', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '195', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '75', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '65', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '77', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '230', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '73', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '173', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '106', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '179', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '112', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '297', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '262', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '171', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '254', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '105', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '188', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '128', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '64', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '131', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '228', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '263', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '168', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '43', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '96', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '299', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '232', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '193', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '33', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '185', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '132', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '67', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '296', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '284', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '293', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '214', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '62', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('4', '139', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('1', '276', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '78', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '98', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '110', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '163', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '164', null, null, null, null, null, null, null, null, null);
+INSERT INTO `oa_group_user` VALUES ('2', '202', null, null, null, null, null, null, null, null, null);

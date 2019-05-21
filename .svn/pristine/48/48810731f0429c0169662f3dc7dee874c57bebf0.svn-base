@@ -1,0 +1,131 @@
+<extend name="Layout/ins_page"/>
+<block name="content">
+
+    <style>
+        .backgroundcolor{
+            background-color: #F5F5F5;
+        }
+        table tr:hover{background-color: #CCCCCC ;}
+        .page-header{
+            border-bottom: 0px solid #eee;
+        }
+        .pull-left{
+            margin-bottom: -20px;
+        }
+        .pull-right{
+            margin-bottom: -20px;
+        }
+
+    </style>
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                {:W('PageHeader/simple',array('name'=>'资产维修管理'))}
+
+            </div>
+            <div class="pull-right">
+
+                <a onclick="javascript:window.history.back(-1);" class="btn btn-sm btn-primary">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 sub_left_menu ">
+            <form id="form_user" name="form_data" method="post" class="form-horizontal">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr  style="background-color:#000000;text-align: center;">
+                            <th>ID</th>
+                            <th>资产类型</th>
+                            <th>设备码</th>
+                            <th>资产名称</th>
+                            <th>设备使用人</th>
+                            <th>使用人部门</th>
+                            <th>维修申请时间</th>
+                            <th>是否完成</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <empty name="list">
+                            <tr class="tbody">
+                                <td colspan="9" style="text-align: center;"><span>暂无数据</span></td>
+                            </tr>
+                         <else/>
+
+                          <volist name="list" id="data">
+                            <tr id="{$data.id}" class="tbody">
+                                    <td class="">{$data.id}</td>
+                                    <td >{$data.type|get_assettype}</td>
+                                    <td class="">{$data.code}</td>
+                                    <td class="">{$data.name}</td>
+                                    <td class="">{$data.receive_userid|get_user_name}</td>
+                                    <td class="">{$data.receive_deptid|get_dept_name}</td>
+                                    <td class="">{$data.repair_time|date="Y-m-d H:i",###}</td>
+
+                                    <empty name="data.is_repair">
+                                        <td class=""><span style="color: red;">未完成</span></td>
+                                    <else/>
+                                        <td class=""><span style="color: #008000;">已完成</span></td>
+                                    </empty>
+
+
+
+                                    <empty name="data.is_repair">
+
+                                        <td class="">
+                                            <a href='{:U("Asset/service_info",array("id"=>$data["id"]))}'>编辑</a>
+                                        </td>
+                                    <else/>
+                                        <td class="">
+                                            <a href='{:U("Asset/guiku",array("id"=>$data["id"]))}'>退回库存</a> |
+                                            <a href='{:U("Asset/guihuan",array("id"=>$data["id"]))}'>归还</a> |
+                                            <a href='{:U("Asset/Baofei",array("id"=>$data["id"]))}'>报废</a>
+                                        </td>
+                                    </empty>
+
+                            </tr>
+                          </volist>
+                        </empty>
+
+                    </tbody>
+                </table>
+            </form>
+            <div class="pagination">
+                {$page}
+            </div>
+        </div>
+
+    </div>
+
+
+</block>
+
+<block name="js">
+    <script type="text/javascript">
+
+
+        function del() {
+            if ($("input[name='id[]']:checked").length == 0) {
+                ui_error('请选择要删除的人员 ');
+                return;
+            }
+            var vars = $("#form_user").serialize();
+            ui_confirm('确定要删除吗?', function() {
+                sendAjax("{:U('del')}", vars, function(data) {
+                    if (data.status) {
+                        ui_alert(data.info, function() {
+                            location.reload(true);
+                        });
+                    }
+                });
+            });
+        }
+
+
+
+
+    </script>
+</block>

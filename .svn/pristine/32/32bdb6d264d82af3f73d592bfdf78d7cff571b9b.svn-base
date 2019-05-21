@@ -1,0 +1,123 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    {:W('PageHeader/simple',array('name'=>'申请标题：'.$vo['name'].'，发放日期：'.$vo['date']))} 
+    <div class="operate panel panel-default">
+     <div class="panel-body">
+      <div class="pull-left">
+       <a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+       <a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
+   </div>
+
+   <div class="pull-right">
+    <empty name="vo['fist_flow_id']">
+        <a onclick="fist_send_flow(1);" id="fist_post" class="btn btn-sm btn-primary">提交初审</a>
+        <else/>
+        <a onclick="view_fist_flow();"  class="btn btn-sm btn-primary">查看初审记录</a>
+        <empty name="vo['second_flow_id']">
+            <a onclick="second_send_flow(2);" id="second_post" class="btn btn-sm btn-primary">提交复审</a>
+            <else/>
+            <a onclick="view_second_flow()"  class="btn btn-sm btn-primary">查看复审进度</a>
+        </empty>
+    </empty> 
+
+    <a onclick="bonus_user();"  class="btn btn-sm btn-primary"> 查看人员清单</a>
+    <a onclick="confirm_sheet();" class="btn btn-sm btn-primary hidden-xs">审批单</a>
+</div>
+</div>
+</div>
+{$vo.tb_content} 
+</block>
+<block name="js">
+    <script type="text/javascript">
+
+        function fist_send_flow($flow_type) {
+            var t = 5;
+            var int = setInterval(function(){
+                t--;
+                if(t == 0)
+                {
+                    $("#fist_post").html("提交初审");
+                    $("#fist_post").attr("onclick","fist_send_flow(75)");
+                    clearInterval(int);
+                }
+                else
+                {
+                    $("#fist_post").attr("onclick", "javascript:alert('不能重复提交！')");
+                    $("#fist_post").html("重新提交("+t+")")
+                }
+            }, 1000);
+
+            ui_confirm('确定要提交到奖金审批流程吗?', function(){
+
+                sendAjax("{:U('fist_send_flow')}", 'id={$vo['id']}&flow_type='+$flow_type, function(data){
+                    if(data.status)
+                    {
+                        ui_alert(data.info, function(){
+                            go_return_url();
+                        });
+                    }
+                });
+            });
+        }
+
+        function second_send_flow($flow_type) {
+            var t = 10;
+            var int = setInterval(function(){
+                t--;
+                if(t == 0)
+                {
+                    $("#second_post").html("提交复审");
+                    $("#second_post").attr("onclick","second_send_flow(76)");
+                    clearInterval(int);
+                }
+                else
+                {
+                    $("#second_post").attr("onclick", "javascript:alert('不能重复提交！')");
+                    $("#second_post").html("重新提交("+t+")")
+                }
+            }, 1000);
+
+            ui_confirm('确定要提交到每个科室主任进行奖金复审流程吗?', function(){
+                sendAjax("{:U('second_send_flow')}", 'id={$vo['id']}&flow_type='+$flow_type, function(data){
+                    if(data.status)
+                    {
+                        ui_alert(data.info, function(){
+                            go_return_url();
+                        });
+                    }
+                });
+            });
+        }
+
+      function view_fist_flow() {
+          window.location = "{:U('Flow/read','id='.$vo['fist_flow_id'].'&fid='.$folder)}";
+      }
+
+      function view_second_flow() {
+          window.location = "{:U('flow_detail','id='.$vo['id'])}";
+      }
+
+      function bonus_user() {
+          window.location = "{:U('bonus_user','id='.$vo['id'])}";
+      }
+
+      function confirm_sheet() {
+          window.location = "{:U('confirm_sheet','id='.$vo['id'])}";
+      }
+
+      function del() {        
+        ui_confirm('确定要删除吗?', function(){
+            sendAjax("{:U('del')}", 'id={$vo.id}', function(data){
+                if(data.status)
+                {
+                    ui_alert(data.info, function(){
+                        go_return_url();
+                    });
+                }
+            });
+        });
+    }
+
+    
+</script>
+</block>

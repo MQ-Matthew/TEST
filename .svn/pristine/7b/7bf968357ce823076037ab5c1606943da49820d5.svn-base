@@ -1,0 +1,315 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/adv_search',array('name'=>"",'search'=>'M'))}
+	<form method="post" name="form_adv_search" id="form_adv_search">
+		<div class="adv_search panel panel-default  hidden"  id="adv_search">
+			<div class="panel-heading">
+				<div class="row">
+					<h4 class="col-xs-6">高级搜索</h4>
+					<div class="col-xs-6 text-right">
+						<a  class="btn btn-sm btn-info" onclick="submit_adv_search();">搜索</a>
+						<a  class="btn btn-sm " onclick="close_adv_search();">关闭</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label" for="li_name">标题：</label>
+					<div class="col-sm-8">
+						<input  class="form-control" type="text" id="li_name" name="li_title" >
+					</div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label" for="be_create_time">文档编号：</label>
+					<div class="col-sm-8">
+						<div class="input-group" >
+							<input type="text" class="form-control" name="be_doc_no" />
+							<span class="input-group-addon">-</span>
+							<input type="text" class="form-control" name="en_doc_no"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label" for="be_create_time">上传日期：</label>
+					<div class="col-sm-8">
+						<div class="input-daterange input-group" >
+							<input type="text" class="input-sm form-control text-center" name="be_create_time" readonly="readonly"/>
+							<span class="input-group-addon">-</span>
+							<input type="text" class="input-sm form-control text-center" name="en_create_time" readonly="readonly"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label class="col-sm-4 control-label" for="be_create_time">类型：</label>
+					<div class="col-sm-8">
+						<div class="input-daterange input-group" >
+							<select class="form-control" id="eq_doc_type" name="eq_doc_type">
+								<option value="'0'">一般文件</option>; <option value="1">红头文件</option>;
+							</select>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</form>
+	<div class="space-8"></div>
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<switch name="is_auth">
+				<case value="0">
+					<div class="pull-left">
+						<ul class="nav nav-pills">
+							<li <eq name="state" value="all">class="active"</eq>>
+								<a href="{:U('index','state=all')}">所有</a>
+							</li>
+							<li <eq name="state" value="unread">class="active"</eq>>
+								<a href="{:U('index','state=unread')}">未签批
+								<if condition="badge_count_gov_doc() neq '0'">
+									<span class="badge badge-primary">{:badge_count_gov_doc()}</span>
+								</if> </a>
+							</li>
+							<li <eq name="state" value="read">class="active"</eq>>
+								<a href="{:U('index','state=read')}">已签批 </a>
+							</li>
+							<li <eq name="state" value="unover">class="active"</eq>>
+								<a href="{:U('index','state=unover')}" >未完成 </a>
+							</li>
+							<li <eq name="state" value="over">class="active"</eq>>
+								<a href="{:U('index','state=over')}">已完成</a>
+							</li>
+							<li <eq name="state" value="tuihui">class="active"</eq>>
+								<a href="{:U('index','state=tuihui')}">已退回</a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="pull-right">
+						<a class="btn btn-sm btn-primary" href="{:U('export')}">导出</a>
+						<a class="btn btn-sm btn-primary" onclick="add()">文电拟办</a>
+					</div>
+				</case>
+				<case value="1">
+					<div class="pull-left">
+						<ul class="nav nav-pills">
+							<li <eq name="state" value="all">class="active"</eq>>
+								<a href="{:U('index','state=all')}">所有</a>
+							</li>
+							<li <eq name="state" value="unread">class="active"</eq>>
+								<a href="{:U('index','state=unread')}">未批
+								<if condition="badge_count_gov_doc() neq '0'">
+									<span class="badge badge-primary">{:badge_count_gov_doc()}</span>
+								</if> </a>
+							</li>
+							<li <eq name="state" value="read">class="active"</eq>>
+								<a href="{:U('index','state=read')}">已批 </a>
+							</li>
+							<li <eq name="state" value="unover">class="active"</eq>>
+								<a href="{:U('index','state=unover')}" >未完成 </a>
+							</li>
+							<li <eq name="state" value="over">class="active"</eq>>
+								<a href="{:U('index','state=over')}">已完成</a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="pull-right">
+
+					</div>
+				</case>
+				<case value="2">
+					<div class="pull-left">
+						<ul class="nav nav-pills">
+							<li <eq name="state" value="all">class="active"</eq>>
+								<a href="{:U('index','state=all')}">所有</a>
+							</li>
+							<li <eq name="state" value="unread">class="active"</eq>>
+								<a href="{:U('index','state=unread')}">未办
+								<if condition="badge_count_gov_doc() neq '0'">
+									<span class="badge badge-primary">{:badge_count_gov_doc()}</span>
+								</if> </a>
+							</li>
+							<li <eq name="state" value="read">class="active"</eq>>
+								<a href="{:U('index','state=read')}">已办 </a>
+							</li>
+							<li <eq name="state" value="unover">class="active"</eq>>
+								<a href="{:U('index','state=unover')}" >未完成 </a>
+							</li>
+							<li <eq name="state" value="over">class="active"</eq>>
+								<a href="{:U('index','state=over')}">已完成</a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="pull-right">
+
+					</div>
+				</case>
+				<case value="3">
+					<div class="pull-left">
+						<ul class="nav nav-pills">
+							<li <eq name="state" value="all">class="active"</eq>>
+								<a href="{:U('index','state=all')}">所有</a>
+							</li>
+							<li <eq name="state" value="unread">class="active"</eq>>
+								<a href="{:U('index','state=unread')}">未办
+								<if condition="badge_count_gov_doc() neq '0'">
+									<span class="badge badge-primary">{:badge_count_gov_doc()}</span>
+								</if></a>
+							</li>
+							<li <eq name="state" value="read">class="active"</eq>>
+								<a href="{:U('index','state=read')}">已办</a>
+							</li>
+							<li <eq name="state" value="unover">class="active"</eq>>
+								<a href="{:U('index','state=unover')}" >未完成 </a>
+							</li>
+							<li <eq name="state" value="over">class="active"</eq>>
+								<a href="{:U('index','state=over')}">已完成</a>
+							</li>
+						</ul>
+					</div>
+					<div class="pull-right">
+
+					</div>
+				</case>
+			</switch>
+		</div>
+	</div>
+	<div class="ul_table ul_table_responsive">
+		<ul>
+			<li class="thead">
+				<div class="pull-left">
+					<span class="col-15 ">文档编号</span>
+					<span class="col-20 autocut">标题</span>
+					<span class="col-10">附件</span>
+					<span class="col-15">发起时间</span>
+					<span class="col-12">类型</span>
+					<span class="col-10 ">批示单</span>
+					<span class="col-5 ">存档</span>
+				</div>
+				<div class="pull-right">
+					<span class="col-20 text-center">操作</span>
+				</div>
+				<div class="auto autocut">
+
+				</div>
+			</li>
+			<empty name="list">
+				<li class="no-data">
+					没找到数据
+				</li>
+				<else/>
+				<foreach name="list" item="vo">
+					<li class="tbody">
+						<div class="pull-left">
+							<span class="col-15 ">{$vo.doc_no}</span>
+
+							<span class="col-20 autocut">{$vo.title}</span>
+							<span class="col-10"><a><b onclick="download('{$vo['add_file']}')">下载</b></a></span>
+							<span class="col-15">{$vo.create_time|to_date='Y-m-d H:i'}&nbsp;</span>
+							<switch name="vo.doc_type">
+								<case value="0">
+									<span class="col-12">一般文件</span>
+								</case>
+								<case value="1">
+									<span class="col-12">红头文件</span>
+								</case>
+							</switch>
+							<span class="col-10"><a href="{:U('doc_order','id='.$vo['id'])}">查看</a></span>
+							<switch name="vo.is_save">
+								<case value="0">
+									<span class="col-5">否</span>
+								</case>
+								<case value="1">
+									<span class="col-5">是</span>
+								</case>
+							</switch>
+						</div>
+						<div class="pull-right">
+
+							<span class="col-20 text-center">
+								<switch name="is_auth">
+									<case value="0">
+										<eq name="vo.is_read" value="0">
+											<a class="btn btn-primary" href="{:U('edit_doc','id='.$vo['id'])}">修改</a>&nbsp;
+											<else/>
+											<a class="btn btn-default" href="#">修改</a>&nbsp;
+										</eq>
+
+										<eq name="vo.is_agent" value="0">
+											<a class="btn btn-warning" href="{:U('agent_readover','id='.$vo['id'])}">代执</a>&nbsp;
+											<else/>
+											<a class="btn btn-default" href="#">代执</a>&nbsp;
+										</eq>
+										<a class="btn btn-danger" onclick="del({$vo['id']})">删除</a>
+									</case>
+									<case value="1">
+										<eq name="vo['state']" value="0">
+											<a class="btn btn-primary" href="{$url}&id={$vo['id']}">签批</a>
+											<eq name="vo.is_read" value="0">
+												<a class="btn btn-warning" href="{:U('tuihui','id='.$vo['id'])}">退回</a>
+												<else/>
+												<a class="btn btn-default">退回</a>
+											</eq>
+											<else/>
+												<eq name="vo['is_read']" value="2">
+													<a class="btn btn-default">修改</a>
+													<else/>
+													<a class="btn btn-primary"  onclick="edit({$vo['id']})">修改</a>
+												</eq>
+										</eq>
+									</case>
+									<case value="2">
+										<a class="btn btn-primary" href="{$url}&id={$vo['id']}">签批</a>
+									</case>
+									<case value="3">
+										<a class="btn btn-primary" href="{$url}&id={$vo['id']}">签批</a>
+									</case>
+								</switch> </span>
+						</div>
+						<div class="auto autocut">
+
+						</div>
+					</li>
+				</foreach>
+				<div class="pagination">
+					{$page}
+				</div>
+			</empty>
+		</ul>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function add() {
+			window.open("{:U('add_doc')}", "_self");
+		}
+
+		function download(file) {
+			winopen("{:U('download')}?file=" + file,560, 470);
+		}
+
+		function edit(id) {
+			winopen("{:U('edit_readover')}" + "&id=" + id, 560, 470);
+		}
+
+		function del(id) {
+			ui_confirm('确定要删除吗?', function() {
+				sendAjax("{:U('del_doc')}", 'id=' + id, function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							location.reload(true);
+						});
+					}
+				});
+			});
+		}
+
+
+		$(document).ready(function() {
+			set_return_url();
+		});
+	</script>
+</block>

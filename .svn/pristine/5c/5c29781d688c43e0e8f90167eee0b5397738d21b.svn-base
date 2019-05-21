@@ -1,0 +1,140 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/simple',array('name'=>'新建奖金发放项目','search'=>'N'))}
+	<form method='post' id="form_data" class="well form-horizontal">
+		<input type="hidden" name="opmode" value="add">
+		<input type="hidden" name="ajax" id="ajax" value="1">
+        
+        
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="name">标题*：</label>
+			<div class="col-sm-7">
+				<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
+			</div>
+		</div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label" for="date">发放日期*：</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" class="form-control input-date" type="text" id="date" name="date" >
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label" for="date">完成日期*：</label>
+            <div class="col-sm-8">
+                <input readonly="readonly" class="form-control input-date" type="text" id="plan_date" name="plan_date" >
+            </div>
+        </div>
+        <div class="col-lg-12"  id="tbcontent">
+        <input type="hidden" name="tb_content" id="tb_content">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            一、部门工作人员，按工作量分配方案明细表
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">#</th>
+                                            <th width="20%">科室名称</th>
+                                            <th width="10%">工作人员数</th>                                             
+                                            <th width="15%">人均奖金（元）</th>
+                                            <th width="15%">部门合计（元）</th>
+                                            <th width="30%">不包含特殊人员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <foreach name="list" item="vo"  key="k">
+                                        <tr>
+                                        <neq name="vo.dept_id" value="23">
+                                            <td>{$k}</td>
+                                            <td>{$vo.dept_name}</td>
+                                            <td>{$vo.user_count}</td>
+                                            <td>{$vo.amount}</td>
+                                            <td>{$vo.total}</td>
+                                            <td>{$vo.remark}</td>
+                                            <p hidden>{$dept_user_total += $vo.user_count}{$dept_total += $vo.total}</p>
+                                        </neq>    
+                                        </tr>
+                                        </foreach>
+                                        
+                                    </tbody>
+                                    <tr><td></td><td>人数合计:</td><td>{$dept_user_total}人</td><td>总计：</td>
+                                        <td>{:number_format($dept_total,2,'.','')}元</td>
+                                        <td></td></tr>
+                                </table>
+                            </div>
+                            
+                            <!-- /.table-responsive -->
+                        </div>
+                        
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            二、特殊人员奖金分配明细表
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">#</th>
+                                            <th width="20%">分组名称</th>
+                                            <th width="10%">本组人数</th>                                             
+                                            <th width="15%">人均奖金（元）</th>
+                                            <th width="15%">本组合计（元）</th>
+                                            <th width="30%">包含人员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        <foreach name="GroupList" item="vo" key="k">
+                                        <tr>
+                                        <!-- 不包括普通员工组 列表-->
+                                        <neq name="vo.id" value="4">
+                                            <td>{$k}</td>
+                                            <td>{$vo.name}</td>
+                                            <td>{$vo.user_count}</td>
+                                            <td>{$vo.amount}</td>
+                                            <td>{$vo.total}</td> 
+                                            <td>{$vo.user_name}</td>
+                                            <p hidden>{$amtotal += $vo.total}{$utotal += $vo.user_count}</p>
+                                        </neq>
+                                        </tr>
+                                        </foreach>
+                                        
+                                    </tbody>
+                                    <tr><td></td><td>人数合计：</td><td>{$utotal}人</td><td>总计：</td> <td>{:number_format($amtotal,2,'.','')}元</td><td></td></tr>
+                                </table>
+                            </div>
+                            <input type="hidden" name="total" id="total" value="{$dept_total + $amtotal}">
+                            <input type="hidden" name="usercount" id="usercount" value="{$dept_user_total + $utotal}">
+                           <h2>本月监测中心奖金发放人数合计：{$dept_user_total + $utotal}人 ; 奖金总额：{:number_format($dept_total + $amtotal,2,'.','')}元 </h2>
+                            <!-- /.table-responsive -->
+                        </div>
+                        
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+		
+		<div class="form-group">
+			<div class="col-sm-10 col-sm-offset-9 action">
+				<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+				<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+			</div>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+            $("#tb_content").val($("#tbcontent").html());
+            //alert();
+			sendForm("form_data", "{:U('save')}", "{:U('index')}");
+		}
+	</script>
+</block>

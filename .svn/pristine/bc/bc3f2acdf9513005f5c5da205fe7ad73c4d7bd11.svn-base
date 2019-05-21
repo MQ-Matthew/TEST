@@ -1,0 +1,97 @@
+<!--全日制教育经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="13">培训记录 ：</th>
+    <tr>
+        <th width="5%">培训班名称</th>
+        <th width="8%">起始时间</th>
+        <th width="8%">终止时间</th>
+        <th width="8%">培训学时</th>
+        <th width="10%">培训费金额</th>
+        <th width="8%">培训地点</th>
+        <th width="8%">主办单位</th>
+        <th width="8%">培训机构</th>
+		<th width="8%">培训内容</th>
+		<th width="8%">培训人及所在机构</th>
+		<th width="8%">是否脱产培训</th>
+		<th width="5%">备注</th>
+		
+    </tr>
+    </thead>
+
+    <empty name="traininfo">
+        <tbody id='all_px'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="px_kmc[]" id="px_kmc"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="px_xs[]" id="px_xs"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="px_je[]" id="px_je"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="px_dd[]" id="px_dd"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_jg[]" id="px_jg"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_nr[]" id="px_nr"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_rjg[]" id="px_rjg"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value=""  style="width:100%"> </td>
+			<td><input type="text" name="px_bz[]" id="px_bz"  value=""  style="width:100%"> </td>
+			
+        </tr>
+            <tr id='px'></tr>
+        </tbody>
+     <else />
+        <tbody id='all_px'> <!--编辑-->
+            <volist name="traininfo" id="data">
+
+                <tr id='px' name="{$data.id}{$data.train_status}">
+
+                    <td><input type="hidden" name="train_id[]" value="{$data.id}"><input type="text" name="train_name[]" id="train_name"  value="{$data.train_name}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_start[]" id="train_start" class="form-control input-date" value="{$data.train_start}" style="width:100%"> </td>
+                    <td><input type="text" name="train_graduation[]" id="train_graduation" class="form-control input-date" value="{$data.train_graduation}" style="width:100%"> </td>
+                    <td><input type="text" name="train_hours[]" id="train_hours"  value="{$data.train_hours}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_cost[]" id="train_cost"  value="{$data.train_cost}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_place[]" id="train_place"  value="{$data.train_place}"  style="width:100%"> </td>
+                    <td><input type="text" name="host_unit[]" id="host_unit"  value="{$data.host_unit}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_agency[]" id="train_agency"  value="{$data.train_agency}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_content[]" id="train_content"  value="{$data.train_content}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_user[]" id="train_user"  value="{$data.train_user}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_offjob[]" id="train_offjob"  value="{$data.train_offjob}"  style="width:100%"> </td>
+                    <td><input type="text" name="train_remark[]" id="train_remark"  value="{$data.train_remark}"  style="width:100%"> </td>
+                    
+                    
+                    
+
+
+
+            </tr>
+            <tr name="{$data.id}{$data.train_status}">
+
+                <td colspan="8">
+
+                    <empty name="data.train_add_file">
+                       <p>暂无数据</p>
+                       <else/>
+                       <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+                       {:W('FileUpload/view',array('train_add_file[]'=>$data['train_add_file'],'train_add_file[]',$data['id'].$data['train_status']))}
+                       <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+                   </empty>
+
+
+
+               </td>
+           </tr>
+
+       </volist>
+        </tbody>
+        <tr>
+        <td><a href="<?php echo U('Flow/add',array('type'=>90));?>" class="btn btn-small btn-success"  >添加培训经历申请</a></td>
+        <td colspan="10"></td>
+    </tr>
+    </empty>
+    
+</table>
+<input type="hidden" id="peixun" name="peixun" value="{$info.peixun}">
+
+
+
+
+

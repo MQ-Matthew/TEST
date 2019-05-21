@@ -1,0 +1,131 @@
+QQ:3239578481   function12369
+7天掌握APICloud开发技巧
+2017年10月16日 - 2018年1月15
+
+http://www.apicloud.com
+登录用户名：dokey@sina.com
+密码：wyp721231
+
+
+
+亦庄年鉴正式上线的网站地址:
+	后台 : http://bdaqzb.bda.gov.cn/admin.php?s=/Index/index.html
+	前台 : http://bdaqzb.bda.gov.cn
+亦庄远程TeamViewer 535 995 273     Linux: root   a_tGz\twjj
+
+systemctl restart httpd.service
+
+
+Linux服务器: 	阿里云服务器地址：
+		host: 115.28.53.28
+		user: root
+		password: WUyuepeng721231
+
+合同审批 
+    远程桌面IP: 211.147.150.237      内网:http://10.10.196.201/test/
+    201 FTP目录: /var/www/html   
+    远程: 211.147.150.237  最新版本的审批项目
+      administrator
+      bjmemc*()iop
+
+
+Linux : 10.18.41.222  wyp721231 
+        root  /var/www/html/ 
+
+
+
+
+子网站前台网址：http://bdaqzb.bda.gov.cn
+登陆后台网址：http://bdaqzb.bda.gov.cn/index.php?g=admin&m=public&a=login
+用户名：chenji
+密码：yjs67887287
+
+weiqiang 123  
+
+mysqldump -u root -p yzthinkcmf > yzthinkcmf.sql 
+
+
+SVN检出 : svn://59.110.234.210/nianjian    新svn地址59.110.234.210(最新)  dokey 721231
+新的年鉴项目 ：svn://59.110.234.210/ot
+账号:zhangzepeng   zhangzepeng
+年鉴windows服务器远程:     mstsc /admin /v 114.215.113.51:7777    114服务器: dokey!@#12369 :新密码:dokey!@#12369
+
+
+Onethink1.1开发版本 ： 114.215.113.51:9000     新年鉴
+                       http://114.215.113.51:9000/admin.php?s=/Public/login.html
+
+ 		administrator
+		CAifuxihuan15b12
+
+		WEB目录C:\xt
+
+		MySQL数据库
+		dokey
+		wyp721231
+
+
+     		114.215.113.51:8000     年鉴  
+                http://114.215.113.51:8000/index.php?s=/Admin/Public/login.html
+
+		WEB目录C:\xt
+
+		MySQL数据库
+		dokey
+		wyp721231
+
+Linix:	59.110.234.210  (测试服务器)
+	root
+	WUyuepeng721231
+
+	MySQL数据库
+	root
+	root
+
+	
+	年鉴项目路径
+	/var/www/html/nianjian/nianjian/
+
+	SVN更新命令
+	cd /var/www/html/nianjian/nianjian/
+	svn update
+        nj.bjsir.com
+
+
+
+
+吴总电子邮箱: dokey@sina.com
+
+远程: 211.147.150.237  最新版本的审批项目
+      administrator
+      bjmemc*()iop
+
+Linux : wyp721231 
+   root  /var/www/html/  
+
+
+document root  /var/www/html/  
+
+亦庄年鉴
+centos7  密码更改为：a_tGzg_{lb
+192.168.8.91 
+ 后台 admin root4YZ123!@#
+yum install httpd
+service httpd  restart stop start
+yum?-y?install?mariadb*?
+systemctl?start?mariadb.service
+systemctl?enable?mariadb.service
+
+create user ‘yizhuang’@‘%’ identified by ‘yizhuang!@#’
+
+grant all on *.* to ‘yizhuang’@‘%’
+
+ 
+
+document root  /var/www/html/ 
+
+
+7.3:这周的任务:   前台  : 页面需要完成
+	      后台 :  编纂这块的功能和发布功能和页面完成,并要测试完成	
+
+
+

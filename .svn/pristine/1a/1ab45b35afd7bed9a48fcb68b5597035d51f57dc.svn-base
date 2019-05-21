@@ -1,0 +1,95 @@
+<!--工作经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="8">工作经历 ：</th>
+    <tr>
+        <!-- <th width="5%">序号</th> -->
+        <th width="12%">起始时间</th>
+        <th width="12%">结束时间</th>
+        <th width="21%">工作单位</th>
+        <th width="18%">工作部门</th>
+        <th width="10%">工作职务</th>
+        <th width="12%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="workinfo">
+        <tbody id='all_gongzuos'>  <!--添加-->
+        <tr>
+            <!-- <td><input type="text" name="gongzuo_xuhao[]" id="gongzuo_xuhao"  value=""  style="width:100%"> </td> -->
+
+            <td><input type="text" name="gongzuo_qishishijian[]" id="gongzuo_qishishijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_jieshushijian[]" id="gongzuo_jieshushijian"  class="form-control input-date" value=""  style="width:100%"> </td>
+
+            <td><input type="text" name="gongzuo_danwei[]" id="gongzuo_danwei"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="gongzuo_bumeng[]" id="gongzuo_bumeng"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_zhiwu[]" id="gongzuo_zhiwu"  value=""  style="width:100%"></td>
+
+            <td><input type="text" name="gongzuo_beizhu[]" id="gongzuo_beizhu"  value=""  style="width:100%"></td>
+
+            
+        </tr>
+        <tr id='gongzuos'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_gongzuos'> <!--编辑-->
+        <volist name="workinfo" id="data">
+            <tr name="{$data.id}{$data.work_status}">
+            <td><input type="hidden" name="work_id[]" id="work_id" value="{$data.id}">
+                <input type="text" name="work_start[]" id="work_start"  class="form-control input-date" value="{$data.work_start}"  style="width:100%"> </td>
+            <td><input type="text" name="work_end[]" id="work_end"  class="form-control input-date" value="{$data.work_end}"  style="width:100%"> </td>
+
+            <td><input type="text" name="work_company[]" id="work_company"  value="{$data.work_company}"  style="width:100%"> </td>
+            <td><input type="text" name="work_dep[]" id="work_dep"  value="{$data.work_dep}"  style="width:100%"></td>
+
+            <td><input type="text" name="work_pos[]" id="work_pos"  value="{$data.work_pos}"  style="width:100%"></td>
+
+            <td><input type="text" name="work_remark[]" id="work_remark"  value="{$data.work_remark}"  style="width:100%"></td>
+
+            <!-- <td><a href="javascript:void(0);" onclick="delete_trs({$data.id}{$data.work_status})" class="delrow">删除</a></td> -->
+        </tr>
+        <tr name="{$data.id}{$data.hj_status}">
+
+                <td colspan="5">
+
+                    <empty name="data.work_add_file">
+                       {:W('FileUpload/add',array('work_add_file[]',$data['id'].$data['work_status']))}
+                       <else/>
+                       
+                       {:W('FileUpload/edit',array('work_add_file[]'=>$data['work_add_file'],'work_add_file[]',$data['id'].$data['work_status']))}
+                       
+                   </empty>
+
+
+
+               </td>
+               
+           </tr>
+            <tr class="backgroundcolor"><td colspan="6"></td></tr>
+        </volist>
+        </tbody>
+
+    </empty>
+
+    
+
+</table>
+<input type="hidden" id="gongzuo" name="gongzuo" value="{$info.gongzuo}">
+
+
+
+
+
+
+
+
+
+
+
+
+

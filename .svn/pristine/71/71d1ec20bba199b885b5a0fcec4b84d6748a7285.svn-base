@@ -1,0 +1,453 @@
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式 -->
+<if condition="$on_edit eq add">
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">标题：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入项目名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="" check="require" msg="请选择日期"  >
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text"  name="udf_field_{$data.1.id}" value="{$data.1.val}">
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' > 
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.3.name}：</td>            
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text"  name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">科室人员奖金分配表</p></th></tr>
+                <tr>
+                    <th width="10%">#</th> 
+                    <th width="20%">姓名</th>                    
+                    <th width="20%">金额</th>
+                    <th width="30%">备注</th>
+                    <th width="10%">登录账户</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td><input type="text" name="wu_no[]" id="wu_no" value="" onblur="tableDate();" style="width:100%"></td>
+                    <td><input type="text" name="wu_name[]" id="wu_name" value=""  onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_amount[]" id="wu_amount" value="" onkeyup="total_change(this);" style="width:70%">元</td>
+                    <td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_empno[]" id="wu_empno" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><a href="javascript:void(0);" onclick="delete_goods(this);" class="delrow">删除</a></td>
+                </tr>
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+                <td>总计</td>
+                <td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.3.val}" style="width:70%"> 元</td><td></td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+<!--编辑模式 -->
+<elseif condition="$on_edit eq edit"/>
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">标题：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入项目名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}" check="require" msg="请选择日期"  >
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}' >
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' >
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.3.name}：</td>            
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text"  name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+            </td>
+        </tr>
+    </table>
+    <p>        
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">科室人员奖金分配表 </p></th></tr>
+                <tr>
+                    <th width="10%">#</th> 
+                    <th width="20%">姓名</th>                    
+                    <th width="20%">金额</th>
+                    <th width="30%">备注</th>
+                    <th width="10%">登录账户</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'><tr id='goods'></tr></tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+                <td>总计</td>
+                <td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.3.val}" style="width:70%"> 元</td><td></td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.1.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+        //显示表格数据
+    function showTableData()
+    { 
+        var i, j;
+        //var str = {$data.1.val};
+        var str ={$data.2.val};
+        if(typeof str === 'object')
+            json = str;
+        else
+            json = eval(str);
+
+        var html = '';
+        for(i=0; i<json.data.length; i++)
+        {
+            html += '<tr>'; 
+            html += '<td><input type="text" name="wu_no[]" id="wu_no" value="' + json.data[i].wu_no + '" onblur="tableDate();" style="width:100%"> </td>';               
+            html += '<td><input type="text" name="wu_name[]" id="wu_name" value="' + json.data[i].wu_name + '" onblur="tableDate();" style="width:100%"> </td>';
+            html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="' + json.data[i].wu_amount + '" onkeyup="total_change(this);" style="width:70%">元</td>';
+            html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="' + json.data[i].wu_remark + '" onblur="tableDate();" style="width:100%"> </td> ';
+            html += '<td><input type="text" name="wu_empno[]" id="wu_empno" value="' + json.data[i].wu_empno + '" onblur="tableDate();" style="width:100%"> </td> ';
+            html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+            html += '</tr>';
+        }
+        $('#goods').before(html);
+    }        
+    </script>
+<!--科室主任编辑模式 -->
+<elseif condition="$to_confirm.step eq 21"/>
+    <!-- 必须包含审批流程 -->
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">标题：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入项目名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}" >
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control" type="text" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}' >
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' >
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.3.name}：</td>            
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input readonly="readonly" class="form-control" type="text"  name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+            </td>
+        </tr>
+    </table>
+    <p>        
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">科室人员奖金分配表 </p></th></tr>
+                <tr>
+                    <th width="10%">#</th> 
+                    <th width="20%">姓名</th>                    
+                    <th width="20%">金额</th>
+                    <th width="35%">备注</th>
+                    <th width="15%">登录账户</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'><tr id='goods'></tr></tbody>
+            <tr>
+                <td></td>
+                <td>总计</td>
+                <td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.3.val}" style="width:70%"> 元</td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.1.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+        //显示表格数据
+    function showTableData()
+    { 
+        var i, j;
+        //var str = {$data.1.val};
+        var str = {$data.2.val};
+        if(typeof str === 'object')
+            json = str;
+        else
+            json = eval(str);
+
+        var html = '';
+        for(i=0; i<json.data.length; i++)
+        {
+            html += '<tr>'; 
+            html += '<td><input disabled="disabled" type="text" name="wu_no[]" id="wu_no" value="' + json.data[i].wu_no + '" onblur="tableDate();" style="width:100%"> </td>';               
+            html += '<td><input disabled="disabled" type="text" name="wu_name[]" id="wu_name" value="' + json.data[i].wu_name + '" onblur="tableDate();" style="width:100%"> </td>';
+            html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="' + json.data[i].wu_amount + '" onkeyup="total_change(this);" style="width:70%">元</td>';
+            html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="' + json.data[i].wu_remark + '" onblur="tableDate();" style="width:100%"> </td> ';
+            html += '<td><input disabled="disabled" type="text" name="wu_empno[]" id="wu_empno" value="' + json.data[i].wu_empno + '" onblur="tableDate();" style="width:100%"> </td> ';
+            html += '</tr>';
+        }
+        $('#goods').before(html);
+    }
+        
+    </script>
+
+<!--阅读模式 -->
+<else />
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">标题：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                {$vo.name}
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.0.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                {$data.0.val}
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                {$data.1.val}
+                <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' >
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.3.name}：</td>            
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+               {$data.3.val}
+            </td>
+        </tr>
+    </table>
+    <p>
+        <table id="data_9_table" cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">科室人员奖金分配表 </p></th></tr>
+                <tr>
+                    <th width="10%">#</th> 
+                    <th width="20%">姓名</th>                    
+                    <th width="20%">金额</th>
+                    <th width="50%">备注</th>
+                </tr>
+            </thead>
+            <tbody><tr id='goods'></tr></tbody>
+            <tfooter ></tfooter>
+            <tr>
+                <td> </td> <td>合计：</td>
+                <td>{$data.3.val}元</td><td></td>
+            </tr>
+        </table>
+    </p>
+
+    <script type="text/javascript">       
+        document.onreadystatechange = function(){        
+            if(document.readyState == "complete")
+            { 
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                //                
+                if(str !== null)
+                    viewTableData();
+            }
+        }
+
+        //显示表格数据
+        function viewTableData()
+        {
+            //var str = document.getElementById("udf_field_{$data.1.id}").value;
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+            var html ='';
+            for(var i=0; i<json.data.length; i++)
+            {
+                //alert(json.data[i].class);
+                html += '<tr>';
+                html += '<td>'+ json.data[i].wu_no +'</td>';
+                html += '<td>'+ json.data[i].wu_name +'</td>';
+                html += '<td>'+ json.data[i].wu_amount +'</td>';
+                html += '<td>'+ json.data[i].wu_remark +'</td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+</if>
+
+<script type="text/javascript">
+    var step = '{$vo.step}';
+    var current_flow_log_step = '{$to_confirm.step}';
+    var on_edit = '{$on_edit}';
+    var add_file = '{$vo.add_file}';//附件
+    //添加一行
+    function tbAddRow()
+    {
+        var html = '';
+        html += '<tr>';
+        html += '<td><input type="text" name="wu_no[]" id="wu_no"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_name[]" id="wu_name"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="" onkeyup="total_change(this);"  style="width:70%">元 </td>';
+        html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();" style="width:100%"> </td> ';
+        html += '<td><input type="text" name="wu_empno[]" id="wu_empno" value="" onblur="tableDate();" style="width:100%"> </td> ';
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+        html += '</tr>';
+        $('#goods').before(html);
+    }
+
+    //删除一行
+    function delete_goods(obj)
+    {
+        //var total_goods = 0, arr_total_one_goods, temp;
+        $(obj).parent().parent().remove();//删除一个物品对象
+        total_change(obj); //删除后更新总价
+    }
+
+    //功能：总价变化
+    //参数：obj输入文本框变化对象
+    function total_change(obj)
+    {
+        var parent_obj;
+        var total_goods = 0, arr_total_one_goods, temp;
+
+        parent_obj = $(obj).parent().parent();
+
+        arr_total_one_goods = $('#all_goods').children('tr').find('#wu_amount');
+        //alert(arr_total_one_goods);
+        $(arr_total_one_goods).each(function(){
+            //temp = parseFloat($(this).html());
+            temp = parseFloat($(this).val());
+            //alert(temp);
+            if(!isNaN(temp))
+                total_goods += temp;
+        });
+        //$('#total_all_goods').html('总计：'+total_goods+'元');
+        $('#total_all_goods').val(total_goods);
+        tableDate(); //更新数据
+    }
+    //JS乘法BUG解决
+    function accMul(arg1,arg2)
+    {
+        var m=0,s1=arg1.toString(),s2=arg2.toString();
+        try{m+=s1.split(".")[1].length}catch(e){}
+        try{m+=s2.split(".")[1].length}catch(e){}
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+    }
+
+    //获取Table数据
+    function tableDate()
+    {           
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var wu_no = $(this).find('td').eq(0).find('input').val();
+            if(typeof(wu_no) != 'undefined')
+            {  
+                tableJson += '{"wu_no":"' + wu_no + '",';
+                tableJson += '"wu_name":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                tableJson += '"wu_amount":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                tableJson += '"wu_remark":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                tableJson += '"wu_empno":"' + $(this).find('td').eq(4).find('input').val() + '"},';
+            }
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段
+        tableJson += "]}";
+        //alert(tableJson);
+        document.getElementById("udf_field_{$data.2.id}").value = tableJson;
+        //document.getElementById("udf_field_{$data.1.id}").value = document.getElementById("total_all_goods").value;
+    }
+    
+    
+    $(function(){
+        //室主任修改员工奖金
+        if(current_flow_log_step == 21 )
+        {
+            $('.hidden-print .pull-right').append('<a onclick="tempsave();" class="btn btn-sm btn-primary">保存</a>');//添加一个保存按钮
+            //$('#view_file').remove();
+            //$('#zhixing').remove();
+            $('#reject').remove();            
+           // $('.hidden-print .pull-right').append('<a onclick="approveandsave();" class="btn btn-sm btn-primary">保存并提交</a>');//添加一个保存按钮
+        }
+        
+    });
+        
+    //临时保存
+    function tempsave()
+    {
+        var dept_total = $("#udf_field_{$data.3.id}").val() ;
+        var user_total = $("#total_all_goods").val() ;
+        //alert('dept_total='+ dept_total + 'user_total='+ user_total);
+        
+        if(dept_total == user_total){        
+            save();
+            //approve();        
+        }else{           
+           ui_error('员工的奖金合计应等于部门奖金总额！');    
+        }       
+    }
+
+    /************
+    筛选输入必须为数字，负数，小数点后2位
+    *********/
+    function clearNoNum(obj)
+    {
+        var fh='';
+        if(obj.value.indexOf('-')==0){
+            fh='-';
+        }
+        //先把非数字的都替换掉，除了数字和.
+        obj.value = obj.value.replace(/[^\d.]/g,"");
+
+        //必须保证第一个为数字而不是.
+        obj.value = obj.value.replace(/^\./g,"");
+
+        //保证只有出现一个.而没有多个.
+        obj.value = obj.value.replace(/\.{2,}/g,".");
+
+        //保证.只出现一次，而不能出现两次以上
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+        //限制金额小数点位数为两位
+        if (/^\d+\.?\d{0,2}$/.test(obj.value)) {
+          obj.value = obj.value;
+          } else {
+            obj.value = obj.value.substring(0, obj.value.indexOf(".")+3);
+        }
+        obj.value=fh+obj.value;
+        fh='';
+
+    }
+</script>

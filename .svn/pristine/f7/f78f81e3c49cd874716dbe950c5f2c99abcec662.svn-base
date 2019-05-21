@@ -1,0 +1,102 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+
+
+    <style>
+        .backgroundcolor{
+            background-color: #F5F5F5;
+        }
+        table tr:hover{background-color: #CCCCCC ;}
+        .page-header{
+            border-bottom: 0px solid #eee;
+        }
+        .pull-left{
+            margin-bottom: -20px;
+        }
+        .pull-right{
+            margin-bottom: -20px;
+        }
+
+    </style>
+
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                {:W('PageHeader/simple',array('name'=>'库存管理'))}
+            </div>
+            <div class="pull-right">
+
+                <a href="{:U('Asset/add')}" class="btn btn-sm btn-primary">入库</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 sub_left_menu ">
+            <form id="form_user" name="form_data" method="post" class="form-horizontal">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr  style="background-color:#000000;text-align: center;">
+                            <!--<th class="text-center col-4"><label class="inline pull-left">
+                                <input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+                                <span class="lbl"></span></label></th>
+                            <th>用户名</th>-->
+                            <th>资产类型</th>
+                            <th>库存数量</th>
+                            <th>正在使用中</th>
+                            <th>退回（使用过）</th>
+                            <th>全新</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <volist name="list" id="data">
+
+
+                        <tr id="{$data.id}" class="tbody">
+                            <!--<td class="text-center col-3"><label class="inline pull-left">
+                                <input class="ace" type="checkbox" name="user_id[]" value="{$data.id}" />
+                                <span class="lbl"></span></label></td>-->
+                            <empty name="data.html">
+
+                                <td class="">{$data.html}{$data.name}</td>
+                                <td class="">{$data.id|get_asset_sum}</td>
+                                <td class="">{$data.id|get_use_sum}</td>
+                                <td class="">{$data.id|get_use_sum}</td>
+                                <td class="">{$data.is_del|get_new_sum}</td>
+                                <td class=""></td>
+
+                            <else/>
+
+                                <td >{$data.html}{$data.name}</td>
+                                <td class="">{$data.id|get_asset_sum}</td>
+                                <td class="">{$data.id|get_use_sum}</td>
+                                <td class="">{$data.id|get_use_back_sum}</td>
+                                <td class="">{$data.is_del|get_new_sum}</td>
+                                <td class="">
+                                    <a href="{:U('Asset/mingxi',array('id'=>$data['id']))}">明细单</a>
+                                </td>
+
+                            </empty>
+
+
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            </form>
+            <div class="pagination">
+                {$page}
+            </div>
+        </div>
+
+    </div>
+
+
+</block>
+
+<block name="js">
+
+</block>

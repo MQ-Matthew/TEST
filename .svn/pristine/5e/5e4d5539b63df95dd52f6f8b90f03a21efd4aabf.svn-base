@@ -1,0 +1,248 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : oa
+
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
+
+Date: 2018-07-23 12:50:23
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `oa_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_group`;
+CREATE TABLE `oa_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `is_public` tinyint(3) DEFAULT NULL COMMENT '是否公开',
+  `remark` text COMMENT '备注',
+  `user_id` int(11) DEFAULT NULL COMMENT '登陆人ID',
+  `user_name` varchar(20) DEFAULT NULL COMMENT '登录用户名称',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `sort` varchar(10) DEFAULT NULL COMMENT '排序',
+  `amount` float(8,2) NOT NULL COMMENT '奖金设定',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_group
+-- ----------------------------
+INSERT INTO `oa_group` VALUES ('1', '领导', '1', '', '1', '管理员', '1528286774', '1528731119', '0', '2', '3000.00');
+INSERT INTO `oa_group` VALUES ('2', '室主任', '1', '', '1', '管理员', '1528286902', '1530251937', '0', '3', '2500.00');
+INSERT INTO `oa_group` VALUES ('3', '事/病假', '1', '', '1', '管理员', '1528286928', '1528731133', '0', '4', '0.00');
+INSERT INTO `oa_group` VALUES ('4', '普通员工', '1', '', '1', '管理员', '1528286957', '1528898609', '0', '1', '2000.00');
+
+-- ----------------------------
+-- Table structure for `oa_group_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `oa_group_user`;
+CREATE TABLE `oa_group_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `emp_no` varchar(20) DEFAULT NULL,
+  `user_name` varchar(20) DEFAULT NULL,
+  `dept_id` int(11) DEFAULT NULL,
+  `position_id` int(11) DEFAULT NULL,
+  `amount` float(8,2) DEFAULT NULL COMMENT '预设奖金',
+  `is_del` tinyint(3) DEFAULT '0' COMMENT '人员状态',
+  `sort` int(3) DEFAULT NULL COMMENT '人员排序',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of oa_group_user
+-- ----------------------------
+INSERT INTO `oa_group_user` VALUES ('1', '4', '10', 'majunwen', '马俊文', '30', '5', '2000.00', '0', '1502', null);
+INSERT INTO `oa_group_user` VALUES ('2', '4', '31', 'donglei', '董雷', '19', '5', '2000.00', '0', '1606', null);
+INSERT INTO `oa_group_user` VALUES ('3', '4', '41', 'sunyanling', '孙艳玲', '11', '5', '2000.00', '0', '502', null);
+INSERT INTO `oa_group_user` VALUES ('4', '4', '43', 'zhangwenjing', '张文静', '11', '5', '2000.00', '0', '503', null);
+INSERT INTO `oa_group_user` VALUES ('5', '4', '44', 'wangtao', '王涛', '11', '5', '2000.00', '0', '507', null);
+INSERT INTO `oa_group_user` VALUES ('6', '4', '45', 'sunyu', '孙宇', '38', '5', '2000.00', '0', '1702', null);
+INSERT INTO `oa_group_user` VALUES ('7', '4', '49', 'qiuqihong', '邱启鸿', '12', '5', '2000.00', '0', '1304', null);
+INSERT INTO `oa_group_user` VALUES ('8', '4', '50', 'sunnaidi', '孙乃迪', '12', '5', '2000.00', '0', '1307', null);
+INSERT INTO `oa_group_user` VALUES ('9', '4', '51', 'dongxin', '董欣', '12', '5', '2000.00', '0', '1305', null);
+INSERT INTO `oa_group_user` VALUES ('10', '4', '53', 'sunfeng', '孙峰', '12', '5', '2000.00', '0', '1302', null);
+INSERT INTO `oa_group_user` VALUES ('11', '4', '54', 'wangxin', '王欣', '12', '5', '2000.00', '0', '1303', null);
+INSERT INTO `oa_group_user` VALUES ('12', '4', '56', 'chengnianliang', '程念亮', '12', '5', '2000.00', '0', '1311', null);
+INSERT INTO `oa_group_user` VALUES ('13', '4', '57', 'wangzhanshan', '王占山', '12', '5', '2000.00', '0', '1310', null);
+INSERT INTO `oa_group_user` VALUES ('14', '4', '58', 'huanning', '郇宁', '12', '5', '2000.00', '0', '1308', null);
+INSERT INTO `oa_group_user` VALUES ('15', '4', '59', 'xinlianzhong', '辛连忠', '12', '5', '2000.00', '0', '1309', null);
+INSERT INTO `oa_group_user` VALUES ('16', '4', '61', 'mengtian', '孟甜', '21', '5', '2000.00', '0', '919', null);
+INSERT INTO `oa_group_user` VALUES ('17', '4', '62', 'zhoujiannan', '周健楠', '14', '5', '2000.00', '0', '1015', null);
+INSERT INTO `oa_group_user` VALUES ('18', '4', '63', 'liuzhaoying', '刘兆莹', '14', '5', '2000.00', '0', '1016', null);
+INSERT INTO `oa_group_user` VALUES ('19', '4', '64', 'zhangjiahua', '张嘉骅', '14', '5', '2000.00', '0', '1017', null);
+INSERT INTO `oa_group_user` VALUES ('20', '4', '65', 'xusushi', '徐蘇士', '18', '5', '2000.00', '0', '1404', null);
+INSERT INTO `oa_group_user` VALUES ('21', '4', '67', 'zhaohongshuai', '赵红帅', '14', '5', '2000.00', '0', '1008', null);
+INSERT INTO `oa_group_user` VALUES ('22', '4', '69', 'luanxiaojia', '栾晓佳', '14', '5', '2000.00', '0', '1009', null);
+INSERT INTO `oa_group_user` VALUES ('23', '4', '71', 'shuxiaoping', '舒小平', '14', '5', '2000.00', '0', '1004', null);
+INSERT INTO `oa_group_user` VALUES ('24', '4', '72', 'sunchenghua', '孙成华', '14', '5', '2000.00', '0', '1003', null);
+INSERT INTO `oa_group_user` VALUES ('25', '4', '73', 'yangliu', '杨柳', '14', '5', '2000.00', '0', '1012', null);
+INSERT INTO `oa_group_user` VALUES ('26', '4', '75', 'xushuo', '徐硕', '16', '5', '2000.00', '0', '708', null);
+INSERT INTO `oa_group_user` VALUES ('27', '4', '76', 'luhaoyun', '陆皓昀', '14', '5', '2000.00', '0', '1010', null);
+INSERT INTO `oa_group_user` VALUES ('28', '4', '77', 'yangdongyan', '杨懂艳', '14', '5', '2000.00', '0', '1002', null);
+INSERT INTO `oa_group_user` VALUES ('29', '4', '79', 'wangxiaoju', '王小菊', '14', '5', '2000.00', '0', '1013', null);
+INSERT INTO `oa_group_user` VALUES ('30', '4', '80', 'dingmengmeng', '丁萌萌', '14', '5', '2000.00', '0', '1014', null);
+INSERT INTO `oa_group_user` VALUES ('31', '4', '81', 'sunlei', '孙磊', '24', '5', '2000.00', '0', '1217', null);
+INSERT INTO `oa_group_user` VALUES ('32', '4', '84', 'tuyan', '屠燕', '14', '5', '2000.00', '0', '1006', null);
+INSERT INTO `oa_group_user` VALUES ('33', '4', '87', 'hualanying', '华岚英', '16', '5', '2000.00', '0', '702', null);
+INSERT INTO `oa_group_user` VALUES ('34', '4', '90', 'chenyuanyuan', '陈圆圆', '16', '5', '2000.00', '0', '706', null);
+INSERT INTO `oa_group_user` VALUES ('35', '4', '91', 'suntonghui', '孙彤卉', '16', '5', '2000.00', '0', '707', null);
+INSERT INTO `oa_group_user` VALUES ('36', '4', '92', 'heqing', '贺青', '16', '5', '2000.00', '0', '703', null);
+INSERT INTO `oa_group_user` VALUES ('37', '4', '94', 'liuweihong', '刘卫红', '16', '5', '2000.00', '0', '704', null);
+INSERT INTO `oa_group_user` VALUES ('38', '4', '96', 'zhangxiaomin', '张晓敏', '17', '5', '2000.00', '0', '402', null);
+INSERT INTO `oa_group_user` VALUES ('39', '4', '99', 'guobifu', '郭必富', '26', '5', '2000.00', '0', '606', null);
+INSERT INTO `oa_group_user` VALUES ('40', '4', '100', 'taolei', '陶蕾', '18', '5', '2000.00', '0', '1402', null);
+INSERT INTO `oa_group_user` VALUES ('41', '4', '101', 'guojing', '郭婧', '18', '5', '2000.00', '0', '1403', null);
+INSERT INTO `oa_group_user` VALUES ('42', '4', '103', 'xicaiting', '奚采亭', '24', '5', '2000.00', '0', '1223', null);
+INSERT INTO `oa_group_user` VALUES ('43', '4', '105', 'zhangfan', '张璠', '30', '5', '2000.00', '0', '1503', null);
+INSERT INTO `oa_group_user` VALUES ('44', '4', '106', 'yangyanyan', '杨妍妍', '19', '5', '2000.00', '0', '1603', null);
+INSERT INTO `oa_group_user` VALUES ('45', '4', '109', 'sujingping', '粟京平', '19', '5', '2000.00', '0', '1604', null);
+INSERT INTO `oa_group_user` VALUES ('46', '4', '112', 'yanxu', '颜旭', '21', '5', '2000.00', '0', '918', null);
+INSERT INTO `oa_group_user` VALUES ('47', '4', '113', 'fengyajun', '冯亚君', '14', '5', '2000.00', '0', '1019', null);
+INSERT INTO `oa_group_user` VALUES ('48', '4', '114', 'shanwenjing', '单文静', '19', '5', '2000.00', '0', '1607', null);
+INSERT INTO `oa_group_user` VALUES ('49', '4', '115', 'mazhaohui', '马召辉', '21', '5', '2000.00', '0', '927', null);
+INSERT INTO `oa_group_user` VALUES ('50', '4', '116', 'maqiuyue', '马秋月', '21', '5', '2000.00', '0', '914', null);
+INSERT INTO `oa_group_user` VALUES ('51', '4', '117', 'heming', '何明', '21', '5', '2000.00', '0', '926', null);
+INSERT INTO `oa_group_user` VALUES ('52', '4', '118', 'wangchen', '王琛', '24', '5', '2000.00', '0', '1224', null);
+INSERT INTO `oa_group_user` VALUES ('53', '4', '122', 'linanguo', '林安国', '21', '5', '2000.00', '0', '906', null);
+INSERT INTO `oa_group_user` VALUES ('54', '4', '124', 'pandi', '潘迪', '21', '5', '2000.00', '0', '910', null);
+INSERT INTO `oa_group_user` VALUES ('55', '4', '125', 'wang.zheng', '王铮', '21', '5', '2000.00', '0', '902', null);
+INSERT INTO `oa_group_user` VALUES ('56', '4', '126', 'houshuai', '侯帅', '21', '5', '2000.00', '0', '907', null);
+INSERT INTO `oa_group_user` VALUES ('57', '4', '127', 'liuqian', '刘倩', '21', '5', '2000.00', '0', '905', null);
+INSERT INTO `oa_group_user` VALUES ('58', '4', '128', 'zhanghu', '张虎', '21', '5', '2000.00', '0', '911', null);
+INSERT INTO `oa_group_user` VALUES ('59', '4', '129', 'libin', '李彬', '25', '5', '2000.00', '0', '806', null);
+INSERT INTO `oa_group_user` VALUES ('60', '4', '131', 'zhangjian', '张健', '25', '5', '2000.00', '0', '808', null);
+INSERT INTO `oa_group_user` VALUES ('61', '4', '132', 'zhangzhongping', '张中平', '21', '5', '2000.00', '0', '924', null);
+INSERT INTO `oa_group_user` VALUES ('62', '4', '134', 'wuzhiqiang', '吴志强', '21', '5', '2000.00', '0', '909', null);
+INSERT INTO `oa_group_user` VALUES ('63', '4', '135', 'jiangtao', '姜涛', '21', '5', '2000.00', '0', '925', null);
+INSERT INTO `oa_group_user` VALUES ('64', '4', '136', 'huyueqi', '胡月琪', '21', '5', '2000.00', '0', '903', null);
+INSERT INTO `oa_group_user` VALUES ('65', '4', '137', 'limeng', '李萌', '21', '5', '2000.00', '0', '912', null);
+INSERT INTO `oa_group_user` VALUES ('66', '4', '139', 'zhuguizhen', '朱桂珍', '21', '5', '2000.00', '0', '917', null);
+INSERT INTO `oa_group_user` VALUES ('67', '4', '140', 'muying', '牟莹', '21', '5', '2000.00', '0', '915', null);
+INSERT INTO `oa_group_user` VALUES ('68', '4', '141', 'quanyinghong', '全颖弘', '21', '5', '2000.00', '0', '913', null);
+INSERT INTO `oa_group_user` VALUES ('69', '4', '142', 'huangyan', '黄延', '21', '5', '2000.00', '0', '916', null);
+INSERT INTO `oa_group_user` VALUES ('70', '4', '143', 'liqian', '李倩', '12', '5', '2000.00', '0', '1315', null);
+INSERT INTO `oa_group_user` VALUES ('71', '4', '144', 'jianglei', '姜磊', '22', '5', '2000.00', '0', '1112', null);
+INSERT INTO `oa_group_user` VALUES ('73', '4', '157', 'liuyang', '刘洋', '24', '5', '2000.00', '0', '1213', null);
+INSERT INTO `oa_group_user` VALUES ('74', '4', '158', 'pishuai', '皮帅', '24', '5', '2000.00', '0', '1204', null);
+INSERT INTO `oa_group_user` VALUES ('75', '4', '162', 'matengfei', '马腾飞', '24', '5', '2000.00', '0', '1210', null);
+INSERT INTO `oa_group_user` VALUES ('76', '4', '165', 'fengpeng', '冯鹏', '14', '5', '2000.00', '0', '1020', null);
+INSERT INTO `oa_group_user` VALUES ('77', '4', '166', 'wangyan', '王焱', '24', '5', '2000.00', '0', '1207', null);
+INSERT INTO `oa_group_user` VALUES ('78', '4', '167', 'jingkuan', '景宽', '24', '5', '2000.00', '0', '1205', null);
+INSERT INTO `oa_group_user` VALUES ('79', '4', '168', 'zhangrentai', '张人太', '24', '5', '2000.00', '0', '1202', null);
+INSERT INTO `oa_group_user` VALUES ('80', '4', '170', 'xiaye', '夏夜', '16', '5', '2000.00', '0', '709', null);
+INSERT INTO `oa_group_user` VALUES ('81', '4', '171', 'zhangbotao', '张博韬', '24', '5', '2000.00', '0', '1212', null);
+INSERT INTO `oa_group_user` VALUES ('82', '4', '173', 'yangmeng', '杨梦', '24', '5', '2000.00', '0', '1215', null);
+INSERT INTO `oa_group_user` VALUES ('83', '4', '174', 'fujiaming', '富佳明', '24', '5', '2000.00', '0', '1209', null);
+INSERT INTO `oa_group_user` VALUES ('84', '4', '176', 'lihaijun', '李海军', '24', '5', '2000.00', '0', '1208', null);
+INSERT INTO `oa_group_user` VALUES ('85', '4', '178', 'guoyu', '郭羽', '24', '5', '2000.00', '0', '1206', null);
+INSERT INTO `oa_group_user` VALUES ('86', '4', '179', 'yanhe', '闫贺', '24', '5', '2000.00', '0', '1211', null);
+INSERT INTO `oa_group_user` VALUES ('87', '4', '181', 'wangqin', '王琴', '24', '5', '2000.00', '0', '1216', null);
+INSERT INTO `oa_group_user` VALUES ('88', '4', '182', 'wangwensheng', '王文盛', '25', '5', '2000.00', '0', '803', null);
+INSERT INTO `oa_group_user` VALUES ('89', '4', '185', 'zhangzhifeng', '张志锋', '25', '5', '2000.00', '0', '804', null);
+INSERT INTO `oa_group_user` VALUES ('90', '4', '186', 'cuirongtao', '崔荣涛', '10', '5', '2000.00', '0', '304', null);
+INSERT INTO `oa_group_user` VALUES ('91', '4', '187', 'wanghong', '王红', '25', '5', '2000.00', '0', '805', null);
+INSERT INTO `oa_group_user` VALUES ('92', '4', '188', 'zhangfangfang', '张芳芳', '25', '5', '2000.00', '0', '802', null);
+INSERT INTO `oa_group_user` VALUES ('93', '4', '192', 'weiyuting', '韦玉亭', '26', '5', '2000.00', '0', '604', null);
+INSERT INTO `oa_group_user` VALUES ('94', '4', '193', 'zhangyuanmin', '张源民', '26', '5', '2000.00', '0', '603', null);
+INSERT INTO `oa_group_user` VALUES ('95', '4', '194', 'lichunhong', '李春红', '26', '5', '2000.00', '0', '602', null);
+INSERT INTO `oa_group_user` VALUES ('96', '4', '195', 'xinyan', '辛燕', '26', '5', '2000.00', '0', '605', null);
+INSERT INTO `oa_group_user` VALUES ('97', '4', '203', 'sunruiwen', '孙瑞雯', '12', '5', '2000.00', '0', '1306', null);
+INSERT INTO `oa_group_user` VALUES ('98', '4', '206', 'liukang', '刘康', '14', '5', '2000.00', '0', '1007', null);
+INSERT INTO `oa_group_user` VALUES ('99', '4', '208', 'fengyan', '冯妍', '16', '5', '2000.00', '0', '705', null);
+INSERT INTO `oa_group_user` VALUES ('100', '4', '209', 'cuichang', '崔畅', '17', '5', '2000.00', '0', '403', null);
+INSERT INTO `oa_group_user` VALUES ('101', '4', '211', 'lijianjun', '李建军', '19', '5', '2000.00', '0', '1602', null);
+INSERT INTO `oa_group_user` VALUES ('102', '4', '212', 'heyanjun', '何延军', '25', '5', '2000.00', '0', '807', null);
+INSERT INTO `oa_group_user` VALUES ('103', '4', '213', 'guojianhui', '郭建辉', '21', '5', '2000.00', '0', '904', null);
+INSERT INTO `oa_group_user` VALUES ('104', '4', '214', 'zhaowenhui', '赵文慧', '22', '5', '2000.00', '0', '1106', null);
+INSERT INTO `oa_group_user` VALUES ('105', '4', '216', 'jiangnan', '姜南', '24', '5', '2000.00', '0', '1203', null);
+INSERT INTO `oa_group_user` VALUES ('106', '4', '221', 'liangdong', '梁栋', '38', '5', '2000.00', '0', '1703', null);
+INSERT INTO `oa_group_user` VALUES ('107', '4', '223', 'weiwenlong', '魏文龙', '18', '5', '2000.00', '0', '1406', null);
+INSERT INTO `oa_group_user` VALUES ('108', '4', '224', 'wuxiaodong', '邬晓东', '21', '5', '2000.00', '0', '920', null);
+INSERT INTO `oa_group_user` VALUES ('109', '4', '226', 'luoxiaoxu', '罗霄旭', '24', '5', '2000.00', '0', '1218', null);
+INSERT INTO `oa_group_user` VALUES ('110', '4', '228', 'zhanglikun', '张立坤', '22', '5', '2000.00', '0', '1103', null);
+INSERT INTO `oa_group_user` VALUES ('111', '4', '229', 'hongshanshan', '洪姗姗', '14', '5', '2000.00', '0', '1022', null);
+INSERT INTO `oa_group_user` VALUES ('112', '4', '230', 'yangjingdi', '杨景迪', '24', '5', '2000.00', '0', '1219', null);
+INSERT INTO `oa_group_user` VALUES ('113', '4', '231', 'gaomeng', '高萌', '11', '5', '2000.00', '0', '504', null);
+INSERT INTO `oa_group_user` VALUES ('114', '4', '232', 'zhangyi', '张奕', '38', '5', '2000.00', '0', '1704', null);
+INSERT INTO `oa_group_user` VALUES ('115', '4', '234', 'songcheng', '宋程', '14', '5', '2000.00', '0', '1021', null);
+INSERT INTO `oa_group_user` VALUES ('116', '4', '235', 'kongchuan', '孔川', '21', '5', '2000.00', '0', '921', null);
+INSERT INTO `oa_group_user` VALUES ('117', '4', '241', 'liwenjun', '李文俊', '10', '5', '2000.00', '0', '306', null);
+INSERT INTO `oa_group_user` VALUES ('118', '4', '251', 'wangbuying', '王步英', '12', '5', '2000.00', '0', '1313', null);
+INSERT INTO `oa_group_user` VALUES ('119', '4', '252', 'tianying', '田颖', '18', '5', '2000.00', '0', '1407', null);
+INSERT INTO `oa_group_user` VALUES ('120', '4', '253', 'caoyang', '曹阳', '24', '5', '2000.00', '0', '1220', null);
+INSERT INTO `oa_group_user` VALUES ('121', '4', '254', 'zhangchao', '张超', '21', '5', '2000.00', '0', '922', null);
+INSERT INTO `oa_group_user` VALUES ('122', '4', '255', 'dongrui', '董瑞', '14', '5', '2000.00', '0', '1024', null);
+INSERT INTO `oa_group_user` VALUES ('123', '4', '256', 'jiaoxiyu', '焦夕钰', '24', '5', '2000.00', '0', '1221', null);
+INSERT INTO `oa_group_user` VALUES ('124', '4', '257', 'liusiming', '刘思铭', '14', '5', '2000.00', '0', '1025', null);
+INSERT INTO `oa_group_user` VALUES ('125', '4', '259', 'cuitong', '崔彤', '19', '5', '2000.00', '0', '1608', null);
+INSERT INTO `oa_group_user` VALUES ('126', '4', '260', 'jiangyang', '姜洋', '14', '5', '2000.00', '0', '1026', null);
+INSERT INTO `oa_group_user` VALUES ('127', '4', '262', 'yinhang', '尹航', '11', '5', '2000.00', '0', '505', null);
+INSERT INTO `oa_group_user` VALUES ('128', '4', '263', 'zhanglin', '张琳', '14', '5', '2000.00', '0', '1023', null);
+INSERT INTO `oa_group_user` VALUES ('129', '4', '264', 'hanjiankai', '韩建凯', '21', '5', '2000.00', '0', '923', null);
+INSERT INTO `oa_group_user` VALUES ('130', '4', '265', 'wangchenhai', '王陈海', '24', '5', '2000.00', '0', '1222', null);
+INSERT INTO `oa_group_user` VALUES ('131', '4', '268', 'liyuan', '李远', '30', '5', '2000.00', '0', '1504', null);
+INSERT INTO `oa_group_user` VALUES ('132', '4', '271', 'guoyanjiao', '郭彦娇', '17', '5', '2000.00', '0', '308', '借调人员');
+INSERT INTO `oa_group_user` VALUES ('133', '4', '272', 'wangxinhui', '王新辉', '22', '5', '2000.00', '0', '1104', null);
+INSERT INTO `oa_group_user` VALUES ('134', '4', '273', 'panjinxiu', '潘锦秀', '12', '5', '2000.00', '0', '1314', null);
+INSERT INTO `oa_group_user` VALUES ('135', '4', '274', 'wuyue', '吴悦', '18', '5', '2000.00', '0', '1408', null);
+INSERT INTO `oa_group_user` VALUES ('136', '4', '275', 'duzerui', '杜泽瑞', '14', '5', '2000.00', '0', '1027', null);
+INSERT INTO `oa_group_user` VALUES ('137', '4', '283', 'chaojingdi', '晁晶迪', '17', '5', '2000.00', '0', '1030', '借调人员');
+INSERT INTO `oa_group_user` VALUES ('138', '4', '284', 'zhaomingyue', '赵明月', '25', '5', '2000.00', '0', '809', null);
+INSERT INTO `oa_group_user` VALUES ('139', '4', '285', 'chenc', '陈晨', '10', '5', '2000.00', '0', '305', null);
+INSERT INTO `oa_group_user` VALUES ('140', '4', '286', 'chenchen', '陈晨', '12', '5', '2000.00', '0', '1312', null);
+INSERT INTO `oa_group_user` VALUES ('141', '4', '288', 'wanglihua', '王莉华', '24', '5', '2000.00', '0', '1214', null);
+INSERT INTO `oa_group_user` VALUES ('142', '4', '289', 'chenyulong', '陈玉龙', '21', '5', '2000.00', '0', '908', null);
+INSERT INTO `oa_group_user` VALUES ('143', '4', '290', 'chenggang', '程刚', '19', '5', '2000.00', '0', '1605', null);
+INSERT INTO `oa_group_user` VALUES ('144', '4', '292', 'changmiao', '常淼', '14', '5', '2000.00', '0', '1029', null);
+INSERT INTO `oa_group_user` VALUES ('145', '4', '293', 'zhaoqiyue', '赵起越', '14', '5', '2000.00', '0', '1018', null);
+INSERT INTO `oa_group_user` VALUES ('146', '4', '294', 'malin', '马琳', '14', '5', '2000.00', '0', '1005', null);
+INSERT INTO `oa_group_user` VALUES ('147', '4', '295', 'chenwei', '陈维', '14', '5', '2000.00', '0', '1011', null);
+INSERT INTO `oa_group_user` VALUES ('148', '4', '296', 'zhaoliang', '赵靓', '18', '5', '2000.00', '0', '1405', null);
+INSERT INTO `oa_group_user` VALUES ('149', '4', '297', 'yaohuan', '姚欢', '12', '5', '2000.00', '0', '1317', null);
+INSERT INTO `oa_group_user` VALUES ('150', '4', '298', 'guoyuanxi', '郭元喜', '12', '5', '2000.00', '0', '1316', null);
+INSERT INTO `oa_group_user` VALUES ('151', '4', '299', 'zhangyang', '张洋', '30', '5', '2000.00', '0', '1505', null);
+INSERT INTO `oa_group_user` VALUES ('152', '4', '300', 'jinmeng', '金萌', '24', '5', '2000.00', '0', '1225', null);
+INSERT INTO `oa_group_user` VALUES ('153', '4', '301', 'qiuyun', '邱昀', '22', '5', '2000.00', '0', '1105', null);
+INSERT INTO `oa_group_user` VALUES ('154', '4', '302', 'huangriming', '黄日明', '17', '5', '2000.00', '0', '404', null);
+INSERT INTO `oa_group_user` VALUES ('155', '4', '303', 'duankefang', '段科芳', '10', '5', '2000.00', '0', '307', null);
+INSERT INTO `oa_group_user` VALUES ('156', '4', '304', 'wangyuanyuan', '王媛媛', '14', '5', '2000.00', '0', '1028', null);
+INSERT INTO `oa_group_user` VALUES ('157', '4', '33', 'zhangyuhong', '张玉红', '10', '5', '2000.00', '0', '302', null);
+INSERT INTO `oa_group_user` VALUES ('158', '4', '38', 'nihanjun', '倪菡君', '10', '5', '2000.00', '0', '303', null);
+INSERT INTO `oa_group_user` VALUES ('159', '4', '242', 'shilei', '施磊', '13', '5', '2600.00', '0', '202', null);
+INSERT INTO `oa_group_user` VALUES ('161', '1', '74', 'liubaoxian', '刘保献', '23', '2', '3000.00', '0', '106', null);
+INSERT INTO `oa_group_user` VALUES ('162', '1', '180', 'luhaifeng', '鹿海峰', '23', '2', '3000.00', '0', '103', null);
+INSERT INTO `oa_group_user` VALUES ('163', '1', '210', 'jinghongwei', '荆红卫', '23', '2', '3000.00', '0', '104', null);
+INSERT INTO `oa_group_user` VALUES ('164', '1', '245', 'lanping', '兰平', '23', '2', '3000.00', '0', '102', null);
+INSERT INTO `oa_group_user` VALUES ('165', '1', '276', 'zhangzhanping', '张战平', '23', '2', '3000.00', '0', '105', null);
+INSERT INTO `oa_group_user` VALUES ('166', '2', '4', 'wangt', '王涛．', '17', '3', '2500.00', '0', '401', null);
+INSERT INTO `oa_group_user` VALUES ('167', '2', '5', 'jinwenbo', '金文波', '26', '3', '2500.00', '0', '601', null);
+INSERT INTO `oa_group_user` VALUES ('168', '2', '7', 'liyunting', '李云婷', '12', '3', '2500.00', '0', '1301', null);
+INSERT INTO `oa_group_user` VALUES ('169', '2', '9', 'yanjinghai', '严京海', '30', '3', '2500.00', '0', '1501', null);
+INSERT INTO `oa_group_user` VALUES ('170', '2', '36', 'zhenghaitao', '郑海涛', '21', '3', '2500.00', '0', '901', null);
+INSERT INTO `oa_group_user` VALUES ('171', '2', '60', 'duyanxia', '杜燕霞', '10', '3', '2500.00', '0', '301', null);
+INSERT INTO `oa_group_user` VALUES ('172', '2', '78', 'shenxiue', '沈秀娥', '14', '3', '2500.00', '0', '1001', null);
+INSERT INTO `oa_group_user` VALUES ('173', '2', '88', 'zoubendong', '邹本东', '16', '3', '2500.00', '0', '701', null);
+INSERT INTO `oa_group_user` VALUES ('174', '2', '98', 'gaohaiying', '高海英', '13', '3', '2500.00', '0', '201', null);
+INSERT INTO `oa_group_user` VALUES ('175', '2', '108', 'lijinxiang', '李金香', '19', '3', '2500.00', '0', '1601', null);
+INSERT INTO `oa_group_user` VALUES ('176', '2', '110', 'liujialin', '刘嘉林', '25', '3', '2500.00', '0', '801', null);
+INSERT INTO `oa_group_user` VALUES ('177', '2', '123', 'liangyunping', '梁云平', '18', '3', '2500.00', '0', '1401', null);
+INSERT INTO `oa_group_user` VALUES ('178', '2', '163', 'weiqiang', '魏强', '38', '3', '2500.00', '0', '1701', null);
+INSERT INTO `oa_group_user` VALUES ('179', '2', '164', 'anxinxin', '安欣欣', '24', '3', '2500.00', '0', '1201', null);
+INSERT INTO `oa_group_user` VALUES ('180', '2', '202', 'zhangjing', '张晶', '11', '3', '2500.00', '0', '501', null);
+INSERT INTO `oa_group_user` VALUES ('181', '4', '279', 'liwei', '李伟', '13', '5', '2500.00', '0', '203', null);
+INSERT INTO `oa_group_user` VALUES ('182', '2', '145', 'lilingjun', '李令军', '22', '3', '2500.00', '0', '1101', null);

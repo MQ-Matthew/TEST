@@ -1,0 +1,596 @@
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式 -->
+<if condition="$on_edit eq add">
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">项目名称：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%"><input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入项目名称"></td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input type="hidden" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="">*库存设备领用请与总务科确认后填写
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text"  name="udf_field_{$data.1.id}" value="{$data.1.val}">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}' >
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input type="hidden" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" value='{$data.3.val}' >
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">领用物品列表 </p></th></tr>
+                <tr>
+                    <th width="10%">分类</th>
+                    <th width="20%">名称</th>
+                    <th width="8%">规格型号</th>
+                    <th width="5%">单位</th>
+                    <th width="5%">数量</th>
+                    <th width="10%">单价</th>
+                    <th width="10%">小计</th>
+                    <th width="8%">厂家品牌</th>
+                    <th width="10%">描述</th>
+                    <th width="5%">操作</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td>
+                        <input type="hidden" name="wu_class[]" id="wu_class" value="" style="width:100%">
+                        <select class="form-control category" onchange="category_change(this);">
+                            <option value='办公用品领用'>办公用品领用</option>
+                            <option value='设备领用'>设备领用</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="wu_name[]" id="wu_name" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_type[]" id="wu_type" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_unit[]" id="wu_unit" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_amount[]" id="wu_amount" value="" onkeyup="this.value=this.value.replace(/[^\d]/g, ''); total_change(this);"  style="width:100%"> </td>
+                    <td><input type="text" name="wu_price[]"  id="wu_price" value="" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); total_change(this);"  style="width:70%"> 元</td>
+                    <!-- <td id='total'></td> -->
+                    <td><input type="text" name="wu_total[]" id="wu_total" disabled="true" value="" style="width:70%"> 元</td>
+                    <td><input type="text" name="wu_brand[]"  id="wu_brand" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><a href="javascript:void(0);" onclick="delete_goods(this);" class="delrow">删除</a></td>
+                </tr>
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+                <!-- <td id="total_all_goods" colspan="10" style="text-align:right;">总计：{$info.total_price|default=0}元</td>-->
+                <td><a class="btn btn-primary" href="/{:C('TEMPLETE_PATH')}/bangongcaigou.xlsx" target="_blank"><i class="fa fa-download"></i>办公用品（非库存）领用表</a></td>
+                <td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="" style="width:70%"> 元</td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+<!--编辑模式 -->
+<elseif condition="$on_edit eq edit"/>
+    <table class="table table-bordered" class="table table-bordered">
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">项目名称：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入项目名称">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input type="hidden" class="form-control input-date" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+            </td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input class="form-control" type="text"  name="udf_field_{$data.1.id}" value="{$data.1.val}">
+            </td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}'>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">
+                <input type="hidden" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" value='{$data.3.val}'>
+            </td>
+        </tr>
+    </table>
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="10"><p style="text-align: center;font-size: 20px;">领用物品列表 </p></th></tr>
+                <tr>
+                    <th width="10%">分类</th>
+                    <th width="20%">物品名称</th>
+                    <th width="8%">规格型号</th>
+                    <th width="5%">单位</th>
+                    <th width="5%">数量</th>
+                    <th width="10%">单价</th>
+                    <th width="10%">小计</th>
+                    <th width="8%">厂家品牌</th>
+                    <th width="10%">描述</th>
+                    <th width="5%">操作</th>
+                </tr>
+            </thead>
+            <tbody id='all_goods'><tr id='goods'></tr></tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button></td>
+                <td><a class="btn btn-primary" href="/{:C('TEMPLETE_PATH')}/bangongcaigou.xlsx" target="_blank"><i class="fa fa-download"></i>办公用品（非库存）领用表</a></td>
+                <td></td><td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.3.val}"  style="width:70%"> 元</td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+
+        //显示表格数据
+        function showTableData()
+        {
+            //var JsonTable =  document.getElementById("udf_field_{$data.2.id}").val;
+            //var str = {"code":0,"data":[{"class":"689791","username":"vaghyuzhihao","orgid":"627","status":"1","subname":"yuzhihao","roleids":"1","orgcode":"600251","name":"yuzhihao","mapid":"0","passwd":"","siteid":"0","createorgcode":"600251","alarmview":"0"},{"class":"22222","username":"dokey","orgid":"627","status":"1","subname":"yuzhihao","roleids":"1","orgcode":"600251","name":"yuzhihao","mapid":"0","passwd":"","siteid":"0","createorgcode":"600251","alarmview":"0"}]};
+            //var str = {"data":[{"class":"1","name":"wqk","type":"12e1 ","amount":"1","price":"1","total":"1","brand":"1","remark":"1"},{"class":"2","name":"2e1","type":"212","amount":"2","price":"12","total":"24","brand":"1","remark":"1"}]};
+            var i, j;
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html = '';
+            for(i=0; i<json.data.length; i++)
+            {
+                html += '<tr>';
+                html += '<td>';
+                html += '<input type="hidden" name="wu_class[]" id="wu_class" value="'+ json.data[i].wu_class + '" style="width:100%">';
+                html += '<select class="form-control category" onchange="category_change(this);">';
+                if(json.data[i].wu_class == '办公用品领用')
+                    html += '<option value="办公用品领用" selected>办公用品领用</option>';
+                else
+                    html += '<option value="办公用品领用">办公用品领用</option>';
+
+                if(json.data[i].wu_class == '设备领用')
+                    html += '<option value="设备领用" selected>设备领用</option>';
+                else
+                    html += '<option value="设备领用">设备领用</option>';
+
+                html += '</select>';
+                html += '</td>';
+
+                html += '<td>';
+                if(json.data[i].wu_class == '办公用品领用')
+                {
+                    html += '<select name="wu_name[]" onchange="goods_change(this);tableDate();" style="width:100%">';
+                    for(j = 0; j < arr_goods.length; j++)
+                    {
+                        if(arr_goods[j].name == json.data[i].wu_name)
+                            html += '<option value="' + arr_goods[j].name + '" selected>' + arr_goods[j].name + '</option>';
+                        else
+                            html += '<option value="' + arr_goods[j].name + '">' + arr_goods[j].name + '</option>';
+                    }
+                    html += '</select>';
+                }
+                else
+                {
+                    html += '<input type="text" name="wu_name[]" id="wu_name" value="' + json.data[i].wu_name + '" style="width:100%">';
+                }
+                html += '</td>';
+
+                html += '<td><input type="text" name="wu_type[]" id="wu_type" value="' + json.data[i].wu_type + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_unit[]" id="wu_unit" value="' + json.data[i].wu_unit + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="' + json.data[i].wu_amount + '" onkeyup="this.value=this.value.replace(/[^\\d]/g, \'\'); total_change(this);" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_price[]" id="wu_price" value="' + json.data[i].wu_price + '" onkeyup="this.value=this.value.replace(/[^\\d\.]/g, \'\'); total_change(this);" style="width:70%"> 元</td>';
+                //html += '<td id="total"></td> ';
+                html += '<td><input type="text" name="wu_total[]" id="wu_total" disabled="true" value="' + json.data[i].wu_total + '" onblur="tableDate();" style="width:70%"> 元</td>';
+                html += '<td><input type="text" name="wu_brand[]" id="wu_brand" value="' + json.data[i].wu_brand + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="' + json.data[i].wu_remark + '" onblur="tableDate();" style="width:100%"> </td> ';
+                html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+<!--阅读模式 -->
+<else />
+    <table class="table table-bordered" class="table table-bordered">
+        <tbody>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">项目名称：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$vo.name}</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%"></td>
+        </tr>
+        <tr class="firstRow">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%">{$data.1.name}：</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%">{$data.1.val}</td>
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="15%"></td>
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value="{$data.2.val}">
+            <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="35%"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <table id="data_9_table" cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="9"><p style="text-align: center;font-size: 20px;">领用物品列表 </p></th></tr>
+                <tr>
+                    <th width="10%">分类</th>
+                    <th width="20%">物品名称</th>
+                    <th width="10%">规格型号</th>
+                    <th width="5%">单位</th>
+                    <th width="5%">数量</th>
+                    <th width="10%">单价</th>
+                    <th width="10%">小计</th>
+                    <th width="10%">厂家品牌</th>
+                    <th width="10%">描述</th>
+                </tr>
+            </thead>
+            <tbody><tr id='goods'></tr></tbody>
+            <tfooter ></tfooter>
+            <tr>
+                <td> </td>
+                <td></td><td></td><td></td><td></td><td>合计：</td>
+                <td>{$data.3.val}元</td><td></td><td></td>
+            </tr>
+        </table>
+    </p>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    viewTableData();
+            }
+        }
+
+        //显示表格数据
+        function viewTableData()
+        {
+            //var JsonTable = document.getElementById("udf_field_{$data.2.id}").val;
+            //var str = {"code":0,"data":[{"class":"689791","username":"vaghyuzhihao","orgid":"627","status":"1","subname":"yuzhihao","roleids":"1","orgcode":"600251","name":"yuzhihao","mapid":"0","passwd":"","siteid":"0","createorgcode":"600251","alarmview":"0"},{"class":"22222","username":"dokey","orgid":"627","status":"1","subname":"yuzhihao","roleids":"1","orgcode":"600251","name":"yuzhihao","mapid":"0","passwd":"","siteid":"0","createorgcode":"600251","alarmview":"0"}]};
+            //var str = {"data":[{"class":"1","name":"wqk","type":"12e1 ","amount":"1","price":"1","total":"1","brand":"1","remark":"1"},{"class":"2","name":"2e1","type":"212","amount":"2","price":"12","total":"24","brand":"1","remark":"1"}]};
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html ='';
+            for(var i=0; i<json.data.length; i++)
+            {
+                //alert(json.data[i].class);
+                html += '<tr>';
+                html += '<td>'+ json.data[i].wu_class +'</td>';
+                html += '<td>'+ json.data[i].wu_name +'</td>';
+                html += '<td>'+ json.data[i].wu_type +'</td>';
+                html += '<td>'+ json.data[i].wu_unit +'</td>';
+                html += '<td>'+ json.data[i].wu_amount +'</td>';
+                html += '<td>'+ json.data[i].wu_price +'元</td>';
+                html += '<td>'+ json.data[i].wu_total +'元</td>';
+                html += '<td>'+ json.data[i].wu_brand +'</td>';
+                html += '<td>'+ json.data[i].wu_remark +'</td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+</if>
+
+<script type="text/javascript">
+    //添加一行
+    function tbAddRow()
+    {
+        var html = '';
+        html += '<tr>';
+        html += '<td><input type="hidden" name="wu_class[]" id="wu_class" value="" style="width:100%"><select class="form-control category" onchange="category_change(this);"><option value="办公用品领用">办公用品领用</option><option value="设备领用">设备领用</option></select></td>';
+        html += '<td><input type="text" name="wu_name[]" id="wu_name"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_type[]" id="wu_type"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_unit[]" id="wu_unit"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="" onkeyup="this.value=this.value.replace(/[^\\d]/g, \'\'); total_change(this);"  style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_price[]"  id="wu_price" value="" onkeyup="this.value=this.value.replace(/[^\\d\.]/g, \'\'); total_change(this);"  style="width:70%"> 元</td>';
+        //html += '<td id="total"></td> ';
+        html += '<td><input type="text" name="wu_total[]" id="wu_total"  disabled="true" value=""  style="width:70%"> 元</td>';
+        html += '<td><input type="text" name="wu_brand[]"  id="wu_brand" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="" onblur="tableDate();" style="width:100%"> </td> ';
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+        html += '</tr>';
+        $('#goods').before(html);
+
+        $('#all_goods').find('tr').eq(-2).find('td').eq(0).find('select').trigger('change');//触发对应分类select事件
+    }
+
+    //删除一行
+    function delete_goods(obj)
+    {
+        //var total_goods = 0, arr_total_one_goods, temp;
+        $(obj).parent().parent().remove();//删除一个物品对象
+        total_change(obj); //删除后更新总价
+    }
+
+    //功能：总价变化
+    //参数：obj输入文本框变化对象
+    function total_change(obj)
+    {
+        var parent_obj;
+        var number, price;
+        var total_goods = 0, arr_total_one_goods, temp;
+
+        parent_obj = $(obj).parent().parent();
+        number = parent_obj.find('#wu_amount').val();
+        price = parent_obj.find('#wu_price').val();
+        //parent_obj.find('#total').html(parseFloat(number) * parseFloat(price));//得到单个物品总价钱
+        //parent_obj.find('#wu_total').val(parseFloat(number) * parseFloat(price));
+        parent_obj.find('#wu_total').val(accMul(parseInt(number),parseFloat(price)));
+        //parent_obj.find('#total').val(parseFloat(number) * parseFloat(price));
+        //arr_total_one_goods = $('#goods').children('tr').;//各个物品总价钱
+        //arr_total_one_goods = $('#all_goods').children('tr').find('#total');
+        arr_total_one_goods = $('#all_goods').children('tr').find('#wu_total');
+        //alert(arr_total_one_goods);
+        $(arr_total_one_goods).each(function(){
+            //temp = parseFloat($(this).html());
+            temp = parseFloat($(this).val());
+            //alert(temp);
+            if(!isNaN(temp))
+                total_goods += temp;
+        });
+        //$('#total_all_goods').html('总计：'+total_goods+'元');
+        $('#total_all_goods').val(total_goods);
+        tableDate(); //更新数据
+    }
+    //JS乘法BUG解决
+    function accMul(arg1,arg2)
+    {
+        var m=0,s1=arg1.toString(),s2=arg2.toString();
+        try{m+=s1.split(".")[1].length}catch(e){}
+        try{m+=s2.split(".")[1].length}catch(e){}
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+    }
+
+    //获取Table数据
+    function tableDate()
+    {
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var wu_class = $(this).find('td').eq(0).find('select').val();
+            if(typeof(wu_class) != 'undefined')
+            {
+                tableJson += '{"wu_class":"' + wu_class + '",';
+                if($(this).find('td').eq(1).find('select').length > 0)
+                    tableJson += '"wu_name":"' + $(this).find('td').eq(1).find('select').val() + '",';
+                else
+                    tableJson += '"wu_name":"' + $(this).find('td').eq(1).find('input').val() + '",';
+
+
+                tableJson += '"wu_type":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                tableJson += '"wu_unit":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                tableJson += '"wu_amount":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                tableJson += '"wu_price":"' + $(this).find('td').eq(5).find('input').val() + '",';
+                tableJson += '"wu_total":"' + $(this).find('td').eq(6).find('input').val() + '",';
+                tableJson += '"wu_brand":"' + $(this).find('td').eq(7).find('input').val() + '",';
+                tableJson += '"wu_remark":"' + $(this).find('td').eq(8).find('input').val() + '"},';
+            }
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段
+        tableJson += "]}";
+        document.getElementById("udf_field_{$data.2.id}").value = tableJson;
+        document.getElementById("udf_field_{$data.3.id}").value = document.getElementById("total_all_goods").value;
+    }
+
+    var arr_goods = [];
+    arr_goods[0]={'name':'按动签字笔','type':'黑0.5mm(三菱152)','unit':'支','amount':'1','price':'8'};
+    arr_goods[1]={'name':'木杆铅笔','type':'HB(得力7082)','unit':'支','amount':'1','price':'8'};
+    arr_goods[2]={'name':'荧光笔','type':'桔(得力S625)','unit':'支','amount':'1','price':'2.6'};
+    arr_goods[3]={'name':'双头记号笔','type':'黑红(得力6824)','unit':'支','amount':'1','price':'2.5'};
+    arr_goods[4]={'name':'白板笔','type':'黑红，得力6817','unit':'支','amount':'1','price':'2.5'};
+    arr_goods[5]={'name':'橡皮','type':'得力7536','unit':'块','amount':'1','price':'0.8'};
+    arr_goods[6]={'name':'涂改带','type':'得力8110','unit':'个','amount':'1','price':'3'};
+    arr_goods[7]={'name':'记事贴','type':'得力7154','unit':'本','amount':'1','price':'4.5'};
+    arr_goods[8]={'name':'软抄笔记本','type':'B5通立莱','unit':'本','amount':'1','price':'3'};
+    arr_goods[9]={'name':'档案盒','type':'黑55mm(齐心HC-55)','unit':'个','amount':'1','price':'15'};
+    arr_goods[10]={'name':'文件单夹','type':'A4黑(得力5341)','unit':'个','amount':'1','price':'7.5'};
+    arr_goods[11]={'name':'资料册','type':'A4黑20页(得力5220)','unit':'个','amount':'1','price':'8.5'};
+    arr_goods[12]={'name':'文件袋','type':'A4透明网格(得力5654)','unit':'个','amount':'1','price':'4.5'};
+    arr_goods[13]={'name':'拉杆夹A','type':'A4(得力5531)','unit':'个','amount':'1','price':'2'};
+    arr_goods[14]={'name':'惠普CE278AC硒鼓','type':'惠普1536dnf打印机用','unit':'个','amount':'1','price':'510'};
+    arr_goods[15]={'name':'惠普CF280A硒鼓','type':'惠普400M401dn打印机用','unit':'个','amount':'1','price':'640'};
+    arr_goods[16]={'name':'复印纸','type':'金旗舰A4，80g','unit':'包','amount':'1','price':'25'};
+    arr_goods[17]={'name':'文件袋A4','type':'手提布料A4','unit':'个','amount':'1','price':'18'};
+    arr_goods[18]={'name':'笔筒','type':'得力909','unit':'个','amount':'1','price':'10'};
+    arr_goods[19]={'name':'普通订书器','type':'益而高','unit':'个','amount':'1','price':'12'};
+    arr_goods[20]={'name':'小号订书器','type':'益而高','unit':'个','amount':'1','price':'9'};
+    arr_goods[21]={'name':'普通订书钉','type':'益而高','unit':'盒','amount':'1','price':'1'};
+    arr_goods[22]={'name':'小号订书钉','type':'益而高','unit':'盒','amount':'1','price':'1.5'};
+    arr_goods[23]={'name':'曲别针','type':'得力0024','unit':'盒','amount':'1','price':'2.5'};
+    arr_goods[24]={'name':'起订器','type':'得力0231','unit':'盒','amount':'1','price':'3'};
+    arr_goods[25]={'name':'15mm黑色长尾夹','type':'得力9546','unit':'盒','amount':'1','price':'2'};
+    arr_goods[26]={'name':'19mm黑色长尾夹','type':'得力9545','unit':'盒','amount':'1','price':'3'};
+    arr_goods[27]={'name':'25mm黑色长尾夹','type':'得力9544','unit':'盒','amount':'1','price':'4'};
+    arr_goods[28]={'name':'32mm黑色长尾夹','type':'得力9543','unit':'盒','amount':'1','price':'7'};
+    arr_goods[29]={'name':'41mm黑色长尾夹','type':'得力9542','unit':'盒','amount':'1','price':'10'};
+    arr_goods[30]={'name':'50mm黑色长尾夹','type':'得力9541','unit':'盒','amount':'1','price':'12'};
+    arr_goods[31]={'name':'液体胶水','type':'百特50ml','unit':'瓶','amount':'1','price':'4.5'};
+    arr_goods[32]={'name':'封箱胶带','type':'','unit':'卷','amount':'1','price':'5'};
+    arr_goods[33]={'name':'塑料透明宽胶带','type':'宽60mm*50m(得力30322)','unit':'卷','amount':'1','price':'8'};
+    arr_goods[34]={'name':'塑料透明窄胶带','type':'窄18mm*30m(得力30065)','unit':'卷','amount':'1','price':'4'};
+    arr_goods[35]={'name':'小卷笔刀','type':'得力0578','unit':'个','amount':'1','price':'3'};
+    arr_goods[36]={'name':'剪刀','type':'得力6010','unit':'把','amount':'1','price':'12'};
+    arr_goods[37]={'name':'裁纸刀','type':'A4(得力8014)','unit':'个','amount':'1','price':'95'};
+    arr_goods[38]={'name':'直尺','type':'30cm(得力6230)','unit':'把','amount':'1','price':'3.5'};
+    arr_goods[39]={'name':'计算器','type':'卡西欧DX-120S','unit':'个','amount':'1','price':'125'};
+    arr_goods[40]={'name':'5号电池','type':'南孚5号','unit':'节','amount':'1','price':'2.5'};
+    arr_goods[41]={'name':'7号电池','type':'南孚7号','unit':'节','amount':'1','price':'2.5'};
+    arr_goods[42]={'name':'电话机','type':'步步高','unit':'部','amount':'1','price':'118'};
+    arr_goods[43]={'name':'带USB接线板','type':'公牛H306U','unit':'个','amount':'1','price':'120'};
+    arr_goods[44]={'name':'5米5孔接线板','type':'公牛GN-303U','unit':'个','amount':'1','price':'85'};
+    arr_goods[45]={'name':'3米5孔接线板','type':'公牛','unit':'个','amount':'1','price':'52'};
+    arr_goods[46]={'name':'护腕鼠标垫','type':'','unit':'个','amount':'1','price':'32'};
+    arr_goods[47]={'name':'文件柜','type':'四层带锁灰色(得力8854)','unit':'个','amount':'1','price':'198'};
+    arr_goods[48]={'name':'电脑增高架','type':'竹制','unit':'个','amount':'1','price':'175'};
+    arr_goods[49]={'name':'书档','type':'','unit':'付','amount':'1','price':'16'};
+    arr_goods[50]={'name':'纸杯','type':'中号','unit':'包','amount':'1','price':'13'};
+    arr_goods[51]={'name':'一次性塑料手套','type':'一次性PE','unit':'包','amount':'1','price':'9'};
+    arr_goods[52]={'name':'一次性医用手套','type':'橡胶检查','unit':'盒','amount':'1','price':'48'};
+    arr_goods[53]={'name':'手术剪刀','type':'','unit':'把','amount':'1','price':'54'};
+    arr_goods[54]={'name':'垃圾袋','type':'','unit':'捆','amount':'1','price':'20'};
+    arr_goods[55]={'name':'抹布','type':'','unit':'条','amount':'1','price':'5'};
+    arr_goods[56]={'name':'五洁粉','type':'500g','unit':'盒','amount':'1','price':'8'};
+    arr_goods[57]={'name':'香皂','type':'舒肤佳','unit':'块','amount':'1','price':'5'};
+    arr_goods[58]={'name':'洗涤灵','type':'500g','unit':'瓶','amount':'1','price':'19.5'};
+    arr_goods[59]={'name':'洗衣粉','type':'500g','unit':'代','amount':'1','price':'6.8'};
+    arr_goods[60]={'name':'洗衣液','type':'500g','unit':'瓶','amount':'1','price':'26'};
+    arr_goods[61]={'name':'自拧式墩布','type':'','unit':'把','amount':'1','price':'38'};
+    arr_goods[62]={'name':'木把拖布','type':'','unit':'把','amount':'1','price':'11'};
+    arr_goods[63]={'name':'扫把套装','type':'簸箕+扫把','unit':'套','amount':'1','price':'22'};
+    arr_goods[64]={'name':'75升整理箱','type':'不透明75升(嬉天龙6075收纳箱)','unit':'个','amount':'1','price':'58'};
+    arr_goods[65]={'name':'45升整理箱','type':'透明45升(嬉天龙6030收纳箱)','unit':'个','amount':'1','price':'88'};
+    arr_goods[66]={'name':'纸篓','type':'塑料网格','unit':'个','amount':'1','price':'10'};
+
+
+    //功能：分类选择变化的时候，需要处理一些事情
+    //参数：obj指对应select对象
+    function category_change(obj)
+    {
+        var parent_tr = $(obj).parent().parent();//指向外面的tr对象
+        var goods_td = parent_tr.find('td').eq(1);
+        var html = '';
+        if($(obj).val() == '办公用品领用')
+        {
+            html = '<select name="wu_name[]" onchange="goods_change(this);tableDate();" style="width:100%">';
+            for(var i = 0; i < arr_goods.length; i++)
+            {
+                html += '<option value="' + arr_goods[i].name + '">' + arr_goods[i].name + '</option>';
+            }
+            html += '</select>';
+            goods_td.html(html);
+            goods_td.find('select').trigger('change');
+        }
+        else
+        {
+            html += '<input type="text" name="wu_name[]" id="wu_name" value="" onblur="tableDate();" style="width:100%">';
+            goods_td.html(html);
+
+            parent_tr.find('td').eq(2).find('input').val('');
+            parent_tr.find('td').eq(3).find('input').val('');
+            parent_tr.find('td').eq(5).find('input').val('');
+        }
+    }
+
+    //功能：物品选择变化的时候，需要处理一些事情
+    //参数：obj指对应select对象
+    function goods_change(obj)
+    {
+        var parent_tr = $(obj).parent().parent();//指向外面的tr对象
+        var goods_name = parent_tr.find('td').eq(1).find('select').val();//当前选中物品名称
+        for(var i = 0; i < arr_goods.length; i++)
+        {
+            if(arr_goods[i].name == goods_name)
+            {
+                parent_tr.find('td').eq(2).find('input').val(arr_goods[i].type);
+                parent_tr.find('td').eq(3).find('input').val(arr_goods[i].unit);
+                parent_tr.find('td').eq(5).find('input').val(arr_goods[i].price);
+                break;
+            }
+        }
+
+        total_change(obj);//物品变化了，对应总价钱也要变化
+    }
+
+    $(function(){
+        $('.category').trigger('change');
+    });
+</script>
+
+<script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //实例化一个plupload上传对象
+        var uploader = new plupload.Uploader({
+            browse_button: 'browse', //触发文件选择对话框的按钮，为那个元素id
+            url: '{:U("Flow/import_material_plan")}', //服务器端的上传页面地址
+            flash_swf_url: '__INS__/js/plugins/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+            silverlight_xap_url: '__INS__/js/plugins/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+            multipart_params: {session_id: '<?php echo session_id(); ?>'}
+        });
+        //在实例对象上调用init()方法进行初始化
+        uploader.init();
+        //绑定各种事件，并在事件监听函数中做你想做的事
+        uploader.bind('FilesAdded', function(uploader, files){
+            //每个事件监听函数都会传入一些很有用的参数，
+            //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+            uploader.start();
+        });
+        uploader.bind('UploadProgress', function(uploader, file){
+            //每个事件监听函数都会传入一些很有用的参数，
+            //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+        });
+        uploader.bind('FileUploaded', function(up, file, data){
+            var arr_data = eval('(' + data.response + ')');
+            if(arr_data['ret'] == 0)//成功
+                show_import(arr_data['data']);
+            else
+                alert(arr_data['msg']);//失败
+        });
+
+        //功能：显示导入数据
+        function show_import(data)
+        {
+            var mode = '{$on_edit}';//add edit这2种模式
+            var html = '';
+
+            for(var i=0; i<data.length; i++)
+            {
+                html += '<tr>';
+                html += '<td>';
+                html += '<input type="hidden" name="wu_class[]" id="wu_class" value="' + data[i].wu_class + '" style="width:100%">';
+                html += '<select class="form-control category">';
+                if(data[i].wu_class == '办公用品领用')
+                    html += '<option value="办公用品领用" selected>办公用品领用</option>';
+                else
+                    html += '<option value="办公用品领用">办公用品领用</option>';
+
+                if(data[i].wu_class == '设备领用')
+                    html += '<option value="设备领用" selected>设备领用</option>';
+                else
+                    html += '<option value="设备领用">设备领用</option>';
+
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="wu_name[]" id="wu_name" value="' + data[i].wu_name + '" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_type[]" id="wu_type" value="' + data[i].wu_type + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_unit[]" id="wu_unit" value="' + data[i].wu_unit + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_amount[]" id="wu_amount" value="' + data[i].wu_amount + '" onkeyup="this.value=this.value.replace(/[^\\d]/g, \'\'); total_change(this);" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_price[]" id="wu_price" value="' + data[i].wu_price + '" onkeyup="this.value=this.value.replace(/[^\\d\.]/g, \'\'); total_change(this);" style="width:70%"> 元</td>';
+                html += '<td><input type="text" name="wu_total[]" id="wu_total" disabled="true" value="' + data[i].wu_total + '" onblur="tableDate();" style="width:70%"> 元</td>';
+                html += '<td><input type="text" name="wu_brand[]" id="wu_brand" value="' + data[i].wu_brand + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="wu_remark[]" id="wu_remark" value="' + data[i].wu_remark + '" onblur="tableDate();" style="width:100%"> </td> ';
+                html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+                html += '</tr>';
+            }
+
+            if(mode == 'add')//把以前的全部清掉
+            {
+                html += '<tr id="goods"></tr>';
+                $('#all_goods').html(html);
+                total_change($($('#all_goods').children("tr:first").find('wu_amount')));//总计，传的是第一行数量这个对象
+            }
+            else if(mode == 'edit')
+            {
+                $('#goods').before(html);
+                total_change($($('#all_goods').children("tr:first").find('wu_amount')));
+            }
+        }
+    });
+</script>

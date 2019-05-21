@@ -1,0 +1,21 @@
+<div style="font-size:13px;">
+<if condition="$emp_no eq ''">
+<a target="_blank" class="t" href="http://10.18.41.222/index.php?m=&c=public&a=login">登陆采购审批系统</a>
+
+<else />
+    <if condition="$shuliang egt 1"> 
+        <a target="_blank" class="t" href="http://10.18.41.222/index.php?m=&c=Flow&a=folder&fid=confirm">采购待办(<span style="color:#F00">{$shuliang}</span>)个事项</a>
+
+        <br>
+        <else />
+        <a target="_blank" class="t" href="http://10.18.41.222/index.php?m=&c=Flow&a=folder&fid=confirm">暂无待办</a><br>
+    </if>
+</if>
+</div>
+
+<style type="text/css"">
+    .t{
+        color:#003399;font-size:13px;margin-left:0px;text-decoration:none;width:175px;float:left;padding-left:30px;display:block;border-bottom:1px dashed #9d9d9d
+    }
+</style>
+

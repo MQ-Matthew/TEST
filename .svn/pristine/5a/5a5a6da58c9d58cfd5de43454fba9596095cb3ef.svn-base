@@ -1,0 +1,440 @@
+<!--全日制教育经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed " style="width: 100%;">
+    <thead>
+    <th colspan="8">全日制教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="educationinfo">
+        <tbody id='all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="jy_rxsj[]" id="jy_rxsj"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="jy_bysj[]" id="jy_bysj"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  value=""  style="width:100%"> </td>
+            <td>
+                <input type="text" name="jy_zy[]" id="jy_zy"  value=""  style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="jy_xz[]" id="jy_xz"  value=""  style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="jy_xl">
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="jy_xw[]" id="jy_xw"  value=""  style="width:100%">
+            </td>
+
+            
+        </tr>
+            <tr id='my_goods'></tr>
+        </tbody>
+		<tr>
+        <td><a href="<?php echo U('Flow/add',array('type'=>88));?>" class="btn btn-small btn-success"  >全日制教育经历提交</a></td>
+        <td colspan="10"></td>
+    </tr>
+		
+
+     <else />
+
+        <tbody id='all_goods'> <!--编辑-->
+            <volist name="educationinfo" id="data">
+            <tr  id='goods' name="{$data.id}{$data.edu_status}">
+
+                <td><input type="hidden" name="education_id[]" value="{$data.id}"><input type="text" name="start[]" id="start"  class="form-control input-date" value="{$data.start}"  style="width:100%"> </td>
+                <td ><input type="text" name="graduation[]" id="graduation"  class="form-control input-date" value="{$data.graduation}"  style="width:100%"></td>
+                <td ><input type="text" name="school_name[]" id="school_name"  value="{$data.school_name}" onblur="tableDate();" style="width:100%"></td>
+                <td ><input type="text" name="major[]" id="major"  value="{$data.major}" onblur="tableDate();" style="width:100%"></td>
+                <td ><input type="text" name="system[]" id="system"  value="{$data.system}" onblur="tableDate();" style="width:100%"></td>
+                <td >
+                    <select class="form-control" name="degree[]" id="degree"  >
+                        <option {$data['degree']=='本科'?'selected':''} value="本科">本科</option>
+                        <option {$data['degree']=='博士'?'selected':''} value="博士">博士</option>
+                        <option {$data['degree']=='硕士'?'selected':''} value="硕士">硕士</option>
+                        <option {$data['degree']=='专科'?'selected':''} value="专科">专科</option>
+                        <option {$data['degree']=='其它'?'selected':''} value="其它">其它</option>
+                    </select>
+                </td>
+                <td ><input type="text" name="degree_wei[]" id="degree_wei"  value="{$data.degree_wei}"  style="width:100%"></td>
+
+            </tr>
+            <tr name="{$data.id}{$data.edu_status}">
+
+                <td colspan="8">
+
+                    <empty name="data.add_file">
+                       <p>暂无附件</p>
+                    <else/>
+                       {:W('FileUpload/view',array('add_file[]'=>$data['add_file'],'add_file[]',$data['id'].$data['edu_status']))}
+                   </empty>
+
+
+
+               </td>
+           </tr>
+           <tr class="backgroundcolor"><td colspan="8"></td></tr>
+       </volist>
+        </tbody>
+		<tr>
+        <td><a href="<?php echo U('Flow/add',array('type'=>88));?>" class="btn btn-small btn-success"  >添加全日制教育经历</a></td>
+        <td colspan="10"></td>
+    </tr>
+
+    </empty>
+
+    
+
+</table>
+<input type="hidden" id="jiaoyu" name="jiaoyu" value="{$info.jiaoyu}">
+
+
+<hr style="height:1px;border:none;border-top:1px solid #000000;" />
+
+<!--在职教育经历 table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">在职教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        
+    </tr>
+
+    <empty name="zzeducationinfo">
+        <tbody id='zz_all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj"  class="form-control input-date" value=""  style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  value=""  style="width:100%"> </td>
+            <td>
+                <input type="text" name="zz_jy_zy[]" id="zz_jy_zy"  value=""  style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xz[]" id="zz_jy_xz"  value=""  style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="zz_jy_xl">
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xw[]" id="zz_jy_xw"  value="" style="width:100%">
+            </td>
+		
+            
+        </tr>
+		
+            <tr id='zz_goods'></tr>
+        </tbody>
+		<tr>
+        <td><a href="<?php echo U('Flow/add',array('type'=>89));?>" class="btn btn-small btn-success"  >添加在职教育经历</a></td>
+        <td colspan="10"></td>
+    </tr>
+    <else />
+        <tbody id='zz_all_goods'> <!--编辑-->
+             <volist name="zzeducationinfo" id="data">
+
+                    <tr id='zz_goods' name="{$data.id}{$data.zz_status}" >
+
+                        <td><input type="hidden" name="zz_education_id[]" value="{$data.id}"><input type="text" name="zz_start[]" id="zz_start"  class="form-control input-date" value="{$data.zz_start}"  style="width:100%"> </td>
+                        <td ><input type="text" name="zz_graduation[]" id="zz_graduation"  class="form-control input-date" value="{$data.zz_graduation}"  style="width:100%"></td>
+                        <td ><input type="text" name="zz_school_name[]" id="zz_school_name"  value="{$data.zz_school_name}" onblur="tableDate();" style="width:100%"></td>
+                        <td ><input type="text" name="zz_major[]" id="zz_major"  value="{$data.zz_major}" onblur="tableDate();" style="width:100%"></td>
+                        <td ><input type="text" name="zz_system[]" id="zz_system"  value="{$data.zz_system}" onblur="tableDate();" style="width:100%"></td>
+                        <td >
+                            <select class="form-control" name="zz_degree[]" id="zz_degree"  >
+                                <option {$data['zz_degree']=='本科'?'selected':''} value="本科">本科</option>
+                                <option {$data['zz_degree']=='博士'?'selected':''} value="博士">博士</option>
+                                <option {$data['zz_degree']=='硕士'?'selected':''} value="硕士">硕士</option>
+                                <option {$data['zz_degree']=='专科'?'selected':''} value="专科">专科</option>
+                                <option {$data['zz_degree']=='其它'?'selected':''} value="其它">其它</option>
+                            </select>
+                        </td>
+                        <td ><input type="text" name="zz_degree_wei[]" id="zz_degree_wei"  value="{$data.zz_degree_wei}"  style="width:100%"></td>
+
+                        <!-- <td >
+
+                            <a href="javascript:void(0);" onclick="zz_delete_goods({$data.id}{$data.zz_status})" class="delrow">删除</a>
+
+                        </td> -->
+
+
+                    </tr>
+                    <tr name="{$data.id}">
+
+                        <td colspan="8">
+
+                            <empty name="data.zz_add_file">
+                               <p>暂无数据</p>
+                               <else/>
+                               <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+                               {:W('FileUpload/view',array('zz_add_file[]'=>$data['zz_add_file'],'zz_add_file[]',$data['id'].$data['zz_status']))}
+                               <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+                           </empty>
+
+
+
+                       </td>
+                   </tr>
+                    
+               </volist>
+        </tbody>
+		<tr>
+        <td><a href="<?php echo U('Flow/add',array('type'=>89));?>" class="btn btn-small btn-success"  >添加在职教育经历</a></td>
+        <td colspan="10"></td>
+    </tr>
+    </empty>
+
+    
+
+    </thead>
+
+</table>
+<input type="hidden" id="zz_jiaoyu" name="zz_jiaoyu" value="{$info.zz_jiaoyu}">
+
+
+<!--职称评审情况  table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">职称评审情况 </th>
+    <tr>
+        
+        <th width="12%">职称评价时间</th>
+        <th width="20%">职称（系列）名称</th>
+        <th width="20%">职称等级</th>
+        <th width="12%">备注</th>
+        
+    </tr>
+
+    <empty name="reviewinfo">
+        <tbody id='all_zhichengs'>  <!--添加-->
+        <tr name="zc">
+            
+            <td><input type="hidden" name="review_id[]" id="review_id" value=""><input type="text" name="review_time[]" id="review_time"  class="form-control input-date" value=""  style="width:100%"> </td>
+
+
+            <td><input type="text" name="review_title[]" id="review_title"  value=""  style="width:100%"> </td>
+            <td>
+                <select class="form-control" id="review_level" name="review_level">
+                    <option value=''>请选择</option>
+                    <option value='高级'>高级</option>
+                    <option value='中级'>中级</option>
+                    <option value='初级'>初级</option>
+                </select>
+            </td>
+            
+            <td>
+                <input type="text" name="review_remark[]" id="review_remark"  value="" style="width:100%">
+            </td>
+
+
+
+            <!-- <td><a href="javascript:void(0);" onclick="delete_trs('zc')" class="delrow">删除</a></td> -->
+        </tr>
+        <tr name="zc">
+            <td colspan="4">
+                <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label" >上传附件aa(证书复印件)：</label>
+                    <div class="col-sm-10">
+                    {:W('FileUpload/add',array('review_add_file[]',$data['id'].$data['reviewstatus']))}
+                    </div>
+                </div> -->
+            </td>
+        </tr>
+        </tbody>
+        <else />
+        <tbody id='all_zhichengs'> <!--编辑-->
+        <volist name="reviewinfo" id="data">
+
+            <tr  name="{$data.id}{$data.reviewstatus}">
+
+                <td><input type="hidden" name="review_id[]" id="review_id" value="{$data.id}">
+                    <input type="text" name="review_time[]" id="review_time"  class="form-control input-date" value="{$data.reviewtime}"  style="width:100%"> </td>
+
+            <td><input type="text" name="review_title[]" id="review_title"  value="{$data.reviewtitle}"  style="width:100%"></td>
+
+            
+
+            <td>
+            <select class="form-control" id="review_level" name="review_level[]">
+                <option {$data['reviewlevel']==''?'selected':''} value=''>请选择</option>
+                <option {$data['reviewlevel']=='高级'?'selected':''} value='高级'>高级</option>
+                <option {$data['reviewlevel']=='中级'?'selected':''} value='中级'>中级</option>
+                <option {$data['reviewlevel']=='初级'?'selected':''} value='初级'>初级</option>    
+            </select>
+            </td>
+
+           
+
+            <td><input type="text" name="review_remark[]" id="review_remark"   value="{$data.reviewremark}"   style="width:100%"></td>
+
+            <!-- <td><a href="javascript:void(0);" onclick="delete_goods('{$data.id}{$data.reviewstatus}')" class="delrow">删aa除</a></td> -->
+
+            </tr>
+            <tr name="{$data.id}{$data.reviewstatus}">
+
+                <td colspan="5">
+
+                    <empty name="data.review_add_file">
+                       {:W('FileUpload/add',array('review_add_file[]',$data['id'].$data['reviewstatus']))}
+                       <else/>
+                       
+                       {:W('FileUpload/edit',array('review_add_file[]'=>$data['review_add_file'],'review_add_file[]',$data['id'].$data['reviewstatus']))}
+                       
+                   </empty>
+
+
+
+               </td>
+               
+           </tr>
+            <tr name="{$data.id}{$data.reviewstatus}" class="backgroundcolor"><td colspan="8"></td></tr>
+       </volist>
+        </tbody>
+    </empty>
+
+    
+
+    </thead>
+
+</table>
+
+
+
+
+<input type="hidden" id="zhicheng" name="zhicheng" value="{$info.zhicheng}">
+
+
+<script type="text/javascript">
+
+        /**
+         * 根据出生日期计算年龄
+         */
+        function ages(str) {
+            if(!str){
+                return("输入的日期格式错误！");
+            }
+
+            var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+            if(r==null)return   false;
+            var d=   new   Date(r[1],   r[3]-1,   r[4]);
+            if(d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4]){
+                var Y = new   Date().getFullYear();
+                return(Y-r[1]);
+            }
+        }
+
+        
+		
+		function timeyear(str){
+		    var years = str;
+			//alert(years);
+			var age = '';
+			if(years){
+                    age = ages(years);
+                    $("#gongli").val(age);
+                }else{
+                    $("#gongli").val('');
+                }
+			
+		}
+		
+		
+		
+		
+
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+	
+
+
+    </script>
+
+
+
+

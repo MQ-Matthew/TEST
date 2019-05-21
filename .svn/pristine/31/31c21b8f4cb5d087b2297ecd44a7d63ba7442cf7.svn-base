@@ -1,0 +1,1328 @@
+<!--全日制教育经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="8">全日制教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        <th width="10%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.jiaoyu">
+        <tbody id='all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="jy_rxsj[]" id="jy_rxsj"  class="form-control input-date" value="" onchange="tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="jy_bysj[]" id="jy_bysj"  class="form-control input-date" value="" onchange="tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  value="" onblur="tableDate();" style="width:100%"> </td>
+            <td>
+                <input type="text" name="jy_zy[]" id="jy_zy"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="jy_xz[]" id="jy_xz"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="jy_xl"  onchange="tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="jy_xw[]" id="jy_xw"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+
+            <td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>
+        </tr>
+            <tr id='goods'></tr>
+        </tbody>
+
+
+     <else />
+
+        <tbody id='all_goods'> <!--编辑-->
+            <tr id='goods'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加全日制教育经历</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+</table>
+<input type="hidden" id="jiaoyu" name="jiaoyu" value="{$info.jiaoyu}">
+
+
+<!--在职教育经历 table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">在职教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        <th width="10%">操作</th>
+    </tr>
+
+    <empty name="info.zz_jiaoyu">
+        <tbody id='zz_all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj"  class="form-control input-date" value="" onchange="zz_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj"  class="form-control input-date" value="" onchange="zz_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  value="" onblur="zz_tableDate();" style="width:100%"> </td>
+            <td>
+                <input type="text" name="zz_jy_zy[]" id="zz_jy_zy"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xz[]" id="zz_jy_xz"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="zz_jy_xl"  onchange="zz_tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xw[]" id="zz_jy_xw"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+
+            <td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>
+        </tr>
+            <tr id='zz_goods'></tr>
+        </tbody>
+    <else />
+        <tbody id='zz_all_goods'> <!--编辑-->
+             <tr id='zz_goods'></tr>
+        </tbody>
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="zz_tbAddRow()">添加在职教育经历</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+    </thead>
+
+</table>
+<input type="hidden" id="zz_jiaoyu" name="zz_jiaoyu" value="{$info.zz_jiaoyu}">
+
+<!--全日制教育经历 js -->
+    <script type="text/javascript">
+    //添加一行
+    function tbAddRow()
+    {
+
+        var html = '';
+        html += '<tr>';
+
+        html += '<td><input type="text" name="jy_rxsj[]" id="jy_rxsj" class="form-control input-date" value="" onchange="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_bysj[]" id="jy_bysj" class="form-control input-date" value="" onchange="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_zy[]" id="jy_zy"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_xz[]" id="jy_xz"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td>';
+        html += ' <select class="form-control" id="jy_xl"  onchange="tableDate();" >';
+        html += ' <option value="">请选择</option>';
+        html += ' <option value="大专">大专</option>';
+        html += ' <option value="本科">本科</option>';
+        html += ' <option value="硕士">硕士</option>';
+        html += ' <option value="博士">博士</option>';
+        html += ' <option value="其它">其它</option>';
+        html += '</select>';
+        html += '</td>';
+
+        html += '<td><input type="text" name="jy_xw[]" id="jy_xw"  value="" onblur="tableDate();" style="width:100%"> </td>';
+
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+        html += '</tr>';
+        /// alert(111111);
+        $('#goods').before(html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function delete_goods(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        tableDate();
+    }
+
+	//获取全日制教育Table数据
+    function tableDate(){
+
+    //全日制教育
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(wu_number) != 'undefined'){
+                tableJson += '{"jy_rxsj":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                tableJson += '"jy_bysj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                tableJson += '"jy_xxmc":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                tableJson += '"jy_zy":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                tableJson += '"jy_xz":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                tableJson += '"jy_xl":"' + $(this).find('td').eq(5).find('select').val() + '",';
+                tableJson += '"jy_xw":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段 豆号
+        tableJson += "]}";
+
+        if(tableJson =='{"data":]}'){
+            tableJson='';
+        }
+        document.getElementById("jiaoyu").value = tableJson;
+		
+		}
+		
+	//获取在职教育Table数据
+	function zz_tableDate(){
+    //在职教育
+        var zz_tableJson = '{"data":[';
+        $('#zz_all_goods').find('tr').each(function(){
+            var zz_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(zz_wu_number) != 'undefined'){
+                zz_tableJson += '{"zz_jy_rxsj":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_bysj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xxmc":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_zy":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xz":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xl":"' + $(this).find('td').eq(5).find('select').val() + '",';
+                zz_tableJson += '"zz_jy_xw":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+
+        zz_tableJson = zz_tableJson.substr(0, zz_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        zz_tableJson += "]}";
+
+        if(zz_tableJson =='{"data":]}'){
+            zz_tableJson='';
+        }
+
+        document.getElementById("zz_jiaoyu").value = zz_tableJson;
+
+		}
+		
+	//获取考核table
+	function kaohe_tableDate(){
+    //年度考核
+        var kaohe_tableJson = '{"data":[';
+        $('#all_kaohes').find('tr').each(function(){
+            var kaohe_wu_number = $(this).find('td').eq(0).find('select').val();
+            if(typeof(kaohe_wu_number) != 'undefined'){
+                //kaohe_tableJson += '{"kaohe_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                kaohe_tableJson += '{"kaohe_time":"' + $(this).find('td').eq(0).find('select').val() + '",';
+                kaohe_tableJson += '"kaohe_jieguo":"' + $(this).find('td').eq(1).find('select').val() + '",';
+				kaohe_tableJson += '"kaohe_beizhu":"' + $(this).find('td').eq(2).find('input').val() + '"},';
+            }
+        });
+
+        kaohe_tableJson = kaohe_tableJson.substr(0, kaohe_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        kaohe_tableJson += "]}";
+
+        if(kaohe_tableJson =='{"data":]}'){
+		//alert("dadsad");
+            kaohe_tableJson='';
+        }
+        document.getElementById("kaohe").value = kaohe_tableJson;
+
+		}
+		
+	function huojiang_tableDate(){
+    //获奖情况
+        var huojiang_tableJson = '{"data":[';
+
+        $('#all_huojiangs').find('tr').each(function(){
+            var huojiang_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(huojiang_wu_number) != 'undefined'){
+                huojiang_tableJson += '{"hj_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                huojiang_tableJson += '"hj_shijian":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                huojiang_tableJson += '"hj_mingcheng":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                huojiang_tableJson += '"hj_danwei":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                huojiang_tableJson += '"hj_leixing":"' + $(this).find('td').eq(4).find('select').val() + '",';
+                //huojiang_tableJson += '"hj_jibie":"' + $(this).find('td').eq(5).find('input').val() + '",';
+                huojiang_tableJson += '"hj_beizhu":"' + $(this).find('td').eq(5).find('input').val() + '"},';
+            }
+        });
+
+        huojiang_tableJson = huojiang_tableJson.substr(0, huojiang_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        huojiang_tableJson += "]}";
+
+        if(huojiang_tableJson =='{"data":]}'){
+            huojiang_tableJson='';
+        }
+
+        document.getElementById("huojiang").value = huojiang_tableJson;
+
+		}
+		
+		//获取工作经历表格数据
+		function gongzuo_tableDate(){
+        //工作经历
+
+        var gongzuo_tableJson = '{"data":[';
+
+        $('#all_gongzuos').find('tr').each(function(){
+            var gongzuo_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(gongzuo_wu_number) != 'undefined'){
+                gongzuo_tableJson += '{"gongzuo_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_qishishijian":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_jieshushijian":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_danwei":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_bumeng":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_zhiwu":"' + $(this).find('td').eq(5).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_beizhu":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+
+        gongzuo_tableJson = gongzuo_tableJson.substr(0, gongzuo_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        gongzuo_tableJson += "]}";
+
+        if(gongzuo_tableJson =='{"data":]}'){
+            gongzuo_tableJson='';
+        }
+
+        document.getElementById("gongzuo").value = gongzuo_tableJson;
+
+		}
+		
+		
+		//获取职称表格数据
+		function zhicheng_tableDate(){
+        //职称
+
+        var zhicheng_tableJson = '{"data":[';
+
+        $('#all_zhichengs').find('tr').each(function(){
+            var zhicheng_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(zhicheng_wu_number) != 'undefined'){
+                zhicheng_tableJson += '{"zhicheng_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                zhicheng_tableJson += '"zhicheng_shijian":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                zhicheng_tableJson += '"zhicheng_mingcheng":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                zhicheng_tableJson += '"zhicheng_dengji":"' + $(this).find('td').eq(3).find('select').val() + '",';
+                zhicheng_tableJson += '"zhicheng_beizhu":"' + $(this).find('td').eq(4).find('input').val() + '"},';
+            }
+        });
+
+        zhicheng_tableJson = zhicheng_tableJson.substr(0, zhicheng_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        zhicheng_tableJson += "]}";
+
+        if(zhicheng_tableJson =='{"data":]}'){
+            zhicheng_tableJson='';
+        }
+
+        document.getElementById("zhicheng").value = zhicheng_tableJson;
+
+		}
+
+    
+
+</script>
+
+<!--在职教育经历 js -->
+    <script type="text/javascript">
+    //添加一行
+    function zz_tbAddRow()
+    {
+
+        var zz_html = '';
+        zz_html += '<tr>';
+
+        zz_html += '<td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj" class="form-control input-date" value="" onchange="zz_tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj" class="form-control input-date" value="" onchange="zz_tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  value="" onblur="zz_tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_zy[]" id="zz_jy_zy"  value="" onblur="zz_tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_xz[]" id="zz_jy_xz"  value="" onblur="zz_tableDate();" style="width:100%"> </td>';
+
+        zz_html += '<td>';
+        zz_html += ' <select class="form-control" id="zz_jy_xl"  onchange="zz_tableDate();" >';
+        zz_html += ' <option value="">请选择</option>';
+        zz_html += ' <option value="大专">大专</option>';
+        zz_html += ' <option value="本科">本科</option>';
+        zz_html += ' <option value="硕士">硕士</option>';
+        zz_html += ' <option value="博士">博士</option>';
+        zz_html += ' <option value="其它">其它</option>';
+        zz_html += '</select>';
+        zz_html += '</td>';
+
+        zz_html += '<td><input type="text" name="zz_jy_xw[]" id="zz_jy_xw"  value="" onblur="zz_tableDate();" style="width:100%"> </td>';
+
+        zz_html += '<td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>';
+        zz_html += '</tr>';
+
+        $('#zz_goods').before(zz_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+	
+	//删除一行在职
+    function zz_delete_goods(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        zz_tableDate();
+    }
+	
+	
+	//添加一行考核
+	function kaohe_tbAddRow()
+    {
+
+        var kaohe_html = '';
+        kaohe_html += '<tr>';
+
+        //kaohe_html += '<td><input type="text" name="kaohe_xuhao[]" id="kaohe_xuhao"  value="" onblur="kaohe_tableDate();" style="width:100%"> </td>';
+        //kaohe_html += '<td><input type="text" name="kaohe_time[]" id="kaohe_time" class="form-control input-date" value="" onchange="kaohe_tableDate();" style="width:100%"> </td>';
+		kaohe_html += '<td>';
+		kaohe_html += '<select class="form-control" id="kaohe_time"  onchange="kaohe_tableDate();" >';
+		kaohe_html += '<option value="">请选择</option>';
+		kaohe_html += '<option value="1990">1990</option>';
+		kaohe_html += '<option value="1991">1991</option>';
+		kaohe_html += '<option value="1992">1992</option>';
+		kaohe_html += '<option value="1993">1994</option>';
+		kaohe_html += '<option value="1995">1995</option>';
+		kaohe_html += '<option value="1996">1996</option>';
+		kaohe_html += '<option value="1997">1997</option>';
+		kaohe_html += '<option value="1998">1998</option>';
+		kaohe_html += '<option value="1999">1999</option>';
+		kaohe_html += '<option value="2000">2000</option>';
+		kaohe_html += '<option value="2001">2001</option>';
+		kaohe_html += '<option value="2002">2002</option>';
+		kaohe_html += '<option value="2003">2003</option>';
+		kaohe_html += '<option value="2004">2004</option>';
+		kaohe_html += '<option value="2005">2005</option>';
+		kaohe_html += '<option value="2006">2006</option>';
+		kaohe_html += '<option value="2007">2007</option>';
+		kaohe_html += '<option value="2008">2008</option>';
+		kaohe_html += '<option value="2009">2009</option>';
+		kaohe_html += '<option value="2010">2010</option>';
+		kaohe_html += '<option value="2011">2011</option>';
+		kaohe_html += '<option value="2012">2012</option>';
+		kaohe_html += '<option value="2013">2013</option>';
+		kaohe_html += '<option value="2014">2014</option>';
+		kaohe_html += '<option value="2015">2015</option>';
+		kaohe_html += '<option value="2016">2016</option>';
+		kaohe_html += '<option value="2017">2017</option>';
+		kaohe_html += '</select>';
+		kaohe_html += '</td>';
+        kaohe_html += '<td>';
+        kaohe_html += ' <select class="form-control" id="kaohe_jieguo"  onchange="kaohe_tableDate();" >';
+        kaohe_html += ' <option value="">请选择</option>';
+        kaohe_html += ' <option value="优秀">优秀</option>';
+        kaohe_html += ' <option value="合格">合格</option>';
+		kaohe_html += ' <option value="基本合格">基本合格</option>';
+        kaohe_html += ' <option value="不合格">不合格</option>';
+        kaohe_html += ' <option value="其它">其它</option>';
+        kaohe_html += '</select>';
+        kaohe_html += '</td>';
+		kaohe_html += '<td><input type="text" name="kaohe_beizhu[]" id="kaohe_beizhu"  value="" onblur="kaohe_tableDate();" style="width:100%"></td>';
+        kaohe_html += '<td><a href="javascript:void(0);" onclick="delete_kaohe(this)" class="delrow">删除</a></td>';
+        kaohe_html += '</tr>';
+
+        $('#kaohes').before(kaohe_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行考核
+    function delete_kaohe(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        kaohe_tableDate();
+    }
+	//删除一行获奖
+	function delete_huojiang(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        huojiang_tableDate();
+    }
+	
+	
+	//添加一行培训经历
+	function tbAddRowpx()
+    {
+        var px_html = '';
+        px_html += '<tr>';
+        px_html += '<td><input type="text" name="px_kmc[]" id="px_kmc"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value="" onchange="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value="" onchange="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_xs[]" id="px_xs"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_je[]" id="px_je"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_dd[]" id="px_dd"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_jg[]" id="px_jg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_nr[]" id="px_nr"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_rjg[]" id="px_rjg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_bz[]" id="px_bz"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+		px_html += '<td><a href="javascript:void(0);" onclick="delete_px(this)" class="delrow">删除</a></td>';
+        px_html += '</tr>';
+        /// alert(111111);
+        $('#px').before(px_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function delete_px(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        peixuntableDate();
+    }
+
+	//获取Table数据
+    function peixuntableDate(){
+	//alert(111);
+    //培训经历
+        var peixuntableJson = '{"data":[';
+        $('#all_px').find('tr').each(function(){
+            var px_number = $(this).find('td').eq(0).find('input').val();
+			//alert(px_number);
+            if(typeof(px_number) != 'undefined'){
+                peixuntableJson += '{"px_kmc":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                peixuntableJson += '"px_qssj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                peixuntableJson += '"px_zzsj":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                peixuntableJson += '"px_xs":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                peixuntableJson += '"px_je":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                peixuntableJson += '"px_dd":"' + $(this).find('td').eq(5).find('input').val() + '",';
+				peixuntableJson += '"px_zbdw":"' + $(this).find('td').eq(6).find('input').val() + '",';
+				peixuntableJson += '"px_jg":"' + $(this).find('td').eq(7).find('input').val() + '",';
+				peixuntableJson += '"px_nr":"' + $(this).find('td').eq(8).find('input').val() + '",';
+				peixuntableJson += '"px_rjg":"' + $(this).find('td').eq(9).find('input').val() + '",';
+				peixuntableJson += '"px_tcpx":"' + $(this).find('td').eq(10).find('input').val() + '",';
+                peixuntableJson += '"px_bz":"' + $(this).find('td').eq(11).find('input').val() + '"},';
+            }
+        });
+        peixuntableJson = peixuntableJson.substr(0, peixuntableJson.length-1);//去掉最后一个，这个字段 豆号
+        peixuntableJson += "]}";
+		//alert(peixuntableJson);
+
+        if(peixuntableJson =='{"data":]}'){
+            peixuntableJson='';
+        }
+        document.getElementById("peixun").value = peixuntableJson;
+
+
+    }
+
+    
+
+
+
+   // alert(111111);
+
+    document.onreadystatechange = function(){
+	//alert(111);
+        if(document.readyState == "complete"){
+            //当页面加载状态为完全结束时进入
+
+             var str = '';
+             var zz_str = '';
+             str = document.getElementById("jiaoyu").value;
+             zz_str = document.getElementById("zz_jiaoyu").value;
+			 var px_str = '';
+             px_str = document.getElementById("peixun").value;
+			 var kh_str = '';
+			 kh_str = document.getElementById("kaohe").value;
+			 var hj_str = '';
+			 hj_str = document.getElementById("huojiang").value;
+             //alert(str); alert(zz_str);
+             if(str !== null || zz_str !== null || px_str !== null || kh_str !== null || hj_str !== null){
+                //pxviewTableData();
+				viewTableData();
+				
+             }
+        }
+    }
+
+    //显示全日制教育表格数据
+    function viewTableData(){
+	//alert(111111);
+        //全日制教育经历
+            var str ={$str};
+
+            if(str.length===0 || str=='{"data":]}'){
+                var html ='';
+            }else{
+                if(typeof str === 'object'){
+                    json = str;
+                }else{
+                    json = eval(str);
+                }
+                 //alert(json);
+
+                var html ='';
+                for(var i=0; i<json.data.length; i++){
+                    //alert(json.data[i].class);
+                    html += '<tr>';
+                    html += '<td><input type="text" name="jy_rxsj[]" id="jy_rxsj" onchange="tableDate();" class="form-control input-date" value="' + json.data[i].jy_rxsj + '"  style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_bysj[]" id="jy_bysj" onchange="tableDate();" class="form-control input-date" value="' + json.data[i].jy_bysj + '" style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  onblur="tableDate();" value="' + json.data[i].jy_xxmc + '" style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_zy[]" id="jy_zy" onblur="tableDate();" value="' + json.data[i].jy_zy + '" style="width:100%"> </td>';
+
+                    html += '<td><input type="text" name="jy_xz[]" id="jy_xz" onblur="tableDate();" value="' + json.data[i].jy_xz + '" style="width:100%"> </td>';
+
+                    html += '<td>';
+                    html += ' <select class="form-control person_xl" id="jy_xl"  onchange="tableDate();" >';
+                    if(json.data[i].jy_xl == '大专'){
+						html += ' <option value="大专" selected>大专</option>';
+						html += ' <option value="本科" >本科</option>';
+						html += ' <option value="硕士" >硕士</option>';
+						html += ' <option value="博士" >博士</option>';
+						html += ' <option value="其它" >其它</option>';}
+					if(json.data[i].jy_xl == '本科'){
+						html += ' <option value="大专" >大专</option>';
+						html += ' <option value="本科" selected>本科</option>';
+						html += ' <option value="硕士" >硕士</option>';
+						html += ' <option value="博士" >博士</option>';
+						html += ' <option value="其它" >其它</option>';}
+					if(json.data[i].jy_xl == '硕士'){
+						html += ' <option value="大专" >大专</option>';
+						html += ' <option value="本科" >本科</option>';
+						html += ' <option value="硕士" selected>硕士</option>';
+						html += ' <option value="博士" >博士</option>';
+						html += ' <option value="其它" >其它</option>';}
+					if(json.data[i].jy_xl == '博士'){
+						html += ' <option value="大专" >大专</option>';
+						html += ' <option value="本科" >本科</option>';
+						html += ' <option value="硕士" >硕士</option>';
+						html += ' <option value="博士" selected>博士</option>';
+						html += ' <option value="其它" >其它</option>';}
+					if(json.data[i].jy_xl == '其它'){
+						html += ' <option value="大专" >大专</option>';
+						html += ' <option value="本科" >本科</option>';
+						html += ' <option value="硕士" >硕士</option>';
+						html += ' <option value="博士" >博士</option>';
+						html += ' <option value="其它" selected>其它</option>';}
+					if(json.data[i].jy_xl == 'null' || json.data[i].jy_xl == ''){
+						html += ' <option value="" >请选择</option>';
+						html += ' <option value="大专" >大专</option>';
+						html += ' <option value="本科" >本科</option>';
+						html += ' <option value="硕士" >硕士</option>';
+						html += ' <option value="博士" >博士</option>';
+						html += ' <option value="其它" >其它</option>';}
+					/*html += "<option value='" + json.data[i].jy_xl + "'>" + json.data[i].jy_xl + "</option>";
+                    html += ' <option value="大专">大专</option>';
+                    html += ' <option value="本科">本科</option>';
+                    html += ' <option value="硕士">硕士</option>';
+                    html += ' <option value="博士">博士</option>';
+                    html += ' <option value="其它">其它</option>';*/
+                    html += '</select>';
+                    html += '</td>';
+
+                    html += '<td><input type="text" name="jy_xw[]" id="jy_xw" onblur="tableDate();" value="' + json.data[i].jy_xw + '" style="width:100%"> </td>';
+
+                    html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+
+                    html += '</tr>';
+
+                }
+            }
+
+        ///alert(str);
+		
+		
+		//获奖
+			var hj_str ={$huojiang_str};
+
+            if(hj_str.length===0 || hj_str=='{"data":]}'){
+                var hj_html ='';
+            }else{
+                if(typeof hj_str === 'object'){
+                    hj_json = hj_str;
+                }else{
+                    hj_json = eval(hj_str);
+                }
+                 //alert(json);
+
+                var hj_html ='';
+                for(var i=0; i<hj_json.data.length; i++){
+                    //alert(json.data[i].class);
+                    hj_html += '<tr>';
+					hj_html += '<td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value="' + hj_json.data[i].hj_xuhao + '" onchange="huojiang_tableDate();" style="width:100%"> </td>';
+					hj_html += '<td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value="' + hj_json.data[i].hj_shijian + '" onchange="huojiang_tableDate();" style="width:100%"> </td>';
+
+					hj_html += '<td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value="' + hj_json.data[i].hj_mingcheng + '" onblur="huojiang_tableDate();" style="width:100%"> </td>';
+
+					hj_html += '<td><input type="text" name="hj_danwei[]" id="hj_danwei"  value="' + hj_json.data[i].hj_danwei + '"  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+					hj_html += '<td>';
+					hj_html += ' <select class="form-control" id="hj_leixing"  onchange="huojiang_tableDate();" >';
+					if(hj_json.data[i].hj_leixing == '荣誉类'){
+						hj_html += ' <option value="荣誉类" selected>荣誉类</option>';
+						hj_html += ' <option value="学术类" >学术类</option>';}
+					if(hj_json.data[i].hj_leixing == '学术类'){
+						hj_html += ' <option value="荣誉类" >荣誉类</option>';
+						hj_html += ' <option value="学术类" selected>学术类</option>';}
+					if(hj_json.data[i].hj_leixing == 'null' || hj_json.data[i].hj_leixing == ''){
+						hj_html += ' <option value="" >请选择</option>';
+						hj_html += ' <option value="荣誉类" >荣誉类</option>';
+						hj_html += ' <option value="学术类" >学术类</option>';}
+					/*hj_html += " <option value='" + hj_json.data[i].hj_leixing + "'>" + hj_json.data[i].hj_leixing + "</option>";
+					hj_html += ' <option value="荣誉类">荣誉类</option>';
+					hj_html += ' <option value="学术类">学术类</option>';*/
+					
+					hj_html += '</select>';
+					hj_html += '</td>';
+
+					//hj_html += '<td><input type="text" name="hj_jibie[]" id="hj_jibie"   value="' + hj_json.data[i].hj_jibie + '"  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+					hj_html += '<td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value="' + hj_json.data[i].hj_beizhu + '"  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+					hj_html += '<td><a href="javascript:void(0);" onclick="delete_huojiang(this)" class="delrow">删除</a></td>';
+					hj_html += '</tr>';
+
+                }
+            }
+		
+		//考核
+            var kh_str ={$kaohe_str};
+			var hjnfjs = {$hjnfjs};
+			//alert(hjnfjs);
+
+            if(kh_str.length===0 || kh_str=='{"data":]}'){
+                var kh_html ='';
+            }else{
+                if(typeof kh_str === 'object'){
+                    kh_json = kh_str;
+                }else{
+                    kh_json = eval(kh_str);
+                }
+                 //alert(json);
+				//alert(kh_json.data);
+                var kh_html ='';
+				var selectedd = '';
+                for(var i=0; i<kh_json.data.length; i++){
+				//alert(kh_json.data[i].kaohe_time);
+				
+                    //alert(json.data[i].class);
+                    kh_html += '<tr>';
+					//kh_html += '<td><input type="text" name="kaohe_xuhao[]" id="kaohe_xuhao"  value="' + kh_json.data[i].kaohe_xuhao + '" onblur="kaohe_tableDate();" style="width:100%"> </td>';
+					kh_html += '<td>';
+					kh_html += '<select class="form-control" id="kaohe_time"  onchange="kaohe_tableDate();" >';
+					for(var b=1990; b<2018; b++){
+						if(kh_json.data[i].kaohe_time == b){
+							selectedd = "selected";
+							
+						}
+						kh_html += '<option value="'+b+'" '+selectedd+'>'+b+'</option>';
+						selectedd = '';
+					}
+					
+					kh_html += '</select>';
+					//kh_html += '<input type="text" name="kaohe_time[]" id="kaohe_time" class="form-control input-date" value="' + kh_json.data[i].kaohe_time + '" onblur="kaohe_tableDate();" style="width:100%">'; 
+					kh_html += '</td>';
+
+					kh_html += '<td>';
+					kh_html += ' <select class="form-control" id="kaohe_jieguo"  onchange="kaohe_tableDate();" >';
+					
+					if(kh_json.data[i].kaohe_jieguo == '优秀'){
+						kh_html += ' <option value="优秀" selected>优秀</option>';
+						kh_html += ' <option value="合格">合格</option>';
+						kh_html += ' <option value="基本合格">基本合格</option>';
+						kh_html += ' <option value="不合格">不合格</option>';
+						kh_html += ' <option value="其它">其它</option>';}                                      
+					if(kh_json.data[i].kaohe_jieguo == '合格'){
+						kh_html += ' <option value="优秀" >优秀</option>';
+						kh_html += ' <option value="合格" selected>合格</option>';
+						kh_html += ' <option value="基本合格">基本合格</option>';
+						kh_html += ' <option value="不合格">不合格</option>';
+						kh_html += ' <option value="其它">其它</option>';}
+					if(kh_json.data[i].kaohe_jieguo == '基本合格'){
+						kh_html += ' <option value="优秀" >优秀</option>';
+						kh_html += ' <option value="合格" >合格</option>';
+						kh_html += ' <option value="基本合格" selected>基本合格</option>';
+						kh_html += ' <option value="不合格">不合格</option>';
+						kh_html += ' <option value="其它">其它</option>';}
+					if(kh_json.data[i].kaohe_jieguo == '不合格'){
+						kh_html += ' <option value="优秀" >优秀</option>';
+						kh_html += ' <option value="合格" >合格</option>';
+						kh_html += ' <option value="基本合格" >基本合格</option>';
+						kh_html += ' <option value="不合格" selected>不合格</option>';
+						kh_html += ' <option value="其它">其它</option>';}
+					if(kh_json.data[i].kaohe_jieguo == '其它'){
+						kh_html += ' <option value="优秀" >优秀</option>';
+						kh_html += ' <option value="合格" >合格</option>';
+						kh_html += ' <option value="基本合格" >基本合格</option>';
+						kh_html += ' <option value="不合格" >不合格</option>';
+						kh_html += ' <option value="其它" selected>其它</option>';}
+					if(kh_json.data[i].kaohe_jieguo == ''){
+						kh_html += ' <option value="" >请选择</option>';
+						kh_html += ' <option value="优秀" >优秀</option>';
+						kh_html += ' <option value="合格" >合格</option>';
+						kh_html += ' <option value="基本合格" >基本合格</option>';
+						kh_html += ' <option value="不合格" >不合格</option>';
+						kh_html += ' <option value="其它" >其它</option>';}
+					
+					
+						
+					/*kh_html += " <option value='" + kh_json.data[i].kaohe_jieguo + "'>" + kh_json.data[i].kaohe_jieguo + "</option>";
+					kh_html += ' <option value="优秀">优秀</option>';
+					kh_html += ' <option value="合格">合格</option>';
+					kh_html += ' <option value="基本合格">基本合格</option>';
+					kh_html += ' <option value="不合格">不合格</option>';
+					kh_html += ' <option value="其它">其它</option>';*/
+					kh_html += '</select>';
+					kh_html += '</td>';
+					kh_html += '<td><input type="text" name="kaohe_beizhu[]" id="kaohe_beizhu"  value="' + kh_json.data[i].kaohe_beizhu + '" onblur="kaohe_tableDate();" style="width:100%"></td>';
+					kh_html += '<td><a href="javascript:void(0);" onclick="delete_kaohe(this)" class="delrow">删除</a></td>';
+					kh_html += '</tr>';
+
+                }
+            }
+			
+			
+			//职称
+			 var zh_str ={$zhicheng_str};
+
+            if(zh_str.length===0 || zh_str=='{"data":]}'){
+                var zh_html ='';
+            }else{
+                if(typeof zh_str === 'object'){
+                    zh_json = zh_str;
+                }else{
+                    zh_json = eval(zh_str);
+                }
+                 //alert(json);
+
+                var zh_html ='';
+                for(var i=0; i<zh_json.data.length; i++){
+				//alert(1);
+                    //alert(json.data[i].class);
+                    zh_html += '<tr>';
+					zh_html += '<td><input type="text" name="zhicheng_xuhao[]" id="zhicheng_xuhao"  value="' + zh_json.data[i].zhicheng_xuhao + '" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+					zh_html += '<td><input type="text" name="zhicheng_shijian[]" id="zhicheng_shijian"  class="form-control input-date" value="' + zh_json.data[i].zhicheng_shijian + '" onchange="zhicheng_tableDate();" style="width:100%"> </td>';
+					zh_html += '<td><input type="text" name="zhicheng_mingcheng[]" id="zhicheng_mingcheng"  value="' + zh_json.data[i].zhicheng_mingcheng + '" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+					zh_html += '<td>';
+					zh_html += ' <select class="form-control" id="zhicheng_dengji"  onchange="zhicheng_tableDate();" >';
+					
+					if(zh_json.data[i].zhicheng_dengji == '高级'){
+						zh_html += ' <option value="高级" selected>高级</option>';
+						zh_html += ' <option value="中级">中级</option>';
+						zh_html += ' <option value="初级">初级</option>';}
+					if(zh_json.data[i].zhicheng_dengji == '中级'){
+						zh_html += ' <option value="高级" >高级</option>';
+						zh_html += ' <option value="中级" selected>中级</option>';
+						zh_html += ' <option value="初级">初级</option>';}
+					if(zh_json.data[i].zhicheng_dengji == '初级'){
+						zh_html += ' <option value="高级" >高级</option>';
+						zh_html += ' <option value="中级">中级</option>';
+						zh_html += ' <option value="初级" selected>初级</option>';}
+					if(zh_json.data[i].zhicheng_dengji == '' || zh_json.data[i].zhicheng_dengji == 'null'){
+						zh_html += ' <option value="" >请选择</option>';
+						zh_html += ' <option value="高级" >高级</option>';
+						zh_html += ' <option value="中级">中级</option>';
+						zh_html += ' <option value="初级" >初级</option>';}
+						
+					/*zh_html += " <option value='" + zh_json.data[i].zhicheng_dengji + "'>" + zh_json.data[i].zhicheng_dengji + "</option>";
+					zh_html += ' <option value="高级">高级</option>';
+					zh_html += ' <option value="中级">中级</option>';
+					zh_html += ' <option value="初级">初级</option>';*/
+					zh_html += '</select>';
+					
+					zh_html += '</td>';
+
+					zh_html += '<td><input type="text" name="zhicheng_beizhu[]" id="zhicheng_beizhu"  value="' + zh_json.data[i].zhicheng_beizhu + '" onblur="zhicheng_tableDate();" style="width:100%"> </td>';
+
+					zh_html += '<td><a href="javascript:void(0);" onclick="zhicheng_delete_goods(this)" class="delrow">删除</a></td>';
+					zh_html += '</tr>';
+
+                }
+            }
+
+	
+		//显示培训经历表格数据
+            var px_str ={$px_str};
+
+            if(px_str.length===0 || px_str=='{"data":]}'){
+                var px_html ='';
+            }else{
+                if(typeof px_str === 'object'){
+                    px_json = px_str;
+                }else{
+                    px_json = eval(px_str);
+                }
+                 //alert(json);
+
+                var px_html ='';
+                for(var i=0; i<px_json.data.length; i++){
+                    //alert(json.data[i].class);
+                    px_html += '<tr>';
+                    px_html += '<td><input type="text" name="px_kmc[]" id="px_kmc"  value="' + px_json.data[i].px_kmc + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value="' + px_json.data[i].px_qssj + '" onchange="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value="' + px_json.data[i].px_zzsj + '" onchange="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_xs[]" id="px_xs"  value="' + px_json.data[i].px_xs + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_je[]" id="px_je"  value="' + px_json.data[i].px_je + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_dd[]" id="px_dd"  value="' + px_json.data[i].px_dd + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value="' + px_json.data[i].px_zbdw + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_jg[]" id="px_jg"  value="' + px_json.data[i].px_jg + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_nr[]" id="px_nr"  value="' + px_json.data[i].px_nr + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_rjg[]" id="px_rjg"  value="' + px_json.data[i].px_rjg + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value="' + px_json.data[i].px_tcpx + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_bz[]" id="px_bz"  value="' + px_json.data[i].px_bz + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><a href="javascript:void(0);" onclick="delete_px(this)" class="delrow">删除</a></td>';
+                    px_html += '</tr>';
+
+                }
+            }
+					
+            
+
+        //显示在职教育经历
+
+           var zz_str=  {$zz_str};
+
+            if(zz_str.length ===0 || zz_str=='{"data":]}'){
+                var zz_html ='';
+            }else{
+                if(typeof zz_str === 'object'){
+                    zz_json = zz_str;
+                }else{
+                    zz_json = eval(zz_str);
+                }
+                /// alert(json);
+                var zz_html ='';
+                for(var i=0; i<zz_json.data.length; i++){
+                    //alert(json.data[i].class);
+                    zz_html += '<tr>';
+                    zz_html += '<td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj" onchange="zz_tableDate();" class="form-control input-date" value="' + zz_json.data[i].zz_jy_rxsj + '"  style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj" onchange="zz_tableDate();" class="form-control input-date" value="' + zz_json.data[i].zz_jy_bysj + '" style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  onblur="zz_tableDate();" value="' + zz_json.data[i].zz_jy_xxmc + '" style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_zy[]" id="zz_jy_zy" onblur="zz_tableDate();" value="' + zz_json.data[i].zz_jy_zy + '" style="width:100%"> </td>';
+
+                    zz_html += '<td><input type="text" name="zz_jy_xz[]" id="zz_jy_xz" onblur="zz_tableDate();" value="' + zz_json.data[i].zz_jy_xz + '" style="width:100%"> </td>';
+
+                    zz_html += '<td>';
+                    zz_html += ' <select class="form-control person_xl" id="zz_jy_xl"  onchange="zz_tableDate();" >';
+                    if(zz_json.data[i].zz_jy_xl == '大专'){
+						zz_html += ' <option value="大专" selected>大专</option>';
+						zz_html += ' <option value="本科" >本科</option>';
+						zz_html += ' <option value="硕士" >硕士</option>';
+						zz_html += ' <option value="博士" >博士</option>';
+						zz_html += ' <option value="其它" >其它</option>';}
+					if(zz_json.data[i].zz_jy_xl == '本科'){
+						zz_html += ' <option value="大专" >大专</option>';
+						zz_html += ' <option value="本科" selected>本科</option>';
+						zz_html += ' <option value="硕士" >硕士</option>';
+						zz_html += ' <option value="博士" >博士</option>';
+						zz_html += ' <option value="其它" >其它</option>';}
+					if(zz_json.data[i].zz_jy_xl == '硕士'){
+						zz_html += ' <option value="大专" >大专</option>';
+						zz_html += ' <option value="本科" >本科</option>';
+						zz_html += ' <option value="硕士" selected>硕士</option>';
+						zz_html += ' <option value="博士" >博士</option>';
+						zz_html += ' <option value="其它" >其它</option>';}
+					if(zz_json.data[i].zz_jy_xl == '博士'){
+						zz_html += ' <option value="大专" >大专</option>';
+						zz_html += ' <option value="本科" >本科</option>';
+						zz_html += ' <option value="硕士" >硕士</option>';
+						zz_html += ' <option value="博士" selected>博士</option>';
+						zz_html += ' <option value="其它" >其它</option>';}
+					if(zz_json.data[i].zz_jy_xl == '其它'){
+						zz_html += ' <option value="大专" >大专</option>';
+						zz_html += ' <option value="本科" >本科</option>';
+						zz_html += ' <option value="硕士" >硕士</option>';
+						zz_html += ' <option value="博士" >博士</option>';
+						zz_html += ' <option value="其它" selected>其它</option>';}
+					if(zz_json.data[i].zz_jy_xl == 'null' || zz_json.data[i].zz_jy_xl == ''){
+						zz_html += ' <option value="" >请选择</option>';
+						zz_html += ' <option value="大专" >大专</option>';
+						zz_html += ' <option value="本科" >本科</option>';
+						zz_html += ' <option value="硕士" >硕士</option>';
+						zz_html += ' <option value="博士" >博士</option>';
+						zz_html += ' <option value="其它" >其它</option>';}
+					/*zz_html += "<option value='" + zz_json.data[i].zz_jy_xl + "'>" + zz_json.data[i].zz_jy_xl + "</option>";
+                    zz_html += ' <option value="大专">大专</option>';
+                    zz_html += ' <option value="本科">本科</option>';
+                    zz_html += ' <option value="硕士">硕士</option>';
+                    zz_html += ' <option value="博士">博士</option>';
+                    zz_html += ' <option value="其它">其它</option>';*/
+                    zz_html += '</select>';
+                    zz_html += '</td>';
+
+                    zz_html += '<td><input type="text" name="zz_jy_xw[]" id="zz_jy_xw" onblur="zz_tableDate();" value="' + zz_json.data[i].zz_jy_xw + '" style="width:100%"> </td>';
+
+
+                    zz_html += '<td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>';
+
+                    zz_html += '</tr>';
+                }
+
+            }
+
+
+
+
+        
+
+
+        //显示工作经历
+		
+        var gongzuo_str=  {$gongzuo_str};
+
+        if(gongzuo_str.length ===0 || gongzuo_str=='{"data":]}'){
+            var gz_html ='';
+        }else{
+            if(typeof gongzuo_str === 'object'){
+                gongzuo_json = gongzuo_str;
+            }else{
+                gongzuo_json = eval(gongzuo_str);
+            }
+            // alert(huojiang_json);
+            var gz_html ='';
+            for(var i=0; i<gongzuo_json.data.length; i++){
+                //alert(json.data[i].class);
+                gz_html += '<tr>';
+
+                gz_html += '<td><input type="text" name="gongzuo_xuhao[]" id="gongzuo_xuhao"  value="' + gongzuo_json.data[i].gongzuo_xuhao + '" onblur="gongzuo_tableDate();" style="width:100%"> </td>';
+				gz_html += '<td><input type="text" name="gongzuo_qishishijian[]" id="gongzuo_qishishijian"  class="form-control input-date" value="' + gongzuo_json.data[i].gongzuo_qishishijian + '" onchange="gongzuo_tableDate();" style="width:100%"> </td>';
+				gz_html += '<td><input type="text" name="gongzuo_jieshushijian[]" id="gongzuo_jieshushijian"  class="form-control input-date" value="' + gongzuo_json.data[i].gongzuo_jieshushijian + '" onchange="gongzuo_tableDate();" style="width:100%"> </td>';
+
+				gz_html += '<td><input type="text" name="gongzuo_danwei[]" id="gongzuo_danwei"  value="' + gongzuo_json.data[i].gongzuo_danwei + '" onblur="gongzuo_tableDate();" style="width:100%"> </td>';
+				gz_html += '<td><input type="text" name="gongzuo_bumeng[]" id="gongzuo_bumeng"  value="' + gongzuo_json.data[i].gongzuo_bumeng + '" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+				gz_html += '<td><input type="text" name="gongzuo_zhiwu[]" id="gongzuo_zhiwu"  value="' + gongzuo_json.data[i].gongzuo_zhiwu + '" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+
+				gz_html += '<td><input type="text" name="gongzuo_beizhu[]" id="gongzuo_beizhu"  value="' + gongzuo_json.data[i].gongzuo_beizhu + '" onblur="gongzuo_tableDate();" style="width:100%"></td>';
+
+				gz_html += '<td><a href="javascript:void(0);" onclick="delete_gongzuos(this)" class="delrow">删除</a></td>';
+
+                gz_html += '</tr>';
+            }
+
+        }
+		
+
+
+        $('#goods').before(html);
+		
+        $('#zz_goods').before(zz_html);
+		$('#px').before(px_html);
+        $('#kaohes').before(kh_html);
+		$('#huojiangs').before(hj_html);
+		$('#gongzuos').before(gz_html);
+        $('#zhichengs').before(zh_html);
+		
+        tableDate();
+		zz_tableDate();
+		peixuntableDate();
+		kaohe_tableDate();
+		huojiang_tableDate();
+		gongzuo_tableDate();
+		zhicheng_tableDate();
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+	
+
+</script>
+

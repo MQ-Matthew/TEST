@@ -1,0 +1,425 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    <style>
+        .tree-menu {
+            position: relative;
+        }
+        .tree-menu ul {
+            display: block;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .tree-menu  a {
+            position: relative;
+            z-index: 9;
+        }
+        .tree-menu  a:hover {
+            background: #EEEEEE;
+        }
+        .tree-menu  a:hover + input + label i {
+            background: #EEEEEE;
+        }
+        .tree-menu  a.active {
+            background: #2794eb;
+            color: #FFFFFF;
+            border-radius: 2px;
+        }
+        .tree-menu  a.active:hover {
+            background: #2794eb;
+            color: #FFFFFF;
+            border-radius: 2px;
+        }
+        .frame .tree-menu i,.popup-content .tree-menu i{
+            background:#f0f0f0;
+        }
+        .tree-menu  a.active + input + label i {
+            background: #2794eb;
+        }
+        .tree-menu ul::after {
+            position: absolute;
+            width: 0px;
+            content: "";
+            margin-top: 0px;
+            border-left: 1px solid #000;
+            z-index: 10;
+        }
+        .tree-menu ul::before {
+            position: absolute;
+            height: calc(100% - 32px);
+            width: 0px;
+            content: "";
+            margin-top: 16px;
+            border-left: 1px solid #222;
+            z-index: 10;
+        }
+        .tree-menu ul ul::before {
+            position: absolute;
+            height: calc(100% - 48px);
+            width: 0px;
+            content: "";
+            margin-top: 0px;
+            border-left: 1px solid #000;
+            z-index: 10;
+        }
+        .tree-menu > ul li:last-child::before {
+            display:none
+        }
+        .tree-menu ul::before {
+            left: 10px;
+        }
+        .tree-menu ul ul::before {
+            left: 40px;
+        }
+        .tree-menu ul ul ul::before {
+            left: 70px;
+        }
+        .tree-menu ul ul ul ul::before {
+            left: 100px;
+        }
+        .tree-menu ul ul ul ul ul::before {
+            left: 130px;
+        }
+        .tree-menu ul ul ul ul ul ul::before {
+            left: 160px;
+        }
+        .tree-menu ul li a::after {
+            position: absolute;
+            width: 17px;
+            content: "";
+            top: 15px;
+            left: 35px;
+            border-top: 1px solid #000;
+            z-index: 10;
+        }
+        .tree-menu ul li a::after {
+            left: 10px;
+        }
+        .tree-menu ul ul li a::after {
+            left: 40px;
+        }
+        .tree-menu ul ul ul li a::after {
+            left: 70px;
+        }
+        .tree-menu ul ul ul ul li a::after {
+            left: 100px;
+        }
+        .tree-menu ul ul ul ul ul li a::after {
+            left: 130px;
+        }
+        .tree-menu ul ul ul ul ul ul li a::after {
+            left: 160px;
+        }
+        .tree-menu li {
+            position: relative;
+            width: 100%;
+        }
+        .tree-menu ul a {
+            cursor: pointer;
+            box-sizing: content-box;
+            display: block;
+            height: 32px;
+            line-height: 32px;
+            padding-left: 35px;
+            padding-right: 15px;
+        }
+        .tree-menu ul ul a {
+            padding-left: 65px;
+        }
+        .tree-menu ul ul ul a {
+            padding-left: 95px;
+        }
+        .tree-menu ul ul ul ul a {
+            padding-left: 125px;
+        }
+        .tree-menu ul ul ul ul ul a {
+            padding-left: 155px;
+        }
+        .tree-menu ul li label {
+            position: relative;
+            z-index: 11;
+            float: left;
+            cursor: pointer;
+            position: relative;
+            width: 15px;
+        }
+        .tree-menu > ul > li > label {
+            padding-left: 3px;
+        }
+        .tree-menu > ul ul li > label {
+            padding-left: 33px;
+        }
+        .tree-menu > ul ul ul li > label {
+            padding-left: 63px;
+        }
+        .tree-menu > ul ul ul ul li > label {
+            padding-left: 93px;
+        }
+        .tree-menu > ul ul ul ul ul li > label {
+            padding-left: 123px;
+        }
+        .tree-menu > ul ul {
+            display: block;
+            height: 0%;
+            max-height: 0px;
+            overflow: hidden;
+        }
+        .tree-menu input[type="checkbox"] {
+            display: none;
+        }
+        .tree-menu label {
+            position: absolute;
+            line-height: 32px;
+            margin-top: -32px;
+            font-size: 14px;
+            width: 12px;
+            text-align: center;
+        }
+        .tree-menu label i {
+            background: #fff;
+            width: 14px;
+        }
+        .tree-menu input[type="checkbox"]:checked + label i::before {
+            content: "\f147";
+        }
+        .tree-menu input[type="checkbox"]:checked + label + ul {
+            display: block;
+            border-top: 0px;
+            height: 100%;
+            min-height: 100%;
+            max-height: 2000px;
+            transition: max-height 0.6s linear;
+        }
+        .page-header{
+            border-bottom: 0px solid #eee;
+        }
+        .pull-left{
+            margin-bottom: -20px;
+        }
+        .pull-right{
+            margin-bottom: -20px;
+        }
+    </style>
+
+
+	<form id="form_search" name="form_search" method="post" action="">
+		<div class="operate panel panel-default">
+			<div class="panel-body">
+                <div class="pull-left">
+                    {:W('PageHeader/simple',array('name'=>'资产管理','search'=>'N'))}
+                </div>
+				<div class="pull-right">
+					<a onclick="add();" class="btn btn-sm btn-primary">新增</a>
+					<a onclick="save();"  class="btn btn-sm btn-primary">保存</a>
+					|
+					<a onclick="del();"  class="btn btn-sm btn-danger">删除</a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-sm-5 sub_left_menu">
+			<div class="well">
+				<?php echo $menu ?>
+             <!-- <div class="tree-menu">
+                    <ul>
+                        <foreach name="tree" item="one_tree">
+                            <li>
+                                <a node="{$one_tree.id}" class="">{$one_tree.name}</a>
+                                <input type="checkbox" id="chk_tree_{$one_tree.id}">
+                                <label for="chk_tree_{$one_tree.id}"><i class="fa fa-plus-square-o"></i></label>
+                                <ul>
+                                    <foreach name="one_tree['_child']" item="two_tree">
+                                        <li>
+                                            <a node="{$two_tree.id}" class="">{$two_tree.name}</a>
+                                            <input type="checkbox" id="chk_tree_{$two_tree.id}">
+                                            <label for="chk_tree_{$two_tree.id}"><i class="fa fa-plus-square-o"></i></label>
+                                            <ul>
+                                                <foreach name="two_tree['_child']" item="three_tree">
+                                                      <li>
+                                                        <a node="{$three_tree.id}" class="">{$three_tree.name}</a>
+                                                        <input type="checkbox" id="chk_tree_{$three_tree.id}">
+                                                        <label for="chk_tree_{$three_tree.id}"><i class="fa fa-plus-square-o"></i></label>
+                                                      </li>
+                                                </foreach>
+                                            </ul>
+                                        </li>
+                                    </foreach>
+                                </ul>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>-->
+
+
+            <!--tree树开始-->
+               <!-- <div class="tree-menu">
+                    <ul>
+                        <li>
+                            <a node="38">紫光科技</a>
+                            <input type="checkbox" id="chk_tree_38">
+                            <label for="chk_tree_38"><i class="fa fa-plus-square-o"></i></label>
+                            <ul>
+
+                                <li>
+                                    <a node="39">研发部</a>
+                                    <input type="checkbox" id="chk_tree_39">
+                                    <label for="chk_tree_39"><i class="fa fa-plus-square-o"></i></label>
+                                    <ul>
+
+                                        <li>
+                                            <a node="63">运营组</a>
+                                            <input type="checkbox" id="chk_tree_63">
+                                            <label for="chk_tree_63"><i class="fa fa-plus-square-o"></i></label>
+                                            <ul>
+                                                <li>
+                                                    <a node="68">客服</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>-->
+                <!--tree树结束-->
+
+            </div>
+		</div>
+		<div class="col-sm-7 sub_content">
+			<form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+				<input type="hidden" name="id" id="id">
+				<input type="hidden" name="ajax" id="ajax" value="1">
+				<input type="hidden" name="opmode" id="opmode" value="">
+				<select name="node_list" id="node_list" class="hidden">
+					{:fill_option($node_list)}
+				</select>
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="name">名称*：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
+					</div>
+				</div>
+
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="url">地址：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" id="url" name="url">
+					</div>
+				</div>
+
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="url">父节点：</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input name="node_name" class="form-control val" id="node_name" type="text"  readonly="readonly"/>
+							<input name="pid"  id="pid" type="hidden" msg="请选择父节点" check="require"  />
+							<span class="input-group-btn">
+								<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
+									选择
+								</button> </span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="icon">图标：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" id="icon" name="icon" >
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="badge_function">统计函数：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" id="badge_function" name="badge_function" >
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="sort">排序：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" id="sort" name="sort" >
+					</div>
+				</div>
+
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="is_del">状态*：</label>
+					<div class="col-sm-8">
+						<select   name="is_del" id="is_del" class="form-control">
+							<option  value="0">启用</option>
+							<option value="1">禁用</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group col-xs-12">
+					<label class="col-sm-4 control-label" for="remark" >备注：</label>
+					<div class="col-sm-8" >
+						<textarea class="form-control" id='remark' name="remark" rows="5" class="col-xs-12" ></textarea>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function add() {
+			winopen("{:U('add')}",560, 470);
+		};
+
+		function del() {
+			var vars = $("#form_data").serialize();
+			ui_confirm('确定要删除吗?', function() {
+				sendAjax("{:U('del')}", vars, function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							$("#form_search").submit();
+						});
+					} else {
+						ui_alert(data.info, function() {
+						});
+					}
+				});
+			});
+		}
+
+		function save() {
+			sendForm("form_data", "{:U('AssetType/save')}", fix_url("{:U('AssetType/index')}?eq_pid=" + $("#eq_pid").val()));
+		}
+
+		function select_pid() {
+			winopen("{:U('winpop')}",560, 470);
+		}
+
+		function showdata(result) {
+			for (var s in result.data) {
+				set_val(s, result.data[s]);
+			}
+			$("#node_name").val($("#node_list option[value='" + $("#pid").val() + "']").text());
+			$("#opmode").val("edit");
+		}
+
+
+		$(document).ready(function() {
+			set_return_url();
+			set_val('eq_pid', '{$eq_pid}');
+			$(".sub_left_menu .tree_menu a").click(function() {
+				$(".sub_left_menu .tree_menu  a").each(function() {
+					$(this).attr("class", "");
+				});
+				$(this).attr("class", "active");
+				sendAjax("{:U('read')}", "id=" + $(this).attr("node"), function(data) {
+					showdata(data);
+				});
+				return false;
+			});
+			sendAjax("{:U('read')}", "id={$eq_pid}", function(data) {
+				showdata(data);
+			});
+		});
+
+	</script>
+
+</block>

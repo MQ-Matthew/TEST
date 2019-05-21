@@ -1,0 +1,138 @@
+<extend name="Layout/ins_popup" />
+<block name="content">
+	<div class="popup-fixed">
+		<div class="popup-header clearfix">
+			<div class="pull-left">
+				
+					<input class="ace"  type="radio" id="rb_dept" name="type" value="dept" >
+					<span class="lbl">部门</span>
+				
+					<input  class="ace"  type="radio" id="rb_position" name="type" value="position">
+					<span class="lbl">职位</span>
+			</div>
+			<div class="pull-right">
+				<a onclick="save();" class="btn btn-sm btn-primary">确定</a>
+				<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+			</div>
+		</div>
+		<div class="popup-body clearfix">
+			<div class="col-23 pull-left">
+				<b class="popup-label">地址簿</b>
+				<div class="popup_tree_menu" >
+					<div id="dept" class="hidden" style="height:369px;">
+						{$list_dept}
+					</div>
+					<div id="position" class="hidden" style="height:369px;">
+						{$list_position}
+					</div>
+				</div>
+			</div>
+			<div class="col-30 pull-right">
+				<div class="col-7 pull-left text-center mid" style="margin-top: 24px;"></div>
+				<div class="col-23 pull-right" >
+					<b class="popup-label">人员</b>
+					<div id="addr_list" style="width:100%;height:369px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function save() {
+			if ($('#addr_list input:checked').length > 0) {
+
+				$id = $('#addr_list input:checked').val();
+				$name = $('#addr_list input:checked').attr('text');
+
+				$(".emp .name", parent.document).val($name);
+				$(".emp .id", parent.document).val($id);
+
+			} else {
+				ui_error('请选择人员');
+				return false;
+			}
+			myclose();
+		}
+
+		function showdata(result) {
+			$("#addr_list").html("");
+			for (s in result.data) {
+				var id = result.data[s].id;
+				var emp_no = result.data[s].emp_no;
+				var position_name = result.data[s].position_name;
+				var name = result.data[s].name;
+				var name = name + "/" + position_name;
+				var html_string = conv_address_item_radio(name, emp_no);
+				$("#addr_list").append(html_string);
+			}
+		}
+
+
+		$(document).ready(function() {
+
+			$("#rb_{$type}").prop('checked', true);
+			// 选择用户默认选择的类型
+			$("#{$type}").removeClass("hidden");
+
+			$("input[name='type']").on('click', function() {
+				$("input[name='type']").each(function() {
+					$("#" + $(this).val()).addClass("hidden");
+				});
+				$("#" + $(this).val()).removeClass("hidden");
+			});
+			//点击节点时读取相应的数据
+			$(".tree_menu  a").click(function() {
+				$(".tree_menu a").removeClass("active");
+				var type = $("input[name='type']:checked").val();
+				$(this).addClass("active");
+				sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
+					showdata(data);
+				});
+				return false;
+				//禁止连接生效
+			});
+
+			// 双击添加到收件人 因后添加的数据 所以需要用live函数
+			$(document).on("dblclick", "#addr_list label", function() {
+				$text = $(this).text();
+				$val = $(this).find("input").val();
+				if ($("#rc select option[value='" + $val + "']").val() == undefined) {
+					$("<option></option>").val($val).text($text).appendTo("#rc select");
+					$("#rc_count").text("(" + $("#rc select option").length + ")");
+				};
+			});
+
+			/* 双击添加到收件人 因后添加的数据 所以需要用live函数 */
+			$("#rc select").on("dblclick", function() {
+				$(this).find("option:selected").remove();
+				$("#rc_count").text("(" + $("#rc select option").length + ")");
+			});
+
+			$("#cc select").on("dblclick", function() {
+				$(this).find("option:selected").remove();
+				$("#cc_count").text("(" + $("#cc select option").length + ")");
+			});
+
+			$("#bcc select").on("dblclick", function() {
+				$(this).find("option:selected").remove();
+				$("#bcc_count").text("(" + $("#bcc select option").length + ")");
+			});
+		});
+		//最终确认
+
+		function add_address(name) {
+			$("input:checked[name='addr_id']").each(function() {
+				$(this).prop('checked', false);
+				$text = $(this).parents("label").find("span").text();
+				$val = $(this).val();
+				if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
+					$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
+					$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
+				};
+			});
+		}
+
+		//-->
+	</script>
+</block>

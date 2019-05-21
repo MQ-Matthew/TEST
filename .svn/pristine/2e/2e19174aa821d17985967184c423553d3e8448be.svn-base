@@ -1,0 +1,10 @@
+<extend name="Layout/ins_popup" />
+<block name="content">
+<div class="page-header clearfix">
+	<h1 class="col-xs-9">下载</h1>
+	<div class="col-xs-3 text-right">
+		<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+	</div>
+</div>
+    	{:W('FileUpload/view',array('add_file'=>$file,'mode'=>'show'))}
+</block>

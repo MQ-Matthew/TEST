@@ -1,0 +1,89 @@
+﻿<extend name="Layout/ins_page" />
+<block name="content">
+{:W('PageHeader/simple',array('name'=>'文电承办结果','search'=>'N'))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-right">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+
+		</div>
+	</div>
+<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   >
+<input type="hidden"value="{$gov_doc_id}"name="gov_doc_id"/>
+<div  class="well form-horizontal">
+       <div class="form-group">
+			<label class="col-sm-2 control-label" for="name">标题：</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">
+					{$wendian['title']}
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="content">文号：</label>
+			<div class="col-xs-10">
+				<div class="task_content form-control-static">
+					{$wendian['doc_no']}
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="content">类型：</label>
+			<div class="col-xs-10">
+				<div class="task_content form-control-static">
+                   
+                   <switch name="wendian['doc_type']">
+                   	<case value="0">文电</case>
+                   	<case value="1">电报</case>
+                   	
+                   </switch>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="content">文档：</label>
+			<div class="col-xs-10">
+				<div class="task_content form-control-static">
+                   {:W('FileUpload/view',array('add_file'=>$wendian['add_file'],'mode'=>'show'))}
+				</div>
+			</div>
+		</div>
+</div>
+        <div class="row">
+            <label class="col-sm-2 control-label" for="content">
+                承办结果：
+            </label>
+            <div class="col-xs-12">
+                <textarea id="content" name="content"  style="width:100%;height:100px;"></textarea>
+            </div>
+        </div>
+        
+        <div class="operate panel panel-default">
+		<div class="panel-body">
+			
+            <div class="col-sm-12 col-sm-offset-5">
+                <input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+				<input class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+            </div>
+        
+
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">  
+
+      function save(){
+		  var vars=$("#form_data").serialize();
+		  sendAjax("{:U('save_readover3')}",vars,function(data){
+              if (data.status) {
+                    ui_alert(data.info, function(){
+                        go_return_url();
+                    });
+                }
+		  });
+	  } 
+	</script>
+</block>

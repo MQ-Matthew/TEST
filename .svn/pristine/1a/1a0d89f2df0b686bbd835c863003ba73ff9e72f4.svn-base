@@ -1,0 +1,64 @@
+
+<!--获奖情况 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        <th width="5%">序号</th>
+        <th width="12%">获奖(荣誉)时间</th>
+        <th width="20%">获奖(荣誉)名称</th>
+        <th width="20%">颁发(授予)单位</th>
+        <th width="10%">奖项分类</th>
+        
+        <th width="15%">备注</th>
+        
+    </tr>
+    </thead>
+
+    <empty name="info.huojiang">
+        <tbody id='all_huojiangs'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value=""  style="width:100%"> </td>
+            <td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value=""   style="width:100%"> </td>
+
+            <td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value=""   style="width:100%"> </td>
+
+            <td><input type="text" name="hj_danwei[]" id="hj_danwei"  value=""   style="width:100%"></td>
+
+            <td>
+			<!--<input type="text" name="hj_leixing[]" id="hj_leixing"   value=""  onblur="huojiang_tableDate();" style="width:100%">-->
+			<select class="form-control" id="hj_leixing"   >
+                    <option value=''>请选择</option>
+                    <option value='荣誉类'>荣誉类</option>
+                    <option value='学术类'>学术类</option>
+                    
+                </select>
+			</td>
+
+           
+
+            <td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value=""  style="width:100%"></td>
+
+            
+        </tr>
+        <tr id='huojiangs'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_huojiangs'> <!--编辑-->
+        <tr id='huojiangs'></tr>
+        </tbody>
+
+    </empty>
+
+
+</table>
+<input type="hidden" id="huojiang" name="huojiang" value="{$info.huojiang}">
+
+
+
+
+
+

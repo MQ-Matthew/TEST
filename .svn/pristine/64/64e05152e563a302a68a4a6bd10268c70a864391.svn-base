@@ -1,0 +1,340 @@
+ <empty name="traininfo">
+        <div class="col-lg-12" name="pxdiv">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                培训经历
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                
+                    <table class="table  table-condensed" >
+
+                        <tr>
+                            <th >
+                                <nobr>
+                                    培训班名称(*必填项)
+                                </nobr></th>
+                                <td>
+                                    <input type="hidden" name="train_id[]" value="">
+                                    <input type="text" name="train_name[]" id="train_name"  value=""  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        起始时间
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_start[]" id="train_start" class="form-control input-date" value="" style="width:100%">
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    终止时间
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_graduation[]" id="train_graduation" class="form-control input-date" value="" style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训学时
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_hours[]" id="train_hours"  value=""  style="width:100%">
+                                    </td>
+                                </tr>
+                                <tr>
+                            <th>
+                                <nobr>
+                                    培训费金额
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_cost[]" id="train_cost"  value=""  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训地点(*必填项)
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_place[]" id="train_place"  value=""  style="width:100%">
+                                    </td>
+                                </tr>
+                                <tr>
+                            <th>
+                                <nobr>
+                                    主办单位(*必填项)
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="host_unit[]" id="host_unit"  value=""  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训机构
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_agency[]" id="train_agency"  value=""  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    培训内容
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_content[]" id="train_content"  value=""  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训人及所在机构
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_user[]" id="train_user"  value=""  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    是否脱产培训
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_offjob[]" id="train_offjob"  value=""  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        备注
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_remark[]" id="train_remark"  value=""  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <!-- <tr>
+                            <th>
+                                <nobr>
+                                    操作
+                                </nobr></th>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="delete_table('pxdiv')" class="delrow">删除</a>
+                                </td>
+
+
+                                
+                                </tr> -->
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    附件
+                                </nobr></th>
+                                <td>
+                                    <empty name="data.train_add_file">
+                                       {:W('FileUpload/add',array('train_add_file[]',$data['id'].$data['train_status']))}
+                                    <else/>
+                                       {:W('FileUpload/edit',array('train_add_file[]'=>$data['train_add_file'],'train_add_file[]',$data['id'].$data['train_status']))}
+                                   </empty>
+                                </td>
+
+                                </tr>
+
+                            </table>
+                        
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            
+            <!-- <button id="px" class="btn btn-small btn-success" type="button" onclick="tbAddRowpx()">添加培训经历</button> -->
+        <else/>
+        <volist name="traininfo" id="data">
+
+                <div class="col-lg-12" name="{$data.id}{$data.train_status}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                培训经历
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                
+                    <table class="table  table-condensed" >
+                        
+                        <tr>
+                            <th >
+                                <nobr>
+                                    培训班名称(*必填项)
+                                </nobr></th>
+                                <td>
+                                    <input type="hidden" name="train_id[]" value="{$data.id}">
+                                    <input type="text" name="train_name[]" id="train_name"  value="{$data.train_name}"  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        起始时间
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_start[]" id="train_start" class="form-control input-date" value="{$data.train_start}" style="width:100%">
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    终止时间
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_graduation[]" id="train_graduation" class="form-control input-date" value="{$data.train_graduation}" style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训学时
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_hours[]" id="train_hours"  value="{$data.train_hours}"  style="width:100%">
+                                    </td>
+                                </tr>
+                                <tr>
+                            <th>
+                                <nobr>
+                                    培训费金额
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_cost[]" id="train_cost"  value="{$data.train_cost}"  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训地点(*必填项)
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_place[]" id="train_place"  value="{$data.train_place}"  style="width:100%">
+                                    </td>
+                                </tr>
+                                <tr>
+                            <th>
+                                <nobr>
+                                    主办单位(*必填项)
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="host_unit[]" id="host_unit"  value="{$data.host_unit}"  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训机构
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_agency[]" id="train_agency"  value="{$data.train_agency}"  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    培训内容
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_content[]" id="train_content"  value="{$data.train_content}"  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        培训人及所在机构
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_user[]" id="train_user"  value="{$data.train_user}"  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    是否脱产培训
+                                </nobr></th>
+                                <td>
+                                    <input type="text" name="train_offjob[]" id="train_offjob"  value="{$data.train_offjob}"  style="width:100%">
+                                </td>
+
+
+                                <th>
+                                    <nobr>
+                                        备注
+                                    </nobr></th>
+                                    <td>
+                                        <input type="text" name="train_remark[]" id="train_remark"  value="{$data.train_remark}"  style="width:100%">
+                                    </td>
+                                </tr>
+
+                                <!-- <tr>
+                            <th>
+                                <nobr>
+                                    操作
+                                </nobr></th>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="delete_table('{$data.id}{$data.train_status}')" class="delrow">删a除</a>
+                                </td>
+
+
+                                
+                                </tr> -->
+
+                                <tr>
+                            <th>
+                                <nobr>
+                                    附件
+                                </nobr></th>
+                                <td colspan="3">
+                                    <empty name="data.train_add_file">
+                                       {:W('FileUpload/add',array('train_add_file[]',$data['id'].$data['train_status']))}
+                                       <else/>
+                                       <!--{:W('FileUpload/edit',array('add_file'=>$info['kaohe_add_file']))}-->
+                                       {:W('FileUpload/edit',array('train_add_file[]'=>$data['train_add_file'],'train_add_file[]',$data['id'].$data['train_status']))}
+                                       <!--  {:W('FileUpload/view',array('add_file'=>$info['kaohe_add_file']))}-->
+                                   </empty>
+                                </td>
+
+                                </tr>
+                                
+
+                            </table>
+                        </div>
+                    
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+       </volist>
+       <input type="hidden" name="px" >
+       <button id="px" class="btn btn-small btn-success" type="button" onclick="tbAddRowpx()">添加培训经历</button>
+       
+       </empty>
+    
+</table>
+<input type="hidden" id="peixun" name="peixun" value="{$info.peixun}">
+
+
+
+
+

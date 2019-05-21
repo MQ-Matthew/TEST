@@ -1,0 +1,245 @@
+﻿<!--全日制教育经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="13">培训记录 ：</th>
+    <tr>
+        <th width="5%">培训班名称</th>
+        <th width="8%">起始时间</th>
+        <th width="8%">终止时间</th>
+        <th width="8%">培训学时</th>
+        <th width="10%">培训费金额</th>
+        <th width="8%">培训地点</th>
+        <th width="8%">主办单位</th>
+        <th width="8%">培训机构</th>
+		<th width="8%">培训内容</th>
+		<th width="8%">培训人及所在机构</th>
+		<th width="8%">是否脱产培训</th>
+		<th width="5%">备注</th>
+		<th width="5%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.peixun">
+        <tbody id='all_px'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="px_kmc[]" id="px_kmc"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+            <td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value="" onblur="peixuntableDate();" style="width:100%"> </td>
+            <td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value="" onblur="peixuntableDate();" style="width:100%"> </td>
+            <td><input type="text" name="px_xs[]" id="px_xs"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+            <td><input type="text" name="px_je[]" id="px_je"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+            <td><input type="text" name="px_dd[]" id="px_dd"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_jg[]" id="px_jg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_nr[]" id="px_nr"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_rjg[]" id="px_rjg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><input type="text" name="px_bz[]" id="px_bz"  value="" onblur="peixuntableDate();" style="width:100%"> </td>
+			<td><a href="javascript:void(0);" onclick="delete_px(this)" class="delrow">删除</a></td>
+        </tr>
+            <tr id='px'></tr>
+        </tbody>
+     <else />
+        <tbody id='all_px'> <!--编辑-->
+            <tr id='px'></tr>
+        </tbody>
+    </empty>
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRowpx()">添加培训经历</button></td>
+        <td colspan="12"></td>
+    </tr>
+</table>
+<input type="hidden" id="peixun" name="peixun" value="{$info.peixun}">
+
+
+
+<!--培训经历 js -->
+    <!--<script type="text/javascript">
+    //添加一行
+    /*function tbAddRowpx()
+    {
+        var px_html = '';
+        px_html += '<tr>';
+        px_html += '<td><input type="text" name="px_kmc[]" id="px_kmc"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_xs[]" id="px_xs"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_je[]" id="px_je"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_dd[]" id="px_dd"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_jg[]" id="px_jg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_nr[]" id="px_nr"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_rjg[]" id="px_rjg"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+        px_html += '<td><input type="text" name="px_bz[]" id="px_bz"  value="" onblur="peixuntableDate();" style="width:100%"> </td>';
+		px_html += '<td><a href="javascript:void(0);" onclick="delete_px(this)" class="delrow">删除</a></td>';
+        px_html += '</tr>';
+        /// alert(111111);
+        $('#px').before(px_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function delete_px(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        peixuntableDate();
+    }
+
+	//获取Table数据
+    function peixuntableDate(){
+
+    //培训经历
+        var peixuntableJson = '{"data":[';
+        $('#all_px').find('tr').each(function(){
+            var px_number = $(this).find('td').eq(0).find('input').val();
+			//alert(px_number);
+            if(typeof(px_number) != 'undefined'){
+                peixuntableJson += '{"px_kmc":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                peixuntableJson += '"px_qssj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                peixuntableJson += '"px_zzsj":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                peixuntableJson += '"px_xs":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                peixuntableJson += '"px_je":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                peixuntableJson += '"px_dd":"' + $(this).find('td').eq(5).find('input').val() + '",';
+				peixuntableJson += '"px_zbdw":"' + $(this).find('td').eq(6).find('input').val() + '",';
+				peixuntableJson += '"px_jg":"' + $(this).find('td').eq(7).find('input').val() + '",';
+				peixuntableJson += '"px_nr":"' + $(this).find('td').eq(8).find('input').val() + '",';
+				peixuntableJson += '"px_rjg":"' + $(this).find('td').eq(9).find('input').val() + '",';
+				peixuntableJson += '"px_tcpx":"' + $(this).find('td').eq(10).find('input').val() + '",';
+                peixuntableJson += '"px_bz":"' + $(this).find('td').eq(11).find('input').val() + '"},';
+            }
+        });
+        peixuntableJson = peixuntableJson.substr(0, peixuntableJson.length-1);//去掉最后一个，这个字段 豆号
+        peixuntableJson += "]}";
+		//alert(peixuntableJson);
+
+        if(peixuntableJson =='{"data":]}'){
+            peixuntableJson='';
+        }
+        document.getElementById("peixun").value = peixuntableJson;
+
+
+    }
+	
+	
+	  /*document.onreadystatechange = function(){
+	  
+        if(document.readyState == "complete"){
+		
+            //当页面加载状态为完全结束时进入
+
+             var px_str = '';
+             px_str = document.getElementById("peixun").value;
+             //alert(str); alert(zz_str);
+             if(px_str !== null ){
+                pxviewTableData();
+             }
+        }
+    }
+
+    //显示培训经历表格数据
+    function pxviewTableData(){
+	
+		//培训经历
+            var px_str ={$px_str};
+
+            if(px_str.length===0 || px_str=='{"data":]}'){
+                var px_html ='';
+            }else{
+                if(typeof px_str === 'object'){
+                    px_json = px_str;
+                }else{
+                    px_json = eval(px_str);
+                }
+                 //alert(json);
+
+                var px_html ='';
+                for(var i=0; i<px_json.data.length; i++){
+                    //alert(json.data[i].class);
+                    px_html += '<tr>';
+                    px_html += '<td><input type="text" name="px_kmc[]" id="px_kmc"  value="' + px_json.data[i].px_kmc + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_qssj[]" id="px_qssj" class="form-control input-date" value="' + px_json.data[i].px_qssj + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_zzsj[]" id="px_zzsj" class="form-control input-date" value="' + px_json.data[i].px_zzsj + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_xs[]" id="px_xs"  value="' + px_json.data[i].px_xs + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_je[]" id="px_je"  value="' + px_json.data[i].px_je + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_dd[]" id="px_dd"  value="' + px_json.data[i].px_dd + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_zbdw[]" id="px_zbdw"  value="' + px_json.data[i].px_zbdw + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_jg[]" id="px_jg"  value="' + px_json.data[i].px_jg + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_nr[]" id="px_nr"  value="' + px_json.data[i].px_nr + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_rjg[]" id="px_rjg"  value="' + px_json.data[i].px_rjg + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_tcpx[]" id="px_tcpx"  value="' + px_json.data[i].px_tcpx + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><input type="text" name="px_bz[]" id="px_bz"  value="' + px_json.data[i].px_bz + '" onblur="peixuntableDate();" style="width:100%"> </td>';
+					px_html += '<td><a href="javascript:void(0);" onclick="delete_px(this)" class="delrow">删除</a></td>';
+                    px_html += '</tr>';
+
+                }
+            }
+					$('#px').before(px_html);
+            }
+
+	
+*/
+</script>-->
+
+
+
+
+

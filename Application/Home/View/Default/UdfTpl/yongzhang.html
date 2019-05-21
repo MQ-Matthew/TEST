@@ -1,0 +1,311 @@
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式-->                                    
+<if condition="$on_edit eq add">
+     <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">文件资料名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="文件资料名称">
+            <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p>
+        </div>
+     </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >审批流程：</label>
+        <div class="col-sm-10 address_list_box">
+            <p  class="form-control-static address_list">
+                <span><nobr><b>科室主任</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>科室主管副站长</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>中心站长</b></nobr><b><i class="fa"></i></b></span></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >执行流程：</label>
+        <div class="col-sm-10 address_list_box">
+            <p class=" form-control-static address_list">
+                <span><nobr><b>申请人</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>印章管理员</b></nobr><b><i class="fa"></i></b></span></p>
+        </div>
+    </div>
+    
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" check="require" msg="请选择用章类型">
+                <option value='中心章'  >中心章</option><option value='办公室章'  >办公室章</option>;
+                </select>
+        </div>        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}"   check="require" msg="请选择用章类型">
+                    <option value=''></option>
+                    <option value='证明'  >证明</option>
+                    <option value='说明'  >说明</option>
+                    <option value='合同'  >合同</option>
+                    <option value='协议'  >协议</option>
+                    <option value='其他'  >其他</option>
+                </select>
+                <p class="text-warning">*（证明\说明\合同\协议\由中心主任审批）</p>
+        </div>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value="{$data.2.val}" check="number" msg="请输入盖章次数，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">实际盖章次数</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}" readonly>       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.3.name}</label>
+        <div class="col-sm-9">
+                <textarea class="form-control" name="udf_field_{$data.3.id}" rows="3" >{$data.3.val}</textarea> 
+        </div>
+    </div>
+    
+   
+<!--编辑模式-->
+<elseif condition="$on_edit eq edit"/>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">文件资料名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="文件资料名称">
+            <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p>
+        </div>
+     </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >审批流程：</label>
+        <div class="col-sm-10 address_list_box">
+            <p  class="form-control-static address_list">
+                <span><nobr><b>科室主任</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>科室主管副站长</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>中心站长</b></nobr><b><i class="fa"></i></b></span></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >执行流程：</label>
+        <div class="col-sm-10 address_list_box">
+            <p  class=" form-control-static address_list">
+                <span><nobr><b>申请人</b></nobr><b><i class="fa fa-arrow-right"></i></b></span><span><nobr><b>印章管理员</b></nobr><b><i class="fa"></i></b></span></p>
+        </div>
+    </div>
+    
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" check="require" msg="请选择用章类型">
+                <option value='中心章' <if condition="$data['0']['val'] eq '中心章'">selected</if>>中心章</option>
+                <option value='办公室章' <if condition="$data['0']['val'] eq '办公室章'">selected</if>>办公室章</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" check="require" msg="请选择用章类型">
+                    <option value='证明' <if condition="$data['1']['val'] eq '证明'">selected</if>>证明</option>
+                    <option value='说明' <if condition="$data['1']['val'] eq '说明'">selected</if>>说明</option>
+                    <option value='合同' <if condition="$data['1']['val'] eq '合同'">selected</if>>合同</option>
+                    <option value='协议' <if condition="$data['1']['val'] eq '协议'">selected</if>>协议</option>
+                    <option value='其他' <if condition="$data['1']['val'] eq '其他'">selected</if>>其他</option>
+                </select>
+                <p class="text-warning">*（证明\说明\合同\协议\由中心主任审批）</p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value="{$data.2.val}" check="number" msg="请输入盖章次数，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">实际盖章次数</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}" readonly>       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.3.name}</label>
+        <div class="col-sm-9">
+                <textarea class="form-control" name="udf_field_{$data.3.id}" rows="3" >{$data.3.val}</textarea> 
+        </div>
+    </div>
+    
+<!--印章管理员在执行的时候，需要填写实际用章次数-->
+<elseif condition="$to_confirm.step eq 32"/>
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">文件资料名称：</label>
+        <div class="col-sm-9">
+            <input readonly="readonly" class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="文件资料名称">
+            <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p>
+        </div>
+     </div>
+    
+    
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <input type="hidden" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" value='{$data.0.val}'>
+                <select disabled="disabled" class="form-control" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" check="require" msg="请选择用章类型">
+                <option value='中心章' <if condition="$data['0']['val'] eq '中心章'">selected</if>>中心章</option>
+                <option value='办公室章' <if condition="$data['0']['val'] eq '办公室章'">selected</if>>办公室章</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <input type="hidden" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}'>
+                <select disabled="disabled" class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" check="require" msg="请选择用章类型">
+                    <option value='证明' <if condition="$data['1']['val'] eq '证明'">selected</if>>证明</option>
+                    <option value='说明' <if condition="$data['1']['val'] eq '说明'">selected</if>>说明</option>
+                    <option value='合同' <if condition="$data['1']['val'] eq '合同'">selected</if>>合同</option>
+                    <option value='协议' <if condition="$data['1']['val'] eq '协议'">selected</if>>协议</option>
+                    <option value='其他' <if condition="$data['1']['val'] eq '其他'">selected</if>>其他</option>
+                </select>
+                <p class="text-warning">*（证明\说明\合同\协议\由中心主任审批）</p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value="{$data.2.val}" >
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">实际盖章次数</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}">       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.3.name}</label>
+        <div class="col-sm-9">
+                <textarea readonly="readonly" class="form-control" name="udf_field_{$data.3.id}" rows="3">{$data.3.val}</textarea> 
+        </div>
+    </div>
+    <script type="text/javascript">
+         
+    </script>
+<!--阅读模式-->
+<else />
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">文件资料名称：</label>
+        <div class="col-sm-9">
+            <input disabled="disabled" class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="文件资料名称">
+            <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p>
+        </div>
+     </div>
+    
+    
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <input type="hidden" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" value='{$data.0.val}'> 
+                <select disabled="disabled" class="form-control" id="udf_field_{$data.0.id}" name="udf_field_{$data.0.id}" check="require" msg="请选择用章类型">
+                <option value='中心章' <if condition="$data['0']['val'] eq '中心章'">selected</if>>中心章</option>
+                <option value='办公室章' <if condition="$data['0']['val'] eq '办公室章'">selected</if>>办公室章</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <input type="hidden" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}'> 
+                <select disabled="disabled" class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" check="require" msg="请选择用章类型">
+                    <option value='证明' <if condition="$data['1']['val'] eq '证明'">selected</if>>证明</option>
+                    <option value='说明' <if condition="$data['1']['val'] eq '说明'">selected</if>>说明</option>
+                    <option value='合同' <if condition="$data['1']['val'] eq '合同'">selected</if>>合同</option>
+                    <option value='协议' <if condition="$data['1']['val'] eq '协议'">selected</if>>协议</option>
+                    <option value='其他' <if condition="$data['1']['val'] eq '其他'">selected</if>>其他</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+            <input disabled="disabled" class="form-control" type="text" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value="{$data.2.val}" >
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">实际盖章次数</label>
+        <div class="col-sm-8">
+                <input disabled="disabled" class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}" >       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.3.name}</label>
+        <div class="col-sm-9">
+                <textarea disabled="disabled" class="form-control" name="udf_field_{$data.3.id}" rows="3" >{$data.3.val}</textarea> 
+        </div>
+    </div>
+
+</if>
+
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+<script type="text/javascript">
+    var step = '{$vo.step}';//草稿是10，退回是19，审批是20，执行是30，完成是40,100是参阅
+    var department_head_user_name = '{:get_department_head_user_name()}';
+    var on_edit = '{$on_edit}';
+    var refer_flow_log_id = '{$to_refer.id}';//如果这个值是大于0的话，表示是合同人员参阅这个模式
+    var current_flow_log_step = '{$to_confirm.step}';//flow_log当前用户执行的step值是多少
+   
+    $(function(){
+        //get_department_list();
+        //init_data();
+        //
+        if(refer_flow_log_id > 0 ||  current_flow_log_step == 32)
+        {
+            
+            $('.hidden-print .pull-right').append('<a onclick="check_gaizhang();" class="btn btn-sm btn-primary">保存</a>');//添加一个保存按钮
+            //$('#view_file').remove();
+            
+            if(!$('#udf_field_322').attr("value")){
+                $('#zhixing').remove();
+                //alert('ok');
+            }
+        }
+        if(refer_flow_log_id > 0 ||  current_flow_log_step >= 20){
+            $('.panel-default .clearfix .pull-left').append('<button class="btn btn-sm btn-primary" onclick="send_massage();" type="button"><i class="fa fa-envelope"></i> 纸件报送通知</button>');//添加一个保存按钮 
+        }
+        
+    });
+    
+    function check_gaizhang(){
+        var yuancishu = $("#udf_field_321").val();//审批过的盖章次数        
+        var shijishu = $("#udf_field_322").val(); //实际盖章次数
+        //alert(yuancishu+'::'+shijishu);
+        if(!isNaN(shijishu) && shijishu != ''){
+            if(parseInt(yuancishu) >= parseInt(shijishu)){
+                save();
+            }else{               
+               ui_error('实际盖章次数不能大于审批次数！');                 
+            }
+        }else{
+            ui_error('实际盖章次数必须是数字！');
+        }
+        
+    }
+    
+    function send_massage()
+    {
+        //winopen("__ROOT__/index.php?m=&c=popup&a=sendmessage", 560, 370);
+        winopen("{:U('popup/sendmessage',array('info'=>$vo))}",560, 370); 
+    }
+
+    //功能：初始化数据
+    function init_data()
+    {
+        var temp, obj, i, html='', dis='';
+        var digit = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三', '十四', '十五'];
+
+        if(!(on_edit == 'add' || on_edit == 'edit'))
+            dis = 'disabled';
+        
+        
+    } 
+   
+</script>

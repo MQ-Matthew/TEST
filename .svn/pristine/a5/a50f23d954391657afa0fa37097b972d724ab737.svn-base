@@ -1,0 +1,168 @@
+
+<!--获奖情况 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <tr>
+        <th width="5%">序号</th>
+        <th width="12%">时间</th>
+        <th width="20%">获奖名称</th>
+        <th width="20%">发奖单位</th>
+        <th width="10%">类别</th>
+        <th width="10%">级别</th>
+        <th width="15%">备注</th>
+        <th width="8%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.huojiang">
+        <tbody id='all_huojiangs'>  <!--添加-->
+        <tr>
+            <td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value="" onblur="huojiang_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value=""  onblur="huojiang_tableDate();" style="width:100%"> </td>
+
+            <td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value=""  onblur="huojiang_tableDate();" style="width:100%"> </td>
+
+            <td><input type="text" name="hj_danwei[]" id="hj_danwei"  value=""  onblur="huojiang_tableDate();" style="width:100%"></td>
+
+            <td><input type="text" name="hj_leixing[]" id="hj_leixing"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>
+
+            <td><input type="text" name="hj_jibie[]" id="hj_jibie"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>
+
+            <td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>
+
+            <td><a href="javascript:void(0);" onclick="delete_huojiang(this)" class="delrow">删除</a></td>
+        </tr>
+        <tr id='huojiangs'></tr>
+        </tbody>
+
+
+        <else />
+
+        <tbody id='all_huojiangs'> <!--编辑-->
+        <tr id='huojiangs'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="huojiang_tbAddRow()">添加</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+</table>
+<input type="hidden" id="huojiang" name="huojiang" value="{$info.huojiang}">
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" >获奖资料(附件)：</label>
+    <div class="col-sm-10">
+        <empty name="info.huojiang_add_file">
+            {:W('FileUpload/add',array('huojiang_add_file'))}
+         <else/>
+            {:W('FileUpload/edit',array('add_file'=>$info['huojiang_add_file'],'huojiang_add_file'))}
+        </empty>
+
+    </div>
+</div>
+
+
+<!--获奖情况 js -->
+<script type="text/javascript">
+    //添加一行
+    function huojiang_tbAddRow()
+    {
+
+        var huojiang_html = '';
+        huojiang_html += '<tr>';
+
+        huojiang_html += '<td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value="" onblur="huojiang_tableDate();" style="width:100%"> </td>';
+        huojiang_html += '<td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value="" onblur="huojiang_tableDate();" style="width:100%"> </td>';
+
+        huojiang_html += '<td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value="" onblur="huojiang_tableDate();" style="width:100%"> </td>';
+
+        huojiang_html += '<td><input type="text" name="hj_danwei[]" id="hj_danwei"  value=""  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+        huojiang_html += '<td><input type="text" name="hj_leixing[]" id="hj_leixing"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+        huojiang_html += '<td><input type="text" name="hj_jibie[]" id="hj_jibie"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+        huojiang_html += '<td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value=""  onblur="huojiang_tableDate();" style="width:100%"></td>';
+
+        huojiang_html += '<td><a href="javascript:void(0);" onclick="delete_huojiang(this)" class="delrow">删除</a></td>';
+        huojiang_html += '</tr>';
+
+        $('#huojiangs').before(huojiang_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function delete_huojiang(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        tableDate();
+    }
+
+
+</script>
+
+

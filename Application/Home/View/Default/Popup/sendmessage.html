@@ -1,0 +1,72 @@
+<extend name="Layout/ins_popup" />
+<block name="content">
+	<div class="popup-fixed">
+		<div class="popup-header clearfix">
+            <div class="pull-left">
+                <h3>短消息发送</h3>
+            </div>			
+			<div class="pull-right">
+				<a onclick="send();" class="btn btn-sm btn-primary">发送</a>
+				<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+			</div>
+		</div>
+        <form id="form_data" name="form_data" method="post" class="hidden">
+            <input type="hidden" name="data" id="data">
+            <input type="hidden" name="emp_no_list" id="emp_no_list" value="{$info.emp_no}">
+        </form>
+		<div class="popup-body clearfix">
+            <table class="table table-bordered" class="table table-bordered">
+                <tr class="firstRow">
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="30%">发送人：</td>
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="70%"><input class="form-control" type="text" id="from" name="from" value="{$Think.session.user_name}"></td>
+                </tr>
+                <tr class="firstRow">
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="30%">接收人：</td>
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="70%">
+                        <input class="form-control" type="text"  name="receive" value="{$info.user_name}">
+                    </td>                     
+                </tr>
+                <tr class="firstRow">
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="30%">手机号码：</td>
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="70%"><input class="form-control" type="text" id="mobile" name="mobile" value="{$info.mobile}"></td>
+                </tr>
+                <tr class="firstRow">
+                    <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="30%">发送内容：</td>                    
+                    <empty name="info.message">
+                        <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="70%">
+                        <textarea class="form-control" name="content" id="content" rows="6" >请您将申请编号为：{$info.doc_no}，名称为：{$info.name}的纸件送【{$Think.session.user_name}】审阅</textarea></td>
+                    <else />
+                        <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="70%"> 
+                       <textarea class="form-control" name="content" id="content" rows="6" >{$info.message}</textarea></td>
+                    </empty>                     
+                </tr>
+            </table>
+             
+            </div>
+		</div>
+	</div>
+</block>
+<block name="js">
+	<script type="text/javascript">
+	function send() {
+            var content = $("#content").val(); 
+            $("#data").val(content);  
+            // alert($("#content").val());
+            
+            if (check_form("form_data")) {
+                var vars = $("#form_data").serialize();
+                // alert(vars);
+                sendAjax("{:U('send_sms')}", vars, function(data) {
+                    if (data.status) {
+                        ui_alert(data.info, function() {
+                            parent.location.reload(true);
+                            myclose();
+                        });
+                    } else {
+                        ui_error(data.info);
+                    }
+                }); 
+            }  
+        }	
+	</script>
+</block>

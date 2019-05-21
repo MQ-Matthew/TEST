@@ -1,0 +1,289 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/adv_search',array('name'=>'财务代发业务统计','search'=>'M'))}
+    <form method="post" name="form_adv_search" id="form_adv_search">
+        <div class="adv_search panel panel-default  hidden"  id="adv_search"> 
+            <div class="panel-heading">
+                
+                <div class="row">
+                    <h4 class="col-xs-6">高级搜索</h4>
+                    <div class="col-xs-6 text-right">
+                        <a  class="btn btn-sm btn-info" onclick="submit_adv_search();">搜索</a>
+                        <a  class="btn btn-sm " onclick="close_adv_search();">关闭</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label" for="content">人员类型：</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="eq_type" >
+                            <option value="">全部</option>
+                            <option value="sign_in">在职人员</option>
+                            <option value="sign_out">离休人员</option>
+                            <option value="outside">退休人员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label" for="be_create_time">查询日期：</label>
+                    <div class="col-sm-8"> 
+                        <div class="input-daterange input-group" >
+                            <input readonly="readonly" class="form-control input-date" type="text" name="be_create_time"/>
+                            <span class="input-group-addon">-</span>
+                            <input readonly="readonly" class="form-control input-date" type="text" name="en_create_time"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="panel-body">
+        <div class="pull-left">
+          <h3>日期范围：{$begin_time}--{$end_time} </h3>
+        </div>
+        <div class="pull-right">
+          <h3>  单位：元 </h3>
+        </div>
+    </div>
+	<div class="ul_table ul_table_responsive">
+        
+		<ul>
+			<li class="thead">
+				<div class="pull-left">
+                    <span class="col-20">代发项目</span>
+					<span class="col-20">在职人员</span>
+					<span class="col-20">离休人员</span>
+					<span class="col-20">退休人员</span>
+				</div>
+				<div class="pull-right"></div>
+				<div class="auto autocut">
+					备注
+				</div>
+			</li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">奖金</span>
+                    <span class="col-20">{$list['在职人员']['奖金']}</span>
+                    <span class="col-20">{$list['离休人员']['奖金']}</span>
+                    <span class="col-20">{$list['退休人员']['奖金']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">绩效</span>
+                    <span class="col-20">{$list['在职人员']['绩效']}</span>
+                    <span class="col-20">{$list['离休人员']['绩效']}</span>
+                    <span class="col-20">{$list['退休人员']['绩效']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">临时工工资</span>
+                    <span class="col-20">{$list['在职人员']['临时工工资']}</span>
+                    <span class="col-20">{$list['离休人员']['临时工工资']}</span>
+                    <span class="col-20">{$list['退休人员']['临时工工资']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">抚恤金</span>
+                    <span class="col-20">{$list['在职人员']['抚恤金']}</span>
+                    <span class="col-20">{$list['离休人员']['抚恤金']}</span>
+                    <span class="col-20">{$list['退休人员']['抚恤金']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">丧葬慰问金</span>
+                    <span class="col-20">{$list['在职人员']['丧葬慰问金']}</span>
+                    <span class="col-20">{$list['离休人员']['丧葬慰问金']}</span>
+                    <span class="col-20">{$list['退休人员']['丧葬慰问金']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">补发工资</span>
+                    <span class="col-20">{$list['在职人员']['补发工资']}</span>
+                    <span class="col-20">{$list['离休人员']['补发工资']}</span>
+                    <span class="col-20">{$list['退休人员']['补发工资']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-30"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">物业补贴</span>
+                    <span class="col-20">{$list['在职人员']['物业补贴']}</span>
+                    <span class="col-20">{$list['离休人员']['物业补贴']}</span>
+                    <span class="col-20">{$list['退休人员']['物业补贴']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">采暖补贴</span>
+                    <span class="col-20">{$list['在职人员']['采暖补贴']}</span>
+                    <span class="col-20">{$list['离休人员']['采暖补贴']}</span>
+                    <span class="col-20">{$list['退休人员']['采暖补贴']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">公园年票</span>
+                    <span class="col-20">{$list['在职人员']['公园年票']}</span>
+                    <span class="col-20">{$list['离休人员']['公园年票']}</span>
+                    <span class="col-20">{$list['退休人员']['公园年票']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">监测津贴</span>
+                    <span class="col-20">{$list['在职人员']['监测津贴']}</span>
+                    <span class="col-20">{$list['离休人员']['监测津贴']}</span>
+                    <span class="col-20">{$list['退休人员']['监测津贴']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">福利费</span>
+                    <span class="col-20">{$list['在职人员']['福利费']}</span>
+                    <span class="col-20">{$list['离休人员']['福利费']}</span>
+                    <span class="col-20">{$list['退休人员']['福利费']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">订报费</span>
+                    <span class="col-20">{$list['在职人员']['订报费']}</span>
+                    <span class="col-20">{$list['离休人员']['订报费']}</span>
+                    <span class="col-20">{$list['退休人员']['订报费']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">职称评审费</span>
+                    <span class="col-20">{$list['在职人员']['职称评审费']}</span>
+                    <span class="col-20">{$list['离休人员']['职称评审费']}</span>
+                    <span class="col-20">{$list['退休人员']['职称评审费']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-20">其他</span>
+                    <span class="col-20">{$list['在职人员']['其他']}</span>
+                    <span class="col-20">{$list['离休人员']['其他']}</span>
+                    <span class="col-20">{$list['退休人员']['其他']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <li class="thead">
+                <div class="pull-left">
+                    <span class="col-20">合计</span>
+                    <span class="col-20">{$list['在职人员']['合计']}</span>
+                    <span class="col-20">{$list['离休人员']['合计']}</span>
+                    <span class="col-20">{$list['退休人员']['合计']}</span>
+                </div>
+                <div class="pull-right">
+                    
+                </div>
+                <div class="auto autocut">
+                    <span class="col-20"></span>
+                </div>
+            </li>
+            <div class="pagination">
+                    {$page}
+            </div>
+		</ul>
+	</div>
+    <a class="btn btn-sm btn-primary" href="{:U('Report/daifa')}">返回</a>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		
+		$(document).ready(function() {
+			set_return_url();
+		});
+
+	</script>
+</block>

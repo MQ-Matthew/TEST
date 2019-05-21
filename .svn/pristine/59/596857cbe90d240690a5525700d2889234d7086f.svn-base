@@ -1,0 +1,106 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	<div class="page-header clearfix">
+		<div class="dropdown col-sm-8">			
+			<b class="dropdown-toggle" data-toggle="dropdown"><span class="title">全部</span><span class="fa fa-caret-down"></span></b>
+			<ul class="dropdown-menu">
+				<li gid="">
+					<a>全部</a>
+				</li>
+				<foreach name="tag_list" item="vo">
+					<li gid="{$key}">
+						<a>{$vo}</a>
+					</li>
+				</foreach>
+			</ul>
+		</div>
+		<div class="col-sm-4 pull-right">
+			<div class="search_box">
+				<div class="input-group ">
+					<input type="hidden" value="abc" >
+					<input  class="form-control" type="text"  name="keyword" id="keyword" onkeydown="key_local_search();"/>
+					<div class="input-group-btn">
+						<a class="btn btn-sm btn-info" onclick="btn_local_search();"><i class="fa fa-search" ></i> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form id="form_data" name="form_data" method='post'>
+		<div class="operate panel panel-default">
+			<div class="panel-body">
+				<div class="pull-left">
+					<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a> 
+				</div>
+				
+			</div>
+		</div>
+		<div class="ul_table ul_table_responsive">
+			<ul>
+				<li class="thead" style="padding-left:10px">
+					<div class="pull-left">
+						<span class="col-12 ">发放日期</span>
+					</div>               
+					<div class="pull-right">
+						<span  class="col-12">科室</span> 
+						<span  class="col-12">金额</span>
+						<span  class="col-12">备注</span>                 
+					</div>
+					<div class="autocut auto">
+						姓名
+					</div>
+				</li>
+			</ul>
+			<empty name="list">
+				<ul>
+					<li class="no-data">
+						没找到数据
+					</li>
+				</ul>
+				<else/>
+				<form method="post" action="" name="form_data" id="form_data">
+					<ul>
+						<foreach name="list" item="vo">
+							<li class="tbody">
+								<div class="pull-left">
+									<span class="col-12 ">{$vo.date}</span> 
+								</div>
+								<div class="pull-right">
+									<span class="col-12">{$vo.dept_name}</span>
+									<span class="col-12">{$vo.amount}</span>
+									<span class="col-12">{$vo.remark}</span>                              
+								</div>
+								<div class="autocut auto">
+										{$vo.user_name}
+
+									<eq name="vo.user_name|strlen" value="0">
+										无内容
+									</eq>
+								</div>
+							</li>
+						</foreach>
+					</ul>
+				</form>
+				<div class="pagination">
+					{$page}
+				</div>
+			</empty>
+		</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function  bonus_user_collect() {        
+			ui_confirm('确定要进行汇总吗?', function(){
+				sendAjax("{:U('bonus_user_collect')}", 'id={$id}', function(data){
+					if(data.status)
+					{
+						ui_alert(data.info, function(){
+							go_return_url();
+						});
+					}
+				});
+			});
+		}
+	</script>
+</block>

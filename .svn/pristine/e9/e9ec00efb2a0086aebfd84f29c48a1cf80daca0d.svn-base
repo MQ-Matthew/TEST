@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{$title|default=get_system_config("system_name")}</title>
+		<link href="__INS__/css/bootstrap.min.css" rel="stylesheet">
+		<link href="__INS__/font-awesome/css/font-awesome.css" rel="stylesheet">
+		<link href="__INS__/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+		<link href="__INS__/css/style.css" rel="stylesheet">
+		<link href="__INS__/css/xiaowei.css" rel="stylesheet">
+	</head>
+	<include file="Layout:page_script"/>
+	<style>
+		.app-header {
+			background: #03a9f4;
+			color: #fff;
+			line-height: 45px;
+			font-size: 18px;
+			text-align: center;
+		}
+		.app-header  .pull-left i {
+			line-height: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.app-header  .pull-right i {
+			line-height: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.app-footer {
+			background: #fff;
+			padding: 6px;
+			border-top: 1px solid #e0e0e0;
+			height: 34px;
+			position: fixed;
+			right: 0px;
+			bottom: 0px;
+			display: table;
+			width: 100%;
+		}
+	</style>
+	<body style="background: #fff;">
+		<header class="app-header">
+			<a class="pull-left"><i class="fa fa-angle-left" style="color: #FFFFFF;font-size:32px;" onclick="app_return();"></i></a>
+			<a class="pull-right"><i class="fa fa-times" style="color: #FFFFFF;font-size:20px;" onclick="app_close();"></i></a>
+			<div class="app-header-title">
+				CRM系统
+			</div>
+		</header>
+		<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   class="well form-horizontal">
+			<input type="hidden" id="ajax" name="ajax" value="0">
+
+			<input type="hidden" id="folder" name="folder" value="{$folder}">
+			<input type="hidden" id="fid" name="fid" value="{$folder}">
+			<input type="hidden" id="opmode" name="opmode" value="add">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="name">文件名：</label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" id="name" name="name" value=""  check="require" msg="请输入文件名">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="name">附件：</label>
+				<div class="col-sm-10">
+					{:W('FileUpload/add')}
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-12">
+					<textarea class="editor" id="content" name="content" style="width:100%;height:300px;" check="require" msg="请输入内容"></textarea>
+				</div>
+			</div>
+		</form>
+		<footer class="app-footer">
+			<div class="col-xs-6 text-center">
+				<a class="btn btn-primary">保存</a>
+			</div>
+			<div class="col-xs-6 text-center">
+				<a class="btn btn-default" onclick="go_return_url();">取消</a>
+			</div>
+		</footer>
+
+		<!-- Mainly scripts -->
+		<script src="__INS__/js/jquery-2.1.1.js"></script>
+		<script src="__INS__/js/bootstrap.min.js"></script>
+		<script src="__INS__/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="__INS__/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="__INS__/js/inspinia.js"></script>
+		<script src="__INS__/js/common.js"></script>
+		<include file="Layout:ins_plugin_js"/>
+	</body>
+	<script>
+		function app_close() {
+			api.closeWin();
+		}
+
+		function app_return() {
+			var return_url = get_cookie('return_url');
+			if (return_url == null) {
+				arr_return_url = [];
+			} else {
+				arr_return_url = return_url.split('$');
+			}
+			go_url = arr_return_url.pop();
+			if (go_url == document.location) {
+				if (arr_return_url.length == 0) {
+					api.closeWin();
+				}
+				go_url = arr_return_url.pop();
+			}
+			window.open(go_url, "_self");
+			set_cookie("return_url", arr_return_url.join('$'));
+			return false;
+		}
+	</script>
+</html>

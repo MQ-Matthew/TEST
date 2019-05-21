@@ -1,0 +1,157 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    <script type="text/javascript">
+        var save_data = [];//全局保存save函数调用的时候，需要用到参数
+    </script>
+    {:W('PageHeader/simple',array('name'=>'我的资产'))}
+
+
+<empty name="list">
+
+    <div style="text-align: center;">暂时没有资产</div>
+
+<else/>
+
+      <foreach name="list" item="info">
+
+           <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+
+
+
+        <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label" for="type">设备类型 :</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="type"  value="{$info.type|get_assettype}" readonly>
+                <input class="form-control" type="hidden" name="type"  value="{$info.type}" readonly>
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group col-sm-6">
+            <label class="col-sm-6 control-label" for="islowvalue">是否低值易耗(设备属性):</label>
+            <div class="col-sm-6">
+
+                <input class="form-control" type="text" id="islowvalue" value="{$info.islowvalue|get_islowvalue}" readonly>
+                <input class="form-control" type="hidden"  name="islowvalue"  value="{$info.islowvalue}">
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">设备名称：</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="name" name="name" value="{$info.name}" readonly>
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备品牌：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="brand"  name="brand"  readonly value="{$info.brand}">
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">房间号：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="receive_roomid" name="receive_roomid"  readonly value="{$info.receive_roomid}">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">设备描述 :</label>
+
+
+                <div class="col-sm-9">
+                   <!-- <p id="description" style="width:100%;min-height:220px;border: 1px solid #cccccc;overflow-y:scroll; overflow-x:hidden;" > {$info["description"]}
+                    </p>-->
+
+                    <textarea  disabled="disabled" style="height: 220px;width: 100%; resize:none;" name="description" id="description">{$info['description']}</textarea>
+
+                </div>
+
+        </div>
+
+        <div class="form-group">
+            <if condition="$info.islowvalue eq 2">
+
+                <label class="col-sm-2 control-label" for="name">领用数量 :</label>
+
+                <else/>
+
+                <label class="col-sm-3 control-label" for="name" style="margin-left: 35px;">领用数量( 当前库存量：{$info.amount} ) :</label>
+
+            </if>
+
+            <if condition="$info.islowvalue eq 2">
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="amount" name="amount" readonly value="{$info.amount}" >
+                </div>
+                <else/>
+                <div class="col-sm-7">
+                    <input type="hidden" id="asset_amount"  name="asset_amount" readonly value="{$info.amount}">
+                    <input class="form-control" type="text" id="amounts" name="amount" value="" onblur="show_mount();">
+                </div>
+
+            </if>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">备注:</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="remarks" name="remarks" readonly value="{$info.remarks}">
+            </div>
+        </div>
+
+
+        <br>
+
+    </form>
+
+      </foreach>
+
+</empty>
+
+
+</block>
+
+<block name="js">
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete"){
+                //当页面加载状态为完全结束时进入
+                var str = '';
+                str = document.getElementById("descriptions").value;
+                if(str !== null){
+                    viewTableData(str);
+                }
+            }
+        }
+
+        function viewTableData(str){
+            var data = str;
+            var obj = eval('(' + data + ')');
+            var html='';
+
+            for(key in obj){
+
+                html+= key+'&nbsp;:&nbsp;'+obj[key]+"<br>";
+            }
+            // alert(html);
+            $("#description").html(html);
+        }
+
+
+    </script>
+
+
+
+</block>

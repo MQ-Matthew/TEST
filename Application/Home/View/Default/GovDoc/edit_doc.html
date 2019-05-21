@@ -1,0 +1,213 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    <style>
+        .tree_suggestion {
+            overflow-x: hidden;
+            overflow-y: scroll;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            height: 300px;
+            width: 300px;
+            background-color: #ffffff;
+        }
+    </style>
+    {:W('PageHeader/simple',array('name'=>'修改文电','search'=>'N'))}
+    <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+        <input type="hidden" id="ajax" name="ajax" value="0">		
+		<input type="hidden" id="gov_doc_id" name="gov_doc_id"value="{$gov_doc_id}">
+		<input type="hidden" id="state" name="state" value="1">
+       <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">
+                标题：
+            </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" id="title" name="title" value="{$data['title']}" check="require" msg="请输入标题号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">
+                类型：
+            </label>
+            <div class="col-sm-2">
+                <select class="form-control" id="doc_type" name="doc_type">
+                    <option value="0">文电</option>;
+					<option value="1">电报</option>;
+                </select>
+            </div>
+        </div>
+        
+        
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">
+                文档：
+            </label>
+            <div class="col-sm-6">
+                {:W('FileUpload/add')}
+            </div>
+        </div>
+        <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">
+                拟办意见：
+            </label>
+            <div class="pull-left col-30">
+                <div class="">
+                    <h3><b>请</b></h3>
+                </div>
+                <div class="page_tree_menu">
+                    <div id="personal" class="tree_suggestion">
+                        <ul id="as" class="tree_menu">
+                            <volist name="list" id="vo">
+                                <li>
+                                    <a>
+                                        <label>
+                                            &nbsp&nbsp<input id="ld_{$vo.id}" onclick="create_ld('{$vo.id}','{$vo.nickname}')" type="checkbox" name="ld_id[]" value="{$vo.id}"/><span>{$vo.nickname}</span>
+                                        </label>
+                                    </a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <h3><b>批示</b></h3>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="">
+                    <h3><b>请</b></h3>
+                </div>
+                <div class="page_tree_menu">
+                    <div id="personal2" class="tree_suggestion">
+                        <ul class="tree_menu">
+                            <volist name="list2" id="vo">
+                                <li>
+                                    <a>
+                                        <label>
+                                            &nbsp&nbsp<input id="bm_{$vo.id}" onclick="create_bm('{$vo.id}','{$vo.dept_name}')" type="checkbox" name="bm_id[]" value="{$vo.id}"/><span>{$vo.dept_name}</span>
+                                        </label>
+                                    </a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <h3><b>阅知</b></h3>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="expected_time">
+                请在以下时间内完成
+            </label>
+            <div class="col-sm-6">
+                <input class="form-control input-date-time" type="text" id="expected_time" name="expected_time" value="{$data['create_time']|to_date='Y-m-D H:i:s'}" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="content">
+                意见写入：
+            </label>
+            <div class="col-xs-6">
+                <textarea id="yj" onkeyup="suggestion()" style="width:100%;height:100px;">
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="content">
+                意见预览：
+            </label>
+            <div class="col-xs-6">
+                <textarea id="content" name="content" readonly="readonly" style="width:100%;height:100px;">{$data['suggestion']}
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="action col-sm-10 col-sm-offset-2">
+                <input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();"><input class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+            </div>
+        </div>
+    </form>
+</block>
+<block name="js">
+    <script type="text/javascript">
+       function save(){
+        	window.onbeforeunload = null;
+        	 if ($("input:checked[name='ld_id[]']").length < 1) {
+                ui_error("请指定领导批示！");
+                return false;
+            };
+         if (check_form("form_data")) {
+            var vars = $("#form_data").serialize();
+            sendAjax("{:U('save_doc')}", vars, function(data){
+                if (data.status) {
+                    ui_alert(data.info, function(){
+                       go_return_url();
+                    });
+                }
+            });
+           }
+        }
+        
+  
+        
+        var obj = {};
+        var all_ld_name = '';
+        function create_ld(id, name){
+            if ($("#ld_" + id).is(':checked')) {
+                eval("obj.ld_" + id + "=" + "'" + name + "'")
+            }
+            else {
+                eval("delete obj.ld_" + id)
+            }
+            var ld_name = "请"
+            for (var i in obj) {
+                ld_name += eval("obj." + i);
+            }
+			ld_name += "阅处。";
+			if(!isNotNullObj(obj)){
+				ld_name="" ;
+			}
+            
+            all_ld_name = ld_name;
+            $("#content").val(ld_name + all_bm_name)
+        }
+        
+        function isNotNullObj(obj){
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        var obj2 = {};
+        var all_bm_name = "";
+        function create_bm(id, name){
+              if ($("#bm_" + id).is(':checked')) {
+                eval("obj2.bm_" + id + "=" + "'" + name + "'")
+            }
+            else {
+                eval("delete obj2.bm_" + id)
+            }
+
+            var bm_name = "请"
+            for (var i in obj2) {
+                bm_name += eval("obj2." + i);
+            }
+			bm_name += "阅知。";
+			if(!isNotNullObj(obj2)){
+				bm_name="" ;
+			}
+            all_bm_name = bm_name;
+            $("#content").val(all_ld_name + bm_name)
+        }
+        
+        function suggestion(){
+            $("#content").val(all_ld_name + all_bm_name + $("#yj").val());
+        }
+        
+        $(document).ready(function(){
+            $(document).on("click", ".inputbox .address_list a.del", function(){
+                $(this).parent().parent().remove();
+            });
+        });
+    </script>
+</block>

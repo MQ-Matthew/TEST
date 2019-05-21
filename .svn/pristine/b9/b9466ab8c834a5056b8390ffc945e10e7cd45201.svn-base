@@ -1,0 +1,968 @@
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式-->
+<if condition="$on_edit eq add">
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">业务科室会签<br>（可多选）</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}">
+                <option value='货物'>货物</option>
+                <option value='服务'>服务</option>
+                <option value='工程'>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}">
+                <option value='一般采购'>一般采购</option>
+                <option value='政府采购'>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}" check="require" msg="请填写供应商">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期</label>
+        <div class="col-sm-3">
+            <p><input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}"  check="require" msg="请选择合同起止日期"></p>
+        </div>
+        <div class="col-sm-1"><p>—</p></div>
+        <div class="col-sm-3">
+            <p><input  readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}" check="require" msg="请选择合同起止日期"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}" check="require" msg="请填写质保信息">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();" check="require" msg="请填写合同金额！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div><input class="bail_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="bail" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, '');" >元</div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <span>剩余合同金额为：<span id="remain_money"></span></span>
+            <div><span>第一次支付</span>：<input class="pay_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();" check="require" msg="请填写支付方式">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">+</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-2">
+            <input class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+            <div class="input-group project">
+                <input name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" class="form-control name" type="text" readonly="readonly" value="{$data.10.val}" check="require" msg="请选择经费来源！">
+                <span class="input-group-btn"><button class="btn btn-sm btn-primary" onclick="select_project();" type="button">选择</button></span>
+            </div>
+            <script type="text/javascript">
+                function select_project()
+                {
+                    winopen("__ROOT__/index.php?m=&c=popup&a=flow_project", 560, 470);
+                }
+            </script>
+        </div>
+    </div>
+<!--编辑模式-->
+<elseif condition="$on_edit eq edit"/>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">业务科室会签<br>（可多选）</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}">
+                <option value='货物' <if condition="$data['1']['val'] eq '货物'">selected</if>>货物</option>
+                <option value='服务' <if condition="$data['1']['val'] eq '服务'">selected</if>>服务</option>
+                <option value='工程' <if condition="$data['1']['val'] eq '工程'">selected</if>>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}">
+                <option value='一般采购' <if condition="$data['2']['val'] eq '一般采购'">selected</if>>一般采购</option>
+                <option value='政府采购' <if condition="$data['2']['val'] eq '政府采购'">selected</if>>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}" check="require" msg="请填写供应商">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期</label>
+        <div class="col-sm-3">
+            <p><input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}" check="require" msg="请选择合同起止日期"></p>
+        </div>
+        <div class="col-sm-1"><p>—</p></div>
+        <div class="col-sm-3">
+            <p><input  readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}" check="require" msg="请选择合同起止日期"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}" check="require" msg="请填写质保信息">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();" check="require" msg="请填写合同金额！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div><input class="bail_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="bail" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, '');">元</div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <span>剩余合同金额为：<span id="remain_money"></span></span>
+            <div><span>第一次支付</span>：<input class="pay_percent" style="width:130px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();" check="require" msg="请填写支付方式">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">添加</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-2">
+            <input class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+            <div class="input-group project">
+                <input name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" class="form-control name" type="text" readonly="readonly" value="{$data.10.val}" check="require" msg="请选择经费来源！">
+                <span class="input-group-btn"><button class="btn btn-sm btn-primary" onclick="select_project()" type="button">选择</button></span>
+            </div>
+            <script type="text/javascript">
+                function select_project()
+                {
+                    winopen("__ROOT__/index.php?m=&c=popup&a=flow_project", 560, 470);
+                }
+            </script>
+        </div>
+    </div>
+<!--第一次合同管理员参阅并且可以编辑部分合同模式  id指的是flow_log表主键值-->
+<elseif condition="$to_refer.id gt 0"/>
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+      
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+            
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">业务科室会签<br>（可多选）</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}">
+                <option value='货物' <if condition="$data['1']['val'] eq '货物'">selected</if>>货物</option>
+                <option value='服务' <if condition="$data['1']['val'] eq '服务'">selected</if>>服务</option>
+                <option value='工程' <if condition="$data['1']['val'] eq '工程'">selected</if>>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}">
+                <option value='一般采购' <if condition="$data['2']['val'] eq '一般采购'">selected</if>>一般采购</option>
+                <option value='政府采购' <if condition="$data['2']['val'] eq '政府采购'">selected</if>>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期</label>
+        <div class="col-sm-3">
+            <p><input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}"></p>
+        </div>
+        <div class="col-sm-1"><p>—</p></div>
+        <div class="col-sm-3">
+            <p><input  readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div>百分比：<input class="bail_percent" style="width:130px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">&nbsp;&nbsp;&nbsp;金额：<input class="bail" style="width:130px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, '');"></div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <span>剩余合同金额为：<span id="remain_money"></span></span>
+            <div><span>第一次支付</span>：<input class="pay_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">添加</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-2">
+            <input class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+            <div class="input-group project">
+                <input name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" class="form-control name" type="text" readonly="readonly" value="{$data.10.val}">
+                <span class="input-group-btn"><button class="btn btn-sm btn-primary" onclick="select_project()" type="button">选择</button></span>
+            </div>
+            <script type="text/javascript">
+                function select_project()
+                {
+                    winopen("__ROOT__/index.php?m=&c=popup&a=flow_project", 560, 470);
+                }
+            </script>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >附件：</label>
+        <div class="col-sm-10">
+            {:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+        </div>
+    </div>
+<!--合同管理员在执行的时候，可以修改合同内容-->
+<elseif condition="$to_confirm.step eq 31"/>
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+    
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同编号</label>
+        
+        <div class="input-group financenumber">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+            <span class="input-group-btn"><button class="btn btn-sm btn-primary" onclick="get_FinanceNumber();" type="button">获取</button></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">业务科室会签<br>（可多选）</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}'>
+            <select class="form-control" disabled>
+                <option value='货物' <if condition="$data['1']['val'] eq '货物'">selected</if>>货物</option>
+                <option value='服务' <if condition="$data['1']['val'] eq '服务'">selected</if>>服务</option>
+                <option value='工程' <if condition="$data['1']['val'] eq '工程'">selected</if>>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}'>
+            <select class="form-control" disabled>
+                <option value='一般采购' <if condition="$data['2']['val'] eq '一般采购'">selected</if>>一般采购</option>
+                <option value='政府采购' <if condition="$data['2']['val'] eq '政府采购'">selected</if>>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期</label>
+        <div class="col-sm-4">
+            <p><input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}"></p>
+        </div>
+        <div class="col-sm-4">
+            <p><input  readonly="readonly" class="form-control" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div><input readonly="readonly" class="bail_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" class="bail" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, '');">元</div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <span>剩余合同金额为：<span id="remain_money"></span></span>
+            <div><span>第一次支付</span>：<input class="pay_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">+</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-2">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+            <div class="input-group project">
+                <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" value="{$data.10.val}" style="width:470px;">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >附件：</label>
+        <div class="col-sm-10">
+            {:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+        </div>
+    </div>
+    <script src="__INS__/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript"> 
+    $(document).ready(function(){
+         $("#comment").val("合同已编号并上传");     
+    });         
+    </script> 
+
+<!--发起人最后上传盖章的合同-->
+<elseif condition="$to_confirm.step eq 32"/>
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.11.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}'>
+            <select class="form-control" disabled>
+                <option value='货物' <if condition="$data['1']['val'] eq '货物'">selected</if>>货物</option>
+                <option value='服务' <if condition="$data['1']['val'] eq '服务'">selected</if>>服务</option>
+                <option value='工程' <if condition="$data['1']['val'] eq '工程'">selected</if>>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}'>
+            <select class="form-control" disabled>
+                <option value='一般采购' <if condition="$data['2']['val'] eq '一般采购'">selected</if>>一般采购</option>
+                <option value='政府采购' <if condition="$data['2']['val'] eq '政府采购'">selected</if>>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期<font color="#FF0000">(可修改)</font></label>
+        <div class="col-sm-4">
+            <p><input readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}"></p>
+        </div>
+        <div class="col-sm-4">
+            <p><input  readonly="readonly" class="form-control input-date" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div><input readonly="readonly" class="bail_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" class="bail" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, '');">元</div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <!-- <span>剩余合同金额为：<span id="remain_money"></span></span>   -->
+            <div><span>第一次支付</span>：<input class="pay_percent" style="width:130px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();">&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:130px;" onkeyup="this.value=this.value.replace(/[^\d\.]/g, ''); money_change();"><a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">+</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-3"> 
+        <div class="input-group sendtoyz">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <if condition="$data['14']['val'] eq 1">
+                <span class="input-group-btn"><a class="btn btn-sm btn-default" onclick="alert('该项目已转发印章管理员，不能重复发送！')">已转发印章管理员</a></span>
+            <else />
+                <span class="input-group-btn"><a class="btn btn-sm btn-primary" href="{:U('Flow/send_to_yzadmin','id='.$vo['id'])}">转发印章管理员</a></span>
+            </if>
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-10">
+            <div class="input-group project">
+                <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" value="{$data.10.val}" style="width:470px;">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" >附件：</label>
+        <div class="col-sm-10">
+            {:W('FileUpload/edit',array('add_file'=>$vo['add_file']))}
+        </div>
+    </div>
+    <script src="__INS__/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript"> 
+    $(document).ready(function(){
+         $("#comment").val("合同已盖章并上传扫描件");     
+    });
+             
+    </script>
+<!--阅读模式-->
+<else />
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同名称</label>
+        <div class="col-sm-8">
+            <input readonly="readonly"  disabled class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入合同名称">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.11.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.11.id}" name="udf_field_{$data.11.id}" value='{$data.11.val}'>
+            <table class="table table-bordered countersign"></table>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.1.id}" name="udf_field_{$data.1.id}" value='{$data.1.val}'>
+            <select class="form-control" disabled>
+                <option value='货物' <if condition="$data['1']['val'] eq '货物'">selected</if>>货物</option>
+                <option value='服务' <if condition="$data['1']['val'] eq '服务'">selected</if>>服务</option>
+                <option value='工程' <if condition="$data['1']['val'] eq '工程'">selected</if>>工程</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.2.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.2.id}" name="udf_field_{$data.2.id}" value='{$data.2.val}'>
+            <select class="form-control" disabled>
+                <option value='一般采购' <if condition="$data['2']['val'] eq '一般采购'">selected</if>>一般采购</option>
+                <option value='政府采购' <if condition="$data['2']['val'] eq '政府采购'">selected</if>>政府采购</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" class="form-control" type="text" name="udf_field_{$data.3.id}" id="udf_field_{$data.3.id}" value="{$data.3.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">合同起止日期</label>
+        <div class="col-sm-4">
+            <p><input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.4.id}" id="udf_field_{$data.4.id}" value="{$data.4.val}"></p>
+        </div>
+        <div class="col-sm-4">
+            <p><input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" value="{$data.5.val}"></p>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.7.name}</label>
+        <div class="col-sm-8">
+            <input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="udf_field_{$data.8.id}" name="udf_field_{$data.8.id}" value='{$data.8.val}'>
+            <div><input readonly="readonly" disabled class="bail_percent" style="width:30px;">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" disabled class="bail" style="width:60px;">元</div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8 pay_way">
+            <input type="hidden" id="udf_field_{$data.9.id}" name="udf_field_{$data.9.id}" value='{$data.9.val}'>
+            <!-- <span>剩余合同金额为：<span id="remain_money"></span></span> -->
+            <div><span>第一次支付</span>：<input readonly="readonly" disabled class="pay_percent" style="width:30px;">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" disabled class="pay" style="width:60px;">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">+</a></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用印次数</label>
+        <div class="col-sm-2">
+            <input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.13.id}" id="udf_field_{$data.13.id}" value="{$data.13.val}" check="number" msg="用印次数必须为数字！">
+            <input type="hidden" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" value="{$data.12.val}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+            <div class="input-group project">
+                <input readonly="readonly" disabled class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" value="{$data.10.val}" style="width:470px;">
+            </div>
+        </div>
+    </div>
+</if>
+
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+<script type="text/javascript">
+    var step = '{$vo.step}';//草稿是10，退回是19，审批是20，执行是30，完成是40,100是参阅
+    var department_head_user_name = '{:get_department_head_user_name()}';
+    var on_edit = '{$on_edit}';
+    var refer_flow_log_id = '{$to_refer.id}';//如果这个值是大于0的话，表示是合同人员参阅这个模式
+    var current_flow_log_step = '{$to_confirm.step}';//flow_log当前用户执行的step值是多少
+    var add_file = '{$vo.add_file}';//附件
+    //功能：获取部门列表
+    function get_department_list()
+    {
+        $.post('{:U("Flow/department_list")}', {}, function(data){
+            var count = 0, html = '', temp_html = '', i, j, str;
+            if(on_edit == 'add' || on_edit == 'edit')//添加和编辑的时候显示
+            {
+                for(i = 0; i < data.length; i++)
+                {
+                    temp_html += '<td><input type="checkbox" class="countersign_checkbox" value="' + data[i]['emp_no'] + '" data="' + data[i]['dept_name'] + ' ' + data[i]['nickname'] + '" />' + data[i]['dept_name'] + ' ' + data[i]['nickname'] + '</td>';
+                    count++;
+                    if(count % 4 == 0)
+                    {
+                        html += '<tr>' + temp_html + '</tr>';
+                        temp_html = '';
+                    }
+                }
+
+                if(temp_html)
+                    html += '<tr>' + temp_html + '</tr>';
+
+                $('.countersign').html(html);
+
+                //设置会签被选中
+                var countersign = $('#udf_field_{$data.11.id}').val();//var countersign = 'duyanxia&zhangjing';
+                if(countersign !== undefined && typeof countersign != 'undefined' && countersign != '')
+                {
+                    var arr = countersign.split('&');
+                    for(i = 0; i < arr.length; i++)
+                        $("input:checkbox[value='" + arr[i] + "']").attr('checked', 'true');
+                }
+                //$("input:checkbox[value='" + department_head_user_name + "']").attr('checked', true);
+                //$("input:checkbox[value='" + department_head_user_name + "']").attr('disabled', 'disabled');
+                $("input:checkbox[value='" + department_head_user_name + "']").parent().remove(); //隐藏本科室领导
+            }
+            else//阅读模式
+            {
+                var countersign = $('#udf_field_{$data.11.id}').val();//var countersign = 'duyanxia&zhangjing';
+                if(countersign !== undefined && typeof countersign != 'undefined' && countersign != '')
+                {
+                    var arr = countersign.split('&');
+                    for(i = 0; i < arr.length; i++)
+                    {
+                        for(j = 0; j < data.length; j++)
+                        {
+                            if(data[j]['emp_no'] == arr[i])
+                            {
+                                str = data[j]['dept_name'] + ' ' + data[j]['nickname'];
+                                break;
+                            }
+                        }
+
+                        temp_html += '<td>' + str + '</td>';
+                        count++;
+                        if(count % 4 == 0)
+                        {
+                            html += '<tr>' + temp_html + '</tr>';
+                            temp_html = '';
+                        }
+                    }
+
+                    if(temp_html)
+                        html += '<tr>' + temp_html + '</tr>';
+
+                    $('.countersign').html(html);
+                }
+            }
+        }, 'json');
+    }
+
+    $(function(){
+        get_department_list();
+        init_data();
+
+        if(current_flow_log_step == 31 || current_flow_log_step == 32)
+        {
+            //$('.hidden-print .pull-right').append('<a onclick="save();" class="btn btn-sm btn-primary">保存</a>');//添加一个保存按钮
+            $('#view_file').remove();
+            $('#zhixing').remove();
+            $('#approve').remove();            
+            $('.hidden-print .pull-right').append('<a onclick="approveandsave();" class="btn btn-sm btn-primary">保存并提交</a>');//添加一个保存按钮
+        }
+        if(refer_flow_log_id > 0){
+            $('#view_file').remove();
+            $('#refer').remove();
+            $('.hidden-print .pull-right').append('<a onclick="referandsave();" class="btn btn-sm btn-primary">保存并提交</a>');
+        }
+        
+        //$('.file_list').find('.del').remove();//文件列表删除按钮去掉
+        $('.file_list').find('.del').each(function(){
+            if($(this).find('a').html() == '删除')
+                $(this).remove();
+        });
+    });
+    //保存修改后同意提交
+    function approveandsave()
+    {
+        var new_add_file = $('#add_file_add_file').val();//合同附件
+        //合同管理员
+        //alert(current_flow_log_step);
+        
+        if(current_flow_log_step == 31 && new_add_file == add_file){        
+           ui_error('请上传PDF格式合同附件！');            
+        }else if(current_flow_log_step == 32 && new_add_file == add_file){  //发起人         
+           ui_error('请上传合同扫描件！') 
+        }else{
+           save();
+           approve(); 
+        }        
+    }
+    
+    //保存修改后发送参阅意见
+    function referandsave()
+    {
+        save();
+        refer();
+    }
+
+    //功能：初始化数据
+    function init_data()
+    {
+        var temp, obj, i, html='', dis='';
+        var digit = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三', '十四', '十五'];
+
+        if(!(on_edit == 'add' || on_edit == 'edit'))
+            dis = 'disabled';
+
+        temp = $('#udf_field_{$data.8.id}').val();//保证金
+        obj = eval("(" + temp + ")");//转换为json对象
+        $('.bail_percent').val(obj['bail_percent']);
+        $('.bail').val(obj['bail']);
+
+        temp = $('#udf_field_{$data.9.id}').val();//支付方式
+        obj = eval("(" + temp + ")");
+        if(obj['data'].length > 0)
+        {
+            for(i = 0; i < obj['data'].length; i++)
+            {
+                if(on_edit == 'add' || on_edit == 'edit' || refer_flow_log_id > 0)
+                {
+                    if(i == 0)
+                        html += '<div><span>第' + digit[i] + '次支付</span>：<input class="pay_percent" style="width:30px;" value="' + obj['data'][i]['pay_percent'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" value="' + obj['data'][i]['pay'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="add_pay_way();">+</a></div>';
+                    else
+                        html += '<div><span>第' + digit[i] + '次支付</span>：<input class="pay_percent" style="width:30px;" value="' + obj['data'][i]['pay_percent'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" value="' + obj['data'][i]['pay'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="delete_pay_way(this);">-</a></div>';
+                }
+                else
+                {
+                    if(i == 0)
+                        html += '<div><span>第' + digit[i] + '次支付</span>：<input readonly="readonly" class="pay_percent" style="width:30px;" value="' + obj['data'][i]['pay_percent'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" class="pay" style="width:60px;" value="' + obj['data'][i]['pay'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">元</div>';
+                    else
+                        html += '<div><span>第' + digit[i] + '次支付</span>：<input readonly="readonly" class="pay_percent" style="width:30px;" value="' + obj['data'][i]['pay_percent'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input readonly="readonly" class="pay" style="width:60px;" value="' + obj['data'][i]['pay'] + '" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">元</div>';
+                }
+            }
+            $('.pay_way').find('div').remove();
+            $('.pay_way').append(html);
+        }
+
+        money_change();
+    }
+
+    //功能：钱的变动
+    function money_change()
+    {
+        var money = parseFloat($('#udf_field_{$data.7.id}').val());//合同金额
+
+        if($('.bail_percent').val() > 0 && money > 0)
+            $('.bail').val((money * $('.bail_percent').val()) / 100);
+
+        var arr_pay_percent = [];
+        $('.pay_percent').each(function(){
+            arr_pay_percent.push($(this).val());
+        });
+        for(var i = 0; i < arr_pay_percent.length; i++)
+        {
+            if(arr_pay_percent[i] > 0 && money > 0)
+                $('.pay').eq(i).val((money * arr_pay_percent[i]) / 100);
+        }
+
+        var total = 0;
+        $('.pay').each(function(){
+            total += parseFloat($(this).val());
+        });
+        $('#remain_money').html(money - total);
+    }
+
+    //功能：添加支付方式
+    function add_pay_way()
+    {
+        var digit = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三', '十四', '十五'];
+        var temp;
+
+        if($('.pay_way').children('div').length < 1)
+            temp = 0;
+        else
+            temp = $('.pay_way').children('div').length;
+
+        var html = '<div><span>第' + digit[temp] + '次支付</span>：<input class="pay_percent" style="width:30px;" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">%,&nbsp;&nbsp;&nbsp;金额：<input class="pay" style="width:60px;" onkeyup="this.value=this.value.replace(/[^\\d\\.]/g, \'\'); money_change();">元<a href="javascript:void(0);" style="margin-left:10px;" onclick="delete_pay_way(this);">-</a></div>';
+        $('.pay_way').append(html);
+    }
+
+    //功能：删除支付方式
+    function delete_pay_way(obj)
+    {
+        var digit = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三', '十四', '十五'];
+        var temp = 0;
+        $(obj).parent().remove();
+        $('.pay_way').children('div').each(function(){
+            $(this).find('span').html('第' + digit[temp] + '次支付');
+            temp++;
+        });
+    }
+
+    save_data['data_callback'] = 'get_data';//赋值获取数据的函数名字，在调用save函数里面会回调执行这个函数
+    //这个地方就是处理udf_field字段信息，这样可以避免每个地方都要调用函数获取对应值
+    function get_data()
+    {
+        if($('#remain_money').html() > 0)
+        {
+            alert('支付方式合同剩余金额应为零');
+            return false;
+        }
+
+        var temp;
+        temp = '{"bail_percent":"' + $('.bail_percent').val() + '", "bail":"' + $('.bail').val() + '"}';
+        $('#udf_field_{$data.8.id}').val(temp);
+
+        var arr_pay_percent = [];
+        $('.pay_percent').each(function(){
+            arr_pay_percent.push($(this).val());
+        });
+        var arr_pay = [];
+        $('.pay').each(function(){
+            arr_pay.push($(this).val());
+        });
+        temp = '{"data":[';
+        for(var i = 0; i < arr_pay_percent.length; i++)
+        {
+            temp += '{"pay_percent":"' + arr_pay_percent[i] + '",';
+            temp += '"pay":"' + arr_pay[i] + '"},';
+        }
+        temp = temp.substr(0, temp.length-1);//去掉最后一个，这个字段
+        temp += "]}";
+        $('#udf_field_{$data.9.id}').val(temp);
+
+        //特殊处理confirm这个字段的值
+        var confirm = '';
+        $("#confirm_wrap span").each(function(){
+            confirm = confirm + $(this).attr("data") + '|';
+        });
+        //处理会签选中的人
+        var next_audit_name = '';//下一个审核人
+        var countersign = '';
+        var countersign_checkbox = $('.countersign_checkbox:checked');
+        if(countersign_checkbox.length > 0)
+        {
+            var str = new Array();
+            countersign_checkbox.each(function(){
+                str.push($(this).val());
+                if(next_audit_name == '')
+                    next_audit_name = $(this).attr('data');
+                else
+                    next_audit_name += ' ' + $(this).attr('data');
+            });
+            countersign = str.join('&');
+        }
+        if(countersign != '')
+            confirm = countersign + '|' + confirm;
+
+        save_data['confirm'] = confirm;
+
+        if(next_audit_name != '')
+            save_data['next_audit_name'] = next_audit_name;
+
+        if(countersign)
+            $('#udf_field_{$data.11.id}').val(countersign);//记录会签用户账号
+            
+        return true;
+    }
+    //获取合同编号，政府采购+ZC
+    function get_FinanceNumber(){
+        $.post('{:U("Flow/get_financenumber")}', {}, function(data){
+            var sz = "";
+            if ($('#udf_field_{$data.2.id}').val() == "政府采购"){
+                sz = "-ZC";
+            }            
+            var codeNumber = 'BJMEMC'+ sz + '-2017' + data;            
+            $('#udf_field_{$data.0.id}').val(codeNumber);           
+        },'json');      
+    }
+   
+    
+</script>

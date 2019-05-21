@@ -1,0 +1,1766 @@
+<p style="text-align: center;font-size: 24px;">{$flow_type['name']}申请单</p>
+<!--新增模式-->                                    
+<if condition="$on_edit eq add">
+     <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">流程名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="流程名称">
+        </div>
+     </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$vo.cid|get_dept_name=###}"  msg="0">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.1.id}" id="udf_field_{$data.1.id}" msg="1" value="<?php echo(get_user_name()) ?>">       
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control input-date" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{:date('Y-m-d')}" msg="6" readonly>       
+        </div>
+    </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" check="require" msg="3" onchange="getVal()">
+                <option value=''>请选择</option>
+                    <option value='基本经费'  >基本经费</option>
+                    <option value='项目经费'  >项目经费</option>
+                    <option value='课题经费'  >课题经费</option>
+                    <option value='专项经费'  >专项经费</option>
+                    <option value='总站经费'  >总站经费</option>
+                    <option value='其他'  >其他</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.4.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.4.id}" name="udf_field_{$data.4.id}" msg="4"  check="require" onchange="getKeti()">
+                    
+                </select>
+        </div>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.5.name}</label>
+        <div class="col-sm-8">
+                <select class="form-control" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" msg="5"  check="require"  onchange="getKeti()">
+                    <option value=''>请选择</option>
+                    <option value='会议'>会议</option>
+                    <option value='培训'>培训</option>
+                    <option value='调研'>调研</option>
+                </select>
+        </div>
+    </div>
+
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="14"><p style="text-align: center;font-size: 20px;">差旅记录 </p></th></tr>
+                <tr>
+                    <th colspan="4" >出发</th>
+                    <th colspan="4" >到达</th>
+                    <th ></th>
+                    <th colspan="2" >交通</th>
+                    <th colspan="3" >出差补助</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="5%">人数</td>
+                    <td width="7%">工具</td>
+                    <td width="5%">天数</td>
+                    <td width="9%">补助标准</td>
+                    <td width="7%">金额</td>
+                    <td width="4%">操作</td>
+                </tr>
+                <tr>
+                    <td>
+                    <select class="form-control" id="start_month[]" name="start_month" check="require" onchange="tableDate();">
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                    </select>
+                    </td>
+                    <td >
+                    <select class="form-control" id="start_day[]" name="start_day" check="require" msg="start_day" onchange="tableDate();">
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                        <option value='13'>13</option>
+                        <option value='14'>14</option>
+                        <option value='15'>15</option>
+                        <option value='16'>16</option>
+                        <option value='17'>17</option>
+                        <option value='18'>18</option>
+                        <option value='19'>19</option>
+                        <option value='20'>20</option>
+                        <option value='21'>21</option>
+                        <option value='22'>22</option>
+                        <option value='23'>23</option>
+                        <option value='24'>24</option>
+                        <option value='25'>25</option>
+                        <option value='26'>26</option>
+                        <option value='27'>27</option>
+                        <option value='28'>28</option>
+                        <option value='29'>29</option>
+                        <option value='30'>30</option>
+                        <option value='31'>31</option>
+                    </select>
+                    </td>
+                    <td>
+                    <select class="form-control" id="start_hour[]" name="start_hour" check="require" msg="start_day" onchange="tableDate();">
+                        <option value='0'>0</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                        <option value='13'>13</option>
+                        <option value='14'>14</option>
+                        <option value='15'>15</option>
+                        <option value='16'>16</option>
+                        <option value='17'>17</option>
+                        <option value='18'>18</option>
+                        <option value='19'>19</option>
+                        <option value='20'>20</option>
+                        <option value='21'>21</option>
+                        <option value='22'>22</option>
+                        <option value='23'>23</option>
+                    </select>
+                    </td>
+                    <td><input type="text" name="start_place[]" id="start_place" value="" onblur="tableDate();"  style="width:100%"> </td>
+                    <td>
+                    <select class="form-control" id="arrive_month[]" name="arrive_month" check="require" msg="请选择摘要及用途" onchange="tableDate();">
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                    </select>
+                    </td>
+                    <td>
+                    <select class="form-control" id="arrive_day[]" name="arrive_day" check="require" msg="start_day" onchange="tableDate();">
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                        <option value='13'>13</option>
+                        <option value='14'>14</option>
+                        <option value='15'>15</option>
+                        <option value='16'>16</option>
+                        <option value='17'>17</option>
+                        <option value='18'>18</option>
+                        <option value='19'>19</option>
+                        <option value='20'>20</option>
+                        <option value='21'>21</option>
+                        <option value='22'>22</option>
+                        <option value='23'>23</option>
+                        <option value='24'>24</option>
+                        <option value='25'>25</option>
+                        <option value='26'>26</option>
+                        <option value='27'>27</option>
+                        <option value='28'>28</option>
+                        <option value='29'>29</option>
+                        <option value='30'>30</option>
+                        <option value='31'>31</option>
+                    </select>
+                     </td>
+                    <td>
+                    <select class="form-control" id="arrive_hour[]" name="arrive_hour" check="require" msg="arrive_hour" onchange="tableDate();">
+                        <option value='0'>0</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                        <option value='13'>13</option>
+                        <option value='14'>14</option>
+                        <option value='15'>15</option>
+                        <option value='16'>16</option>
+                        <option value='17'>17</option>
+                        <option value='18'>18</option>
+                        <option value='19'>19</option>
+                        <option value='20'>20</option>
+                        <option value='21'>21</option>
+                        <option value='22'>22</option>
+                        <option value='23'>23</option>
+                    </select>
+                    </td>
+                    <td><input type="text" name="arrive_place[]"  id="arrive_place" value="" onblur="tableDate();" style="width:100%"></td>
+                    <td><input type="text" name="cl_number[]" id="cl_number" value="" onblur="tableDate();" onkeyup="this.value=this.value.replace(/[^\d]/g, ''); total_change(this);" style="width:100%"> </td>
+                    <td><input type="text" name="cl_mode[]" id="cl_mode" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><input type="text" name="cl_days[]" id="cl_days" value="" onblur="tableDate();" onkeyup="this.value=this.value.replace(/[^\d]/g, ''); total_change(this);" style="width:100%"> </td>
+                    <td>
+                    <select class="form-control" id="cl_buzhu[]" name="cl_buzhu" check="require"  onchange="tableDate();total_change(this);">
+                        <option value='100'>100</option>
+                        <option value='180'>180</option>
+                        <option value='200'>200</option>
+
+                    </select>
+                     </td>
+                    <td><input type="text" name="cl_money[]" id="cl_money" value="" onblur="tableDate();" style="width:100%"> </td>
+                    <td><a href="javascript:void(0);" onclick="delete_goods(this);" class="delrow">删除</a></td>
+                </tr>
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  readonly value="" style="width:70%"> </td><td></td>
+            </tr>
+        </table>
+    </p>
+
+        <input class="form-control" type="hidden" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}"  msg="udf_field_{$data.2.name}" >
+        <input class="form-control" type="hidden" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="" msg="udf_field_{$data.7.id}" readonly>  
+    
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.8.id}" id="udf_field_{$data.8.id}" value="{$data.8.val}"  check="number" onchange="changenum();" msg="请输入金额，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.9.id}" id="udf_field_{$data.9.id}" readonly="true"  value="{$data.9.val}" msg="9" >
+        </div>
+    </div>
+
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.11.name}</label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.11.id}" id="udf_field_{$data.11.id}" readonly   msg="11" >
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.12.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" readonly  msg="12"  >       
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+                <input class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" value="{$data.10.val}" msg="10">
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">流程名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="流程名称">
+            
+        </div>
+     </div> -->
+
+    
+    
+   
+<!--编辑模式-->
+<elseif condition="$on_edit eq edit"/>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">流程名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" check="require" msg="流程名称">
+            <!-- <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p> -->
+        </div>
+     </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}"  msg="0">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.1.id}" id="udf_field_{$data.1.id}" msg="1" value="{$data.1.val}">       
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control input-date" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}" msg="6" readonly>       
+        </div>
+    </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" check="require" msg="3" onchange="getVal()">
+                <!-- <option value=''>请选择</option> -->
+                    <option value='基本经费' <if condition="$data['3']['val'] eq '基本经费'">selected</if>>基本经费</option>
+                    <option value='项目经费' <if condition="$data['3']['val'] eq '项目经费'">selected</if>>项目经费</option>
+                    <option value='课题经费' <if condition="$data['3']['val'] eq '课题经费'">selected</if>>课题经费</option>
+                    <option value='专项经费' <if condition="$data['3']['val'] eq '专项经费'">selected</if>>专项经费</option>
+                    <option value='总站经费' <if condition="$data['3']['val'] eq '总站经费'">selected</if>>总站经费</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.4.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.4.id}" name="udf_field_{$data.4.id}" msg="4"  check="require" onchange="getKeti()">
+                    <option value="{$data.4.val}">{$data.4.val}</option>
+                </select>
+                
+        </div>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.5.name}</label>
+        <div class="col-sm-8">
+                <select class="form-control" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" msg="5"  check="require"  onchange="getKeti()">
+                    <!-- <option value=''>请选择</option> -->
+                    <!-- <option value='会议'>会议</option>
+                    <option value='培训'>培训</option>
+                    <option value='调研'>调研</option> -->
+                    <option value='会议' <if condition="$data['5']['val'] eq '会议'">selected</if>>会议</option>
+                    <option value='培训' <if condition="$data['5']['val'] eq '培训'">selected</if>>培训</option>
+                    <option value='调研' <if condition="$data['5']['val'] eq '调研'">selected</if>>调研</option>
+                </select>
+        </div>
+    </div>
+
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="14"><p style="text-align: center;font-size: 20px;">差旅记录 </p></th></tr>
+                <tr>
+                    <!-- <th colspan="4" width="15%">出发</th> -->
+
+                    <th colspan="4" >出发</th>
+                    <th colspan="4" >到达</th>
+                    <th ></th>
+                    <th colspan="2" >交通</th>
+                    <th colspan="3" >出差补助</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="5%">人数</td>
+                    <td width="7%">工具</td>
+                    <td width="5%">天数</td>
+                    <td width="9%">补助标准</td>
+                    <td width="7%">金额</td>
+                    <td width="4%">操作</td>
+                </tr>
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  readonly value="{$data.7.val}" style="width:70%"> </td><td></td>
+            </tr>
+        </table>
+    </p>
+
+        <input class="form-control" type="hidden" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value='{$data.2.val}'  msg="udf_field_{$data.2.name}" >
+        <input class="form-control" type="hidden" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" msg="udf_field_{$data.7.id}">  
+    
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.8.id}" id="udf_field_{$data.8.id}" value="{$data.8.val}"  check="number" onchange="changenum();" msg="请输入附单据数，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.9.id}" id="udf_field_{$data.9.id}"  value="{$data.9.val}" msg="9" >       
+        </div>
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.11.name}</label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.11.id}" id="udf_field_{$data.11.id}" value="{$data.11.val}" readonly msg="11"   onchange="changenum();">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.12.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" msg="12" readonly  value="{$data.12.val}"  >       
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+                <input class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" value="{$data.10.val}" msg="10">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+
+        //显示表格数据
+        function showTableData()
+        { 
+            var i, j;
+            //var str = {$data.1.val};
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html = '';
+            for(i=0; i<json.data.length; i++)
+            {
+                
+                html += '<tr>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_month[]" name="start_month" check="require"  onchange="tableDate();">';
+                for (var sm = 1; sm < 13; sm++) {
+                    if(sm == json.data[i].start_month){
+                        html += '<option value="'+sm+'" selected>'+sm+'</option>';
+                    }else{
+                        html += '<option value="'+sm+'">'+sm+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_day[]" name="start_day" check="require" msg="start_day" onchange="tableDate();">';
+                for (var sd = 1; sd < 32; sd++) {
+                    if(sd == json.data[i].start_day){
+                        html += '<option value="'+sd+'" selected>'+sd+'</option>';
+                    }else{
+                        html += '<option value="'+sd+'">'+sd+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_hour[]" name="start_hour" check="require"  onchange="tableDate();">';
+                for (var sh = 0; sh < 24; sh++) {
+                    if(sh == json.data[i].start_hour){
+                        html += '<option value="'+sh+'" selected>'+sh+'</option>';
+                    }else{
+                        html += '<option value="'+sh+'">'+sh+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="start_place[]" id="start_place" value="' + json.data[i].start_place + '"  onchange="tableDate();" style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_month[]" name="arrive_month" check="require"  onchange="tableDate();">';
+                for (var am = 1; am < 13; am++) {
+                    if(sm == json.data[i].arrive_month){
+                        html += '<option value="'+am+'" selected>'+am+'</option>';
+                    }else{
+                        html += '<option value="'+am+'">'+am+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_day[]" name="arrive_day" check="require" onchange="tableDate();">';
+                for (var ad = 1; ad < 32; ad++) {
+                    if(ad == json.data[i].arrive_day){
+                        html += '<option value="'+ad+'" selected>'+ad+'</option>';
+                    }else{
+                        html += '<option value="'+ad+'">'+ad+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_hour[]" name="arrive_hour" check="require"  onchange="tableDate();">';
+                for (var ah = 0; ah < 24; ah++) {
+                    if(ah == json.data[i].arrive_hour){
+                        html += '<option value="'+ah+'" selected>'+ah+'</option>';
+                    }else{
+                        html += '<option value="'+ah+'">'+ah+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="arrive_place[]"  id="arrive_place" value="' + json.data[i].arrive_place + '" onblur="tableDate();" style="width:100%"></td>';
+                html += '<td><input type="text" name="cl_number[]" id="cl_number" value="' + json.data[i].cl_number + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td><input type="text" name="cl_mode[]" id="cl_mode" value="' + json.data[i].cl_mode + '"  onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" name="cl_days[]" id="cl_days" value="' + json.data[i].cl_days + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="cl_buzhu[]" name="cl_buzhu" check="require"  onchange="tableDate();total_change(this);">';
+                if(json.data[i].cl_buzhu == '100'){
+                    html += '<option value="100" selected>100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200">200</option>';
+                }
+                
+                if(json.data[i].cl_buzhu == '180'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180" selected>180</option>';
+                    html += '<option value="200">200</option>';
+                }
+
+                if(json.data[i].cl_buzhu == '200'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200" selected>200</option>';
+                }
+
+                
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="cl_money[]" id="cl_money" value="' + json.data[i].cl_money + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><a href="javascript:void(0);" onclick="delete_goods(this);" class="delrow">删除</a></td>';
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+<!--合同管理员在执行的时候，可以修改合同内容-->
+<elseif condition="$to_confirm.step eq 31"/>
+    <input type="hidden" id="confirm" name="confirm" value="{$vo.confirm}">
+    <input type="hidden" id="consult" name="consult" value="{$vo.consult}">
+    
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">流程名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" readonly="true" check="require" msg="流程名称">
+        </div>
+     </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" readonly="true" value="{$data.0.val}"  msg="0">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.1.id}" id="udf_field_{$data.1.id}" readonly="true" msg="1" value="{$data.1.val}">       
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}" msg="6" readonly="true">       
+        </div>
+    </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" readonly="true" check="require" msg="3" >
+                <option value="{$data.3.val}">{$data.3.val}</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.4.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.4.id}" name="udf_field_{$data.4.id}" msg="4"  check="require" readonly="true">
+                    <option value="{$data.4.val}">{$data.4.val}</option>
+                </select>
+        </div>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.5.name}</label>
+        <div class="col-sm-8">
+                <select class="form-control" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" msg="5"  check="require" readonly="true" >
+                    <option value="{$data.5.val}">{$data.5.val}</option>
+                </select>
+        </div>
+    </div>
+
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="14"><p style="text-align: center;font-size: 20px;">差旅记录 </p></th></tr>
+                <tr>
+                    <th colspan="4" >出发</th>
+                    <th colspan="4" >到达</th>
+                    <th ></th>
+                    <th colspan="2" >交通</th>
+                    <th colspan="3" >出差补助</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="5%">人数</td>
+                    <td width="7%">工具</td>
+                    <td width="5%">天数</td>
+                    <td width="9%">补助标准</td>
+                    <td width="7%">金额</td>
+                </tr>
+                
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  readonly="true" value="{$data.7.val}" style="width:100%"> </td><td></td>
+            </tr>
+        </table>
+    </p>
+
+        <input class="form-control" type="hidden" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" value="{$data.2.val}"  msg="udf_field_{$data.2.name}" >
+        <input class="form-control" type="hidden" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" value="{$data.7.val}" >  
+    
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.8.id}" id="udf_field_{$data.8.id}" value="{$data.8.val}" readonly="true"  check="number"  msg="请输入附单据数，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.9.id}" id="udf_field_{$data.9.id}" readonly="true"  value="{$data.9.val}" msg="9" >       
+        </div>
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.11.name}</label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.11.id}" id="udf_field_{$data.11.id}" value="{$data.11.val}"  msg="11"   onchange="changerealnum();">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.12.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}" msg="12"   value="{$data.12.val}"  >       
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+                <input class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" readonly="true" value="{$data.10.val}" msg="10">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+
+        //显示表格数据
+        function showTableData()
+        { 
+            var i, j;
+            //var str = {$data.1.val};
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html = '';
+            for(i=0; i<json.data.length; i++)
+            {
+                // html += '<tr>';                
+                // html += '<td><input type="text" name="wu_name[]" id="wu_name" value="' + json.data[i].wu_name + '" onblur="tableDate();" style="width:100%"> </td>';
+                html += '<tr>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_month[]" name="start_month" check="require" readonly="true"  \>';
+                for (var sm = 1; sm < 13; sm++) {
+                    if(sm == json.data[i].start_month){
+                        html += '<option value="'+sm+'" selected>'+sm+'</option>';
+                    }else{
+                        html += '<option value="'+sm+'">'+sm+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_day[]" name="start_day" check="require" readonly="true" msg="start_day" onchange="tableDate();">';
+                for (var sd = 1; sd < 32; sd++) {
+                    if(sd == json.data[i].start_day){
+                        html += '<option value="'+sd+'" selected>'+sd+'</option>';
+                    }else{
+                        html += '<option value="'+sd+'">'+sd+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_hour[]" name="start_hour" check="require" readonly="true"  onchange="tableDate();">';
+                for (var sh = 0; sh < 24; sh++) {
+                    if(sh == json.data[i].start_hour){
+                        html += '<option value="'+sh+'" selected>'+sh+'</option>';
+                    }else{
+                        html += '<option value="'+sh+'">'+sh+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="start_place[]" id="start_place" value="' + json.data[i].start_place + '"  onchange="tableDate();" readonly="true" style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_month[]" name="arrive_month" check="require" readonly="true" onchange="tableDate();">';
+                for (var am = 1; am < 13; am++) {
+                    if(sm == json.data[i].arrive_month){
+                        html += '<option value="'+am+'" selected>'+am+'</option>';
+                    }else{
+                        html += '<option value="'+am+'">'+am+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_day[]" name="arrive_day" check="require" readonly="true" onchange="tableDate();">';
+                for (var ad = 1; ad < 32; ad++) {
+                    if(ad == json.data[i].arrive_day){
+                        html += '<option value="'+ad+'" selected>'+ad+'</option>';
+                    }else{
+                        html += '<option value="'+ad+'">'+ad+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_hour[]" name="arrive_hour" check="require" readonly="true"  onchange="tableDate();">';
+                for (var ah = 0; ah < 24; ah++) {
+                    if(ah == json.data[i].arrive_hour){
+                        html += '<option value="'+ah+'" selected>'+ah+'</option>';
+                    }else{
+                        html += '<option value="'+ah+'">'+ah+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="arrive_place[]"  id="arrive_place" value="' + json.data[i].arrive_place + '" onblur="tableDate();" readonly="true" style="width:100%"></td>';
+                html += '<td><input type="text" readonly="true" name="cl_number[]" id="cl_number" value="' + json.data[i].cl_number + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td><input type="text" readonly="true" name="cl_mode[]" id="cl_mode" value="' + json.data[i].cl_mode + '"  onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" readonly="true" name="cl_days[]" id="cl_days" value="' + json.data[i].cl_days + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="cl_buzhu[]" name="cl_buzhu" readonly="true" check="require"  onchange="tableDate();total_change(this);">';
+                if(json.data[i].cl_buzhu == '100'){
+                    html += '<option value="100" selected>100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200">200</option>';
+                }
+                
+                if(json.data[i].cl_buzhu == '180'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180" selected>180</option>';
+                    html += '<option value="200">200</option>';
+                }
+
+                if(json.data[i].cl_buzhu == '200'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200" selected>200</option>';
+                }
+
+                
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" readonly="true" name="cl_money[]" id="cl_money" value="' + json.data[i].cl_money + '" onblur="tableDate();" style="width:100%"> </td>';
+                
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+        </script>
+<!--阅读模式-->
+<else />
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="name">流程名称：</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" id="name" name="name" value="{$vo.name}" disabled="true" check="require" msg="流程名称">
+            <!-- <p class="text-warning">*（此栏须详细填写盖章的文件资料名称）</p> -->
+        </div>
+     </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.0.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.0.id}" id="udf_field_{$data.0.id}" value="{$data.0.val}" disabled="true" msg="0">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.1.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control" type="text" name="udf_field_{$data.1.id}" id="udf_field_{$data.1.id}" msg="1" disabled="true" value="{$data.1.val}">       
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.6.name}</label>
+        <div class="col-sm-8">
+                <input  class="form-control input-date" type="text" name="udf_field_{$data.6.id}" id="udf_field_{$data.6.id}" value="{$data.6.val}" msg="6" disabled="true">       
+        </div>
+    </div>
+     <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.3.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.3.id}" name="udf_field_{$data.3.id}" check="require" msg="3" disabled="true" onchange="getVal()">
+                <!-- <option value=''>请选择</option> -->
+                    <option value='基本经费' <if condition="$data['3']['val'] eq '基本经费'">selected</if>>基本经费</option>
+                    <option value='项目经费' <if condition="$data['3']['val'] eq '项目经费'">selected</if>>项目经费</option>
+                    <option value='课题经费' <if condition="$data['3']['val'] eq '课题经费'">selected</if>>课题经费</option>
+                    <option value='专项经费' <if condition="$data['3']['val'] eq '专项经费'">selected</if>>专项经费</option>
+                    <option value='总站经费' <if condition="$data['3']['val'] eq '总站经费'">selected</if>>总站经费</option>
+                </select>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.4.name}<font color="#FF0000">*</font></label>
+        <div class="col-sm-8">
+                <select class="form-control" id="udf_field_{$data.4.id}" name="udf_field_{$data.4.id}" msg="4" disabled="true"  check="require" onchange="getKeti()">
+                    <option value="{$data.4.val}">{$data.4.val}</option>
+                </select>
+                
+        </div>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.5.name}</label>
+        <div class="col-sm-8">
+                <select class="form-control" name="udf_field_{$data.5.id}" id="udf_field_{$data.5.id}" msg="5" disabled="true" check="require"  onchange="getKeti()">
+                    
+                    <option value='会议' <if condition="$data['5']['val'] eq '会议'">selected</if>>会议</option>
+                    <option value='培训' <if condition="$data['5']['val'] eq '培训'">selected</if>>培训</option>
+                    <option value='调研' <if condition="$data['5']['val'] eq '调研'">selected</if>>调研</option>
+                </select>
+        </div>
+    </div>
+
+
+    <p>
+        <table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+            <thead>
+                <tr><th colspan="14"><p style="text-align: center;font-size: 20px;">差旅记录 </p></th></tr>
+                <tr>
+                    <!-- <th colspan="4" width="15%">出发</th> -->
+
+                    <th colspan="4" >出发</th>
+                    <th colspan="4" >到达</th>
+                    <th ></th>
+                    <th colspan="2" >交通</th>
+                    <th colspan="3" >出差补助</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody id='all_goods'>
+                <tr>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="7%">月</td>
+                    <td width="7%">日</td>
+                    <td width="7%">时</td>
+                    <td width="10%">地点</td>
+                    <td width="5%">人数</td>
+                    <td width="7%">工具</td>
+                    <td width="5%">天数</td>
+                    <td width="9%">补助标准</td>
+                    <td width="7%">金额</td>
+                    <!-- <td width="4%">操作</td> -->
+                </tr>
+                
+                <tr id='goods'></tr>
+            </tbody>
+            <tr>
+                <td><!-- <button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加</button> -->
+                </td>
+                <td></td>
+                <td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>总计</td><td><input type="text" name="total_all_goods" id="total_all_goods"  disabled="true" value="{$data.7.val}" style="width:100%"> </td>
+            </tr>
+        </table>
+    </p>
+
+        <input class="form-control" type="hidden" name="udf_field_{$data.2.id}" id="udf_field_{$data.2.id}" disabled="true"  msg="udf_field_{$data.2.name}" >
+        <input class="form-control" type="hidden" name="udf_field_{$data.7.id}" id="udf_field_{$data.7.id}" disabled="true" value="" msg="udf_field_{$data.7.id}" readonly>  
+    
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.8.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.8.id}" id="udf_field_{$data.8.id}" value="{$data.8.val}" disabled="true"  check="number" onchange="changenum();" msg="请输入附单据数，必须为数字！">
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.9.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.9.id}" id="udf_field_{$data.9.id}" disabled="true"  value="{$data.9.val}" msg="9" >       
+        </div>
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.11.name}<font color="#FF0000">*</font></label> 
+        <div class="col-sm-8">
+            <input class="form-control" type="text" name="udf_field_{$data.11.id}" id="udf_field_{$data.11.id}" value="{$data.11.val}"  check="number" onchange="changenum();" disabled="true" >
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="col-sm-4 control-label">{$data.12.name}</label>
+        <div class="col-sm-8">
+                <input class="form-control" type="text" name="udf_field_{$data.12.id}" id="udf_field_{$data.12.id}"  disabled="true"  value="{$data.12.val}" msg="9" >       <!-- disabled="true" -->
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{$data.10.name}</label>
+        <div class="col-sm-9">
+                <input class="form-control" type="text" name="udf_field_{$data.10.id}" id="udf_field_{$data.10.id}" disabled="true" value="{$data.10.val}" msg="10">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function(){
+            if(document.readyState == "complete")
+            {
+                //当页面加载状态为完全结束时进入
+                var str = document.getElementById("udf_field_{$data.2.id}").value;
+                if(str !== null)
+                    showTableData();
+            }
+        }
+
+        //显示表格数据
+        function showTableData()
+        { 
+            var i, j;
+            //var str = {$data.1.val};
+            var str = {$data.2.val};
+            if(typeof str === 'object')
+                json = str;
+            else
+                json = eval(str);
+
+            var html = '';
+            for(i=0; i<json.data.length; i++)
+            {
+                html += '<tr>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_month[]" name="start_month" check="require" disabled="true" onchange="tableDate();">';
+                for (var sm = 1; sm < 13; sm++) {
+                    if(sm == json.data[i].start_month){
+                        html += '<option value="'+sm+'" selected>'+sm+'</option>';
+                    }else{
+                        html += '<option value="'+sm+'">'+sm+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_day[]" name="start_day" check="require" disabled="true" msg="start_day" onchange="tableDate();">';
+                for (var sd = 1; sd < 32; sd++) {
+                    if(sd == json.data[i].start_day){
+                        html += '<option value="'+sd+'" selected>'+sd+'</option>';
+                    }else{
+                        html += '<option value="'+sd+'">'+sd+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="start_hour[]" name="start_hour" check="require" disabled="true"   onchange="tableDate();">';
+                for (var sh = 0; sh < 24; sh++) {
+                    if(sh == json.data[i].start_hour){
+                        html += '<option value="'+sh+'" selected>'+sh+'</option>';
+                    }else{
+                        html += '<option value="'+sh+'">'+sh+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" name="start_place[]" id="start_place" value="' + json.data[i].start_place + '"  onchange="tableDate();" disabled="true" style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_month[]" name="arrive_month" check="require" disabled="true"   onchange="tableDate();">';
+                for (var am = 1; am < 13; am++) {
+                    if(sm == json.data[i].arrive_month){
+                        html += '<option value="'+am+'" selected>'+am+'</option>';
+                    }else{
+                        html += '<option value="'+am+'">'+am+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_day[]" name="arrive_day" check="require" disabled="true"  onchange="tableDate();">';
+                for (var ad = 1; ad < 32; ad++) {
+                    if(ad == json.data[i].arrive_day){
+                        html += '<option value="'+ad+'" selected>'+ad+'</option>';
+                    }else{
+                        html += '<option value="'+ad+'">'+ad+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td>';
+                html += '<select class="form-control" id="arrive_hour[]" name="arrive_hour" check="require" disabled="true"  onchange="tableDate();">';
+                for (var ah = 0; ah < 24; ah++) {
+                    if(ah == json.data[i].arrive_hour){
+                        html += '<option value="'+ah+'" selected>'+ah+'</option>';
+                    }else{
+                        html += '<option value="'+ah+'">'+ah+'</option>';
+                    }
+                    
+                }
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" disabled="true"  name="arrive_place[]"  id="arrive_place" value="' + json.data[i].arrive_place + '" onblur="tableDate();"  style="width:100%"></td>';
+                html += '<td><input type="text" name="cl_number[]" disabled="true" id="cl_number" value="' + json.data[i].cl_number + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td><input type="text" name="cl_mode[]" id="cl_mode" value="' + json.data[i].cl_mode + '" disabled="true"  onblur="tableDate();" style="width:100%"> </td>';
+                html += '<td><input type="text" disabled="true" name="cl_days[]" id="cl_days" value="' + json.data[i].cl_days + '" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+                html += '<td>';
+                html += '<select class="form-control" id="cl_buzhu[]" name="cl_buzhu" disabled="true" check="require"  onchange="tableDate();total_change(this);">';
+                if(json.data[i].cl_buzhu == '100'){
+                    html += '<option value="100" selected>100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200">200</option>';
+                }
+                
+                if(json.data[i].cl_buzhu == '180'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180" selected>180</option>';
+                    html += '<option value="200">200</option>';
+                }
+
+                if(json.data[i].cl_buzhu == '200'){
+                    html += '<option value="100">100</option>';
+                    html += '<option value="180">180</option>';
+                    html += '<option value="200" selected>200</option>';
+                }
+
+                
+                html += '</select>';
+                html += '</td>';
+                html += '<td><input type="text" disabled="true" name="cl_money[]" id="cl_money" value="' + json.data[i].cl_money + '" onblur="tableDate();" style="width:100%"> </td>';
+                
+                html += '</tr>';
+            }
+            $('#goods').before(html);
+        }
+    </script>
+
+</if>
+
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+
+
+<script type="text/javascript">
+
+    
+    var step = '{$vo.step}';//草稿是10，退回是19，审批是20，执行是30，完成是40,100是参阅
+    var department_head_user_name = '{:get_department_head_user_name()}';
+    var on_edit = '{$on_edit}';
+    var refer_flow_log_id = '{$to_refer.id}';//如果这个值是大于0的话，表示是合同人员参阅这个模式
+    var current_flow_log_step = '{$to_confirm.step}';//flow_log当前用户执行的step值是多少
+   
+    $(function(){
+        //get_department_list();
+        //init_data();
+        
+        if(refer_flow_log_id > 0 ||  current_flow_log_step == 31)
+        {
+            // alert(31);
+            $('#view_file').remove();
+            $('#zhixing').remove();
+            $('#approve').remove();
+            $('.hidden-print .pull-right').append('<a onclick="zhixing();" class="btn btn-sm btn-primary">保存并提交</a>');//添加一个保存按钮
+            //$('#view_file').remove();
+            
+            // if(!$('#udf_field_341').attr("value")){
+            //     $('#zhixing').remove();
+            //     //alert('ok');
+            // }
+        }
+        // if(refer_flow_log_id > 0 ||  current_flow_log_step >= 20){
+        //     $('.panel-default .clearfix .pull-left').append('<button class="btn btn-sm btn-primary" onclick="send_massage();" type="button"><i class="fa fa-envelope"></i> 纸件报送通知</button>');//添加一个保存按钮 
+        // }
+        
+    });
+
+    function zhixing(){
+        var yuanjine = $("#udf_field_{$data.8.id}").val();//审批过的金额        
+        var shijine = $("#udf_field_{$data.11.id}").val(); //实际金额
+        if(!isNaN(yuanjine) && shijine != ''){
+            if(parseInt(yuanjine) >= parseInt(shijine)){
+                changenums();
+                tableDate();
+                save();
+                approve();
+            }else{
+               ui_error('实际金额不能大于审批原金额！');                 
+            }
+        }else{
+            ui_error('实际金额必须是数字！');
+        }
+    }
+    
+    function changerealnum(){
+        var yuanjine = $("#udf_field_{$data.8.id}").val();//审批过的金额        
+        var shijine = $("#udf_field_{$data.11.id}").val(); //实际金额
+        if(!isNaN(yuanjine) && shijine != ''){
+            if(parseInt(yuanjine) >= parseInt(shijine)){
+                changenums();
+                tableDate();
+                
+            }else{
+               ui_error('实际金额不能大于审批原金额！');                 
+            }
+        }else{
+            ui_error('实际金额必须是数字！');
+        }
+        
+    }
+
+    function changenums(){
+        // var m = Number(prompt("金额："));
+        var m = $("#udf_field_{$data.11.id}").val();
+        // var xz = $("#udf_field_{$data.4.id}");
+        // m = parseFloat($("#udf_field_356").val());
+        m = floatMul(m,100);
+        m = Math.floor(m);
+        // alert(m);
+        
+        m += "";
+        if(!isNaN(m)){
+            var length = m.length;
+            var unit = new Array("仟", "佰", "拾", "", "仟", "佰", "拾", "", "角", "分");
+            var result = "";
+            for (var i = 0; i < length; i++) {
+                if (i == 2) {
+                    result = "元" + result;
+                } else if (i == 6) {
+                    result = "万" + result;
+                }
+                if (m.charAt(length - i - 1) == 0) {
+                    if (i != 0 && i != 1) {
+                        if (result.charAt(0) != '零' && result.charAt(0) != '元' && result.charAt(0) != '万') {
+                            result = "零" + result;
+                        }
+                    }
+                    continue;
+                }
+                result = toDx(m.charAt(length - i - 1)) + unit[unit.length - i - 1] + result;
+            }
+            result += result.charAt(result.length - 1) == '元' ? "整" : "";
+            // $("#udf_field_357").attr(result);
+            $("#udf_field_{$data.12.id}").attr("value",result);
+        }else{
+            $("#udf_field_{$data.12.id}").attr("value",'');
+        }
+        
+
+    }
+
+    function changenum(){
+        // var m = Number(prompt("金额："));
+        var m = $("#udf_field_{$data.8.id}").val();
+        // var xz = $("#udf_field_{$data.4.id}");
+        // m = parseFloat($("#udf_field_356").val());
+        m = floatMul(m,100);
+        m = Math.floor(m);
+        // alert(m);
+        
+        m += "";
+        if(!isNaN(m)){
+            var length = m.length;
+            var unit = new Array("仟", "佰", "拾", "", "仟", "佰", "拾", "", "角", "分");
+            var result = "";
+            for (var i = 0; i < length; i++) {
+                if (i == 2) {
+                    result = "元" + result;
+                } else if (i == 6) {
+                    result = "万" + result;
+                }
+                if (m.charAt(length - i - 1) == 0) {
+                    if (i != 0 && i != 1) {
+                        if (result.charAt(0) != '零' && result.charAt(0) != '元' && result.charAt(0) != '万') {
+                            result = "零" + result;
+                        }
+                    }
+                    continue;
+                }
+                result = toDx(m.charAt(length - i - 1)) + unit[unit.length - i - 1] + result;
+            }
+            result += result.charAt(result.length - 1) == '元' ? "整" : "";
+            // $("#udf_field_357").attr(result);
+            $("#udf_field_{$data.9.id}").attr("value",result);
+        }else{
+            $("#udf_field_{$data.9.id}").attr("value",'');
+        }
+        
+
+    }
+
+    function toDx(n) {
+        switch (n) {
+            case "0":
+                return "零";
+            case "1":
+                return "壹";
+            case "2":
+                return "贰";
+            case "3":
+                return "叁";
+            case "4":
+                return "肆";
+            case "5":
+                return "伍";
+            case "6":
+                return "陆";
+            case "7":
+                return "柒";
+            case "8":
+                return "捌";
+            case "9":
+                return "玖";
+        }
+    }
+
+    function floatMul(arg1,arg2)   {     
+        var m=0,s1=arg1.toString(),s2=arg2.toString();     
+        try{m+=s1.split(".")[1].length}catch(e){}     
+        try{m+=s2.split(".")[1].length}catch(e){}     
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);     
+    }
+
+    
+    
+    function send_massage()
+    {
+        //winopen("__ROOT__/index.php?m=&c=popup&a=sendmessage", 560, 370);
+        winopen("{:U('popup/sendmessage',array('info'=>$vo))}",560, 370); 
+    }
+
+    //功能：初始化数据
+    function init_data()
+    {
+        var temp, obj, i, html='', dis='';
+        var digit = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三', '十四', '十五'];
+
+        if(!(on_edit == 'add' || on_edit == 'edit'))
+            dis = 'disabled';
+        
+        
+    }
+
+    function setVal(){
+        var yt = $("#udf_field_{$data.3.id}").val();
+        var ly = $("#udf_field_{$data.4.id}");
+        var xz = $("#udf_field_{$data.5.id}");
+        var option = '';
+        if(yt == '停车费'){
+            $("option",ly).remove();
+            $("option",xz).remove();
+            option = "<option value='基本经费'>基本经费</option>";
+            ly.append(option);
+            xz.append(option);
+        }else{
+            option += "<option value=''>请选择</option>";
+            option += "<option value='基本经费'  >基本经费</option>";
+            option += "<option value='项目经费'  >项目经费</option>";
+            option += "<option value='课题经费'  >课题经费</option>";
+            option += "<option value='专项经费'  >专项经费</option>";
+            option += "<option value='总站经费'  >总站经费</option>";
+            option += "<option value='其他'  >其他</option>";
+            ly.append(option);
+        }
+        
+    }
+
+    function getVal(){
+            var ly = $("#udf_field_{$data.3.id}").val();
+            var xz = $("#udf_field_{$data.4.id}");
+            
+            $("option",xz).remove(); //清空原有的选项，也可使用 ds_id.empty(); 
+            var option = '';
+            //xpgw.empty();
+            if(ly=="基本经费"){
+
+                option = "<option value='基本经费'>基本经费</option>";
+                xz.append(option);
+                var next_audit_name = '';
+                save_data['next_audit_name'] = next_audit_name;
+                
+            }else if(ly=='项目经费'){
+                $.ajax({
+                type:'POST',
+                data:'type='+ly,
+                url:"{:U('Form/getform')}",
+                cache:false,
+                success: function(data){
+                    if(data){
+                        
+                        xz.append(data);
+                        var next_audit_name = '';
+                        save_data['next_audit_name'] = next_audit_name;
+                    }
+                }
+            });
+            }else if(ly=='课题经费'){
+                $.ajax({
+                type:'POST',
+                data:'type='+ly,
+                url:"{:U('Form/getform')}",
+                cache:false,
+                success: function(data){
+                    if(data){
+                        xz.append(data);
+                    }
+                }
+            });
+                
+            }else if(ly=='专项经费'){
+                $.ajax({
+                type:'POST',
+                data:'type='+ly,
+                url:"{:U('Form/getform')}",
+                cache:false,
+                success: function(data){
+                    if(data){
+                        // $("#receive_userid").html(data);
+                        xz.append(data);
+                        var next_audit_name = '';
+                        save_data['next_audit_name'] = next_audit_name;
+                        // window.console.log(data);
+                        // alert(111);
+                    }
+                }
+            });
+            }else if(ly=='总站经费'){
+                $.ajax({
+                type:'POST',
+                data:'type='+ly,
+                url:"{:U('Form/getform')}",
+                cache:false,
+                success: function(data){
+                    if(data){
+                        // $("#receive_userid").html(data);
+                        xz.append(data);
+                        var next_audit_name = '';
+                        save_data['next_audit_name'] = next_audit_name;
+                    }
+                }
+            });
+            
+            
+        }
+    } 
+
+    function getKeti(){
+        var ly = $("#udf_field_{$data.3.id}").val();
+        var xz = $("#udf_field_{$data.4.id}").val();
+        if(ly=='课题经费'){
+            $.ajax({
+                type:'POST',
+                data:'keti='+xz,
+                url:"{:U('Form/getketi')}",
+                cache:false,
+                success: function(data){
+                    if(data){
+                        // alert(data);
+                        var next_audit_name = data;
+                        save_data['next_audit_name'] = next_audit_name;
+                        // window.console.log(data);
+                        // alert(111);
+                    }
+                }
+            });
+        }
+
+    }
+
+    
+
+    //删除一行
+    function delete_goods(obj)
+    {
+        //var total_goods = 0, arr_total_one_goods, temp;
+        $(obj).parent().parent().remove();//删除一个物品对象
+        total_change(obj); //删除后更新总价
+    }
+
+    //功能：总价变化
+    //参数：obj输入文本框变化对象
+    function total_change(obj)
+    {
+        var parent_obj;
+        var number, price, day;
+        var total_goods = 0, arr_total_one_goods, temp;
+
+        parent_obj = $(obj).parent().parent();
+        number = parent_obj.find('#cl_number').val();
+        price = parent_obj.find('td').eq(11).find('select').val();
+        day = parent_obj.find('#cl_days').val();
+        
+        parent_obj.find('#cl_money').val(accMul(parseInt(number),parseFloat(price),parseFloat(day)));
+        
+        console.info();
+        //parent_obj.find('#total').val(parseFloat(number) * parseFloat(price));
+        //arr_total_one_goods = $('#goods').children('tr').;//各个物品总价钱
+        //arr_total_one_goods = $('#all_goods').children('tr').find('#total');
+        arr_total_one_goods = $('#all_goods').children('tr').find('#cl_money');
+        //alert(arr_total_one_goods);
+        $(arr_total_one_goods).each(function(){
+            //temp = parseFloat($(this).html());
+            temp = parseFloat($(this).val());
+            //alert(temp);
+            if(!isNaN(temp))
+                total_goods += temp;
+        });
+        //$('#total_all_goods').html('总计：'+total_goods+'元');
+        $('#total_all_goods').val(total_goods);
+        // $('#total_all_goods').val(total_goods);
+        $("#udf_field_{$data.7.id}").val(total_goods);
+        tableDate(); //更新数据
+    }
+    //JS乘法BUG解决
+    function accMul(arg1,arg2,arg3)
+    {
+        var m=0,s1=arg1.toString(),s2=arg2.toString(),s3=arg3.toString();
+        try{m+=s1.split(".")[1].length}catch(e){}
+        try{m+=s2.split(".")[1].length}catch(e){}
+        try{m+=s3.split(".")[1].length}catch(e){}
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))*Number(s3.replace(".",""))/Math.pow(10,m)
+    }
+
+    function tbAddRow()
+    {
+        var html = '';
+        html += '<tr>';
+        html += '<td>';
+        html += '<select class="form-control" id="start_month[]" name="start_month" check="require" msg="请选择摘要及用途" onchange="tableDate();">';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td>';
+        html += '<select class="form-control" id="start_day[]" name="start_day" check="require" msg="start_day" onchange="tableDate();">';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '<option value="13">13</option>';
+        html += '<option value="14">14</option>';
+        html += '<option value="15">15</option>';
+        html += '<option value="16">16</option>';
+        html += '<option value="17">17</option>';
+        html += '<option value="18">18</option>';
+        html += '<option value="19">19</option>';
+        html += '<option value="20">20</option>';
+        html += '<option value="21">21</option>';
+        html += '<option value="22">22</option>';
+        html += '<option value="23">23</option>';
+        html += '<option value="24">24</option>';
+        html += '<option value="25">25</option>';
+        html += '<option value="26">26</option>';
+        html += '<option value="27">27</option>';
+        html += '<option value="28">28</option>';
+        html += '<option value="29">29</option>';
+        html += '<option value="30">30</option>';
+        html += '<option value="31">31</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td>';
+        html += '<select class="form-control" id="start_hour[]" name="start_hour" check="require" msg="start_day" onchange="tableDate();">';
+        html += '<option value="0">0</option>';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '<option value="13">13</option>';
+        html += '<option value="14">14</option>';
+        html += '<option value="15">15</option>';
+        html += '<option value="16">16</option>';
+        html += '<option value="17">17</option>';
+        html += '<option value="18">18</option>';
+        html += '<option value="19">19</option>';
+        html += '<option value="20">20</option>';
+        html += '<option value="21">21</option>';
+        html += '<option value="22">22</option>';
+        html += '<option value="23">23</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td><input type="text" name="start_place[]" id="start_place" value=""  onchange="tableDate();" style="width:100%"> </td>';
+        html += '<td>';
+        html += '<select class="form-control" id="arrive_month[]" name="arrive_month" check="require"  onchange="tableDate();">';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td>';
+        html += '<select class="form-control" id="arrive_day[]" name="arrive_day" check="require" msg="start_day" onchange="tableDate();">';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '<option value="13">13</option>';
+        html += '<option value="14">14</option>';
+        html += '<option value="15">15</option>';
+        html += '<option value="16">16</option>';
+        html += '<option value="17">17</option>';
+        html += '<option value="18">18</option>';
+        html += '<option value="19">19</option>';
+        html += '<option value="20">20</option>';
+        html += '<option value="21">21</option>';
+        html += '<option value="22">22</option>';
+        html += '<option value="23">23</option>';
+        html += '<option value="24">24</option>';
+        html += '<option value="25">25</option>';
+        html += '<option value="26">26</option>';
+        html += '<option value="27">27</option>';
+        html += '<option value="28">28</option>';
+        html += '<option value="29">29</option>';
+        html += '<option value="30">30</option>';
+        html += '<option value="31">31</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td>';
+        html += '<select class="form-control" id="arrive_hour[]" name="arrive_hour" check="require"  onchange="tableDate();">';
+        html += '<option value="0">0</option>';
+        html += '<option value="1">1</option>';
+        html += '<option value="2">2</option>';
+        html += '<option value="3">3</option>';
+        html += '<option value="4">4</option>';
+        html += '<option value="5">5</option>';
+        html += '<option value="6">6</option>';
+        html += '<option value="7">7</option>';
+        html += '<option value="8">8</option>';
+        html += '<option value="9">9</option>';
+        html += '<option value="10">10</option>';
+        html += '<option value="11">11</option>';
+        html += '<option value="12">12</option>';
+        html += '<option value="13">13</option>';
+        html += '<option value="14">14</option>';
+        html += '<option value="15">15</option>';
+        html += '<option value="16">16</option>';
+        html += '<option value="17">17</option>';
+        html += '<option value="18">18</option>';
+        html += '<option value="19">19</option>';
+        html += '<option value="20">20</option>';
+        html += '<option value="21">21</option>';
+        html += '<option value="22">22</option>';
+        html += '<option value="23">23</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td><input type="text" name="arrive_place[]"  id="arrive_place" value="" onblur="tableDate();" style="width:100%"></td>';
+        html += '<td><input type="text" name="cl_number[]" id="cl_number" value="" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+        html += '<td><input type="text" name="cl_mode[]" id="cl_mode" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="cl_days[]" id="cl_days" value="" onchange="tableDate();total_change(this);"  style="width:100%"> </td>';
+        html += '<td>';
+        html += '<select class="form-control" id="cl_buzhu[]" name="cl_buzhu" check="require"  onchange="tableDate();total_change(this);">';
+        html += '<option value="100">100</option>';
+        html += '<option value="180">180</option>';
+        html += '<option value="200">200</option>';
+        html += '</select>';
+        html += '</td>';
+        html += '<td><input type="text" name="cl_money[]" id="cl_money" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this);" class="delrow">删除</a></td>';
+        html += '</tr>';
+        $('#goods').before(html);
+    }
+
+    //获取Table数据
+    function tableDate()
+    {
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var start_month = $(this).find('td').eq(0).find('select').val();
+            // alert(start_month);
+            if(typeof(start_month) != 'undefined')
+            {
+                tableJson += '{"start_month":"' + start_month + '",';
+                tableJson += '"start_day":"' + $(this).find('td').eq(1).find('select').val() + '",';
+                tableJson += '"start_hour":"' + $(this).find('td').eq(2).find('select').val() + '",';
+                tableJson += '"start_place":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                tableJson += '"arrive_month":"' + $(this).find('td').eq(4).find('select').val() + '",';
+                tableJson += '"arrive_day":"' + $(this).find('td').eq(5).find('select').val() + '",';
+                tableJson += '"arrive_hour":"' + $(this).find('td').eq(6).find('select').val() + '",';
+                tableJson += '"arrive_place":"' + $(this).find('td').eq(7).find('input').val() + '",';
+                tableJson += '"cl_number":"' + $(this).find('td').eq(8).find('input').val() + '",';
+                tableJson += '"cl_mode":"' + $(this).find('td').eq(9).find('input').val() + '",';
+                tableJson += '"cl_days":"' + $(this).find('td').eq(10).find('input').val() + '",';
+                tableJson += '"cl_buzhu":"' + $(this).find('td').eq(11).find('select').val() + '",';
+                tableJson += '"cl_money":"' + $(this).find('td').eq(12).find('input').val() + '"},';
+            }
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段
+        tableJson += "]}";
+        // document.getElementById("udf_field_{$data.6.id}").value = 'aaa';
+        // document.getElementById("udf_field_{$data.6.id}").val(tableJson);
+        
+        $("#udf_field_{$data.2.id}").attr("value",tableJson);
+        // alert($("#udf_field_{$data.6.id}").val());
+        // document.getElementById("udf_field_{$data.6.id}").value = tableJson;
+        // document.getElementById("udf_field_{$data.1.id}").value = document.getElementById("total_all_goods").value;
+    }
+   
+</script>

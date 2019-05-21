@@ -1,0 +1,47 @@
+<extend name="Layout/ins_popup" />
+<block name="content">	
+<div class="operate panel panel-default">
+	<div class="panel panel-default "> 
+		<div class="panel-heading clearfix">
+			<div class="pull-left">
+           <h3> 发布菜单</h3>
+			</div>
+			<div class="pull-right">
+				<a onclick="update();" class="btn btn-sm btn-primary">发布</a>
+				<a onclick="myclose();" class="btn btn-sm btn-default">关闭</a>
+			</div>
+		</div>
+		</div>
+		</div>
+	<form id="form_data" name="form_data" method="post">	
+	<div class="panel-body">
+		<div class="form-control">
+			<b>将此菜单应用发布到：</b>
+			<p>&nbsp;</p>
+			<select name="eq_pid" id="eq_pid" class="form-control" onchange="submit_search();">
+			{:fill_option($agent_list)}
+		</select>
+	</div>
+	</form>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		function update() {
+			if (check_form("form_data")) {
+				var vars = $("#form_data").serialize();
+				sendAjax("{:U('weixin_update')}", vars, function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							parent.location.reload(true);
+							myclose();
+						});
+					}else{
+						ui_error(data.info);
+					}
+				});
+			}
+		}
+
+	</script>
+
+</block>	

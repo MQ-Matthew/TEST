@@ -1,0 +1,545 @@
+﻿<if condition="getUserInfo()['emp_no'] eq admin">
+<p style="text-align: center;font-size: 24px;">年度考核单</p>
+<table class="table table-bordered" name="guanli">
+{:getUserInfo()['emp_no']}
+<tr>
+    <th>
+        <nobr>
+            姓名
+        </nobr></th>
+    <td>
+        <input type="text" id="name" name="name" readonly="readonly"  disabled class="form-control" onblur="shenfengzhihao()" value="">
+    </td>
+    <th>
+        <nobr>
+            性别
+        </nobr></th>
+    <td colspan="3">
+        
+        <input type="text" id="sex"  name="sex" readonly="readonly" disabled  value="" readonly>
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+    <th>
+        <nobr>
+            出生年月
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="csd" id="csd">
+            
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            政治面貌
+        </nobr></th>
+    <td>
+        <input type="text" id="csd_shi"  name="csd_shi" readonly="readonly"  disabled class="form-control" value="">
+    </td>
+
+    
+    
+</tr>
+<tr >
+<th>
+        <nobr>
+           文化程度
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="jiguan" id="jiguan">
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            现聘岗位及等级
+        </nobr></th>
+    <td>
+        <input type="text" id="jiguan_shi"  name="jiguan_shi" readonly="readonly"  disabled class="form-control" value="">
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    <th >
+        <nobr>
+            是否“双肩挑”
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="minzu" id="minzu">
+            <option ></option>
+        </select>
+
+
+    </td>
+
+
+    <th>
+        <nobr>
+            聘用起止时间
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="zzmm" id="zzmm">
+            <option ></option>
+        </select>
+    </td>
+
+</tr>
+
+
+<tr >
+
+    <th>
+        <nobr>
+            岗位职责
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text"  id="rtsj" name="rtsj" class="form-control " value="">
+    </td>
+
+
+    <th>
+        <nobr>
+            年度工作总结
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="rtjsr" name="rtjsr" class="form-control" value="">
+    </td>
+
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    <th>
+        <nobr>
+            部门领导评语和初步考核等次意见
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled type="text" id="jrdpsj" name="jrdpsj" class="form-control " value="">
+    </td>
+
+    <th>
+        <nobr>
+            单位领导班子或考核委员会意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled  type="text" id="rdjsr" name="rdjsr" class="form-control" value="">
+    </td>
+
+
+</tr>
+
+<tr >
+    <th>
+        <nobr>
+            本人意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="{$info.jtdz}">
+    </td>
+    
+    <th>
+        <nobr>
+            未确定等次或不参加考核情况说明
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled  type="text" id="yzbm" name="yzbm" class="form-control" value="">
+    </td>
+</tr>
+
+
+<tr >
+    <th>
+        <nobr>
+            备注
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="">
+    </td>
+</tr>
+
+
+
+
+</table>
+<elseif condition="$on_edit eq edit"/>
+<table class="table table-bordered" name="gongqin">
+
+<tr>
+    <th>
+        <nobr>
+            姓名
+        </nobr></th>
+    <td>
+        <input type="text" id="name" name="name" readonly="readonly"  disabled class="form-control" onblur="shenfengzhihao()" value="">
+    </td>
+    <th>
+        <nobr>
+            性别
+        </nobr></th>
+    <td colspan="3">
+        
+        <input type="text" id="sex"  name="sex" readonly="readonly" disabled  value="" readonly>
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+    <th>
+        <nobr>
+            出生年月
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="csd" id="csd">
+            
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            政治面貌
+        </nobr></th>
+    <td>
+        <input type="text" id="csd_shi"  name="csd_shi" readonly="readonly"  disabled class="form-control" value="">
+    </td>
+
+    
+    
+</tr>
+<tr >
+<th>
+        <nobr>
+           文化程度
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="jiguan" id="jiguan">
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            现聘岗位及等级
+        </nobr></th>
+    <td>
+        <input type="text" id="jiguan_shi"  name="jiguan_shi" readonly="readonly"  disabled class="form-control" value="">
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    
+
+
+    <th>
+        <nobr>
+            聘用起止时间
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="zzmm" id="zzmm">
+            <option ></option>
+        </select>
+    </td>
+
+</tr>
+
+
+<tr >
+
+    <th>
+        <nobr>
+            岗位职责
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text"  id="rtsj" name="rtsj" class="form-control " value="">
+    </td>
+
+
+    <th>
+        <nobr>
+            年度工作总结
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="rtjsr" name="rtjsr" class="form-control" value="">
+    </td>
+
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    <th>
+        <nobr>
+            部门领导评语和初步考核等次意见
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled type="text" id="jrdpsj" name="jrdpsj" class="form-control " value="">
+    </td>
+
+    <th>
+        <nobr>
+            单位领导班子或考核委员会意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled  type="text" id="rdjsr" name="rdjsr" class="form-control" value="">
+    </td>
+
+
+</tr>
+
+<tr >
+    <th>
+        <nobr>
+            本人意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="{$info.jtdz}">
+    </td>
+    
+    <th>
+        <nobr>
+            未确定等次或不参加考核情况说明
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled  type="text" id="yzbm" name="yzbm" class="form-control" value="">
+    </td>
+</tr>
+
+
+<tr >
+    <th>
+        <nobr>
+            备注
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="">
+    </td>
+</tr>
+
+
+
+
+</table>
+<else />
+<table class="table table-bordered" name="jishu">
+
+<tr>
+    <th>
+        <nobr>
+            姓名
+        </nobr></th>
+    <td>
+        <input type="text" id="name" name="name" readonly="readonly"  disabled class="form-control" onblur="shenfengzhihao()" value="">
+    </td>
+    <th>
+        <nobr>
+            性别
+        </nobr></th>
+    <td colspan="3">
+        
+        <input type="text" id="sex"  name="sex" readonly="readonly" disabled  value="" readonly>
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+    <th>
+        <nobr>
+            出生年月
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="csd" id="csd">
+            
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            政治面貌
+        </nobr></th>
+    <td>
+        <input type="text" id="csd_shi"  name="csd_shi" readonly="readonly"  disabled class="form-control" value="">
+    </td>
+
+    
+    
+</tr>
+<tr >
+<th>
+        <nobr>
+           文化程度
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="jiguan" id="jiguan">
+            <option ></option>
+        </select>
+    </td>
+    <th>
+        <nobr>
+            现聘岗位及等级
+        </nobr></th>
+    <td>
+        <input type="text" id="jiguan_shi"  name="jiguan_shi" readonly="readonly"  disabled class="form-control" value="">
+
+    </td>
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    <th >
+        <nobr>
+            是否“双肩挑”
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="minzu" id="minzu">
+            <option ></option>
+        </select>
+
+
+    </td>
+
+
+    <th>
+        <nobr>
+            聘用起止时间
+        </nobr></th>
+    <td>
+
+        <select readonly="readonly"  disabled class="form-control" name="zzmm" id="zzmm">
+            <option ></option>
+        </select>
+    </td>
+
+</tr>
+
+
+<tr >
+
+    <th>
+        <nobr>
+            岗位职责
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text"  id="rtsj" name="rtsj" class="form-control " value="">
+    </td>
+
+    
+        <input readonly="readonly"  disabled type="text"  id="rtsj" name="rtsj" class="form-control " value="">
+    </td>
+</tr>
+</table>
+<table class="table table-bordered">
+    <thead>完成的主要专业技术工作、获奖、论文情况、创新等成果登记</thead>
+    <tbody>
+        <tr>
+            <td>
+            <textarea cols="50" rows="10"></textarea>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered">
+<tr>
+    <th>
+        <nobr>
+            年度工作总结
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="rtjsr" name="rtjsr" class="form-control" value="">
+    </td>
+
+</tr>
+
+
+<tr class="backgroundcolor">
+
+    <th>
+        <nobr>
+            部门领导评语和初步考核等次意见
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled type="text" id="jrdpsj" name="jrdpsj" class="form-control " value="">
+    </td>
+
+    <th>
+        <nobr>
+            单位领导班子或考核委员会意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled  type="text" id="rdjsr" name="rdjsr" class="form-control" value="">
+    </td>
+
+
+</tr>
+
+<tr >
+    <th>
+        <nobr>
+            本人意见
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="{$info.jtdz}">
+    </td>
+    
+    <th>
+        <nobr>
+            未确定等次或不参加考核情况说明
+        </nobr></th>
+    <td>
+        <input  readonly="readonly"  disabled  type="text" id="yzbm" name="yzbm" class="form-control" value="">
+    </td>
+</tr>
+
+
+<tr >
+    <th>
+        <nobr>
+            备注
+        </nobr></th>
+    <td>
+        <input readonly="readonly"  disabled type="text" id="jtdz" name="jtdz" class="form-control" value="">
+    </td>
+</tr>
+
+
+
+
+</table>
+</if>
+
+
+<br><br><br>
+
+
+
+
+
+<br><br><br>
+
+
+<script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+<script type="text/javascript">
+   
+</script>

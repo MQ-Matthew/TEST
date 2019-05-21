@@ -1,0 +1,123 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+    <script type="text/javascript">
+        var save_data = [];//全局保存save函数调用的时候，需要用到参数
+    </script>
+    {:W('PageHeader/simple',array('name'=>$info['name']))}
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                <a onclick="javascript:window.history.back(-1);" class="btn btn-sm btn-primary">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <form method='post' id="form_data" name="form_data" enctype="multipart/form-data" class="well form-horizontal">
+
+
+       <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">二维码：</label>
+            <div class="col-sm-8" style='height:80px'>
+                <?php if(file_exists("./Uploads/code/".$info['code'].".png")){?> 
+                   <img width='80px' src=<?="./Uploads/code/".$info['code'].".png"?>>
+                <?php }else{?>
+                     <a value="<?=$info['id']?>" class="btn btn-sm btn-primary code">点击生成</a>
+                <?php }?>
+               
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备名称：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="name" name="name" value="{$info.name}" >
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-6">
+            <label class="col-sm-4 control-label" for="name">设备品牌：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="brand"  name="brand"   value="{$info.brand}">
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">设备描述 :</label>
+            <div class="col-sm-9">
+
+                <if condition="$is_show eq 1">
+                    <button class="btn btn-small btn-success" type="button" id="browse">导入</button>
+                </if>
+
+                 <textarea style="min-height: 200px;width: 100%; resize:none;" name="description" id="description">{$info['description']}</textarea>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+                <label class="col-sm-2 control-label" for="name">数量 :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="amount" name="amount" value="{$info.amount}" >
+                </div>
+
+        </div>
+		
+		<div class="form-group">
+
+                <label class="col-sm-2 control-label" for="name">部门ID :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="receive_deptid" name="receive_deptid" value="{$info.receive_deptid}" >
+                </div>
+
+        </div>
+		
+		<div class="form-group">
+
+                <label class="col-sm-2 control-label" for="name">部门名称 :</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="receive_deptname" name="receive_deptname" value="{$info.receive_deptname}" >
+                </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">备注:</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" id="remarks" name="remarks" value="{$info.remarks}">
+            </div>
+        </div>
+
+
+        <br>
+
+    </form>
+
+</block>
+
+<block name="js">
+
+
+    <script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript">
+         $('.code').click(function(){
+            id = $(this).attr('value')
+            $.ajax({
+                url:"{:U('AssetLook/img_code')}",
+                data:{id:id},
+                success:function(e){
+                    location.reload();
+                }
+
+            })
+         });
+    </script>
+
+</block>

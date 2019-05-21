@@ -1,0 +1,173 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml>
+</head>
+
+<foreach name="daochu" item="val">
+    <!--  原审批模板 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr>
+        <td height="100" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td height="100" align="center" style="line-height:30px;font-size:26px;font-weight:bold;">
+                    北京市环境保护监测中心<br>
+                    合同审核审批单</td>
+            </tr>
+        </table>
+        <table width="100%" border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse;border:1px solid #000;">
+            <tr>
+                <td width="20%" height="20">合同名称</td>
+                <td width="80%">{$list['name']}</td>
+
+            </tr>
+            <tr>
+                <td width="20%">供应商名称</td>
+                <td width="80%">{$val.list.name3}</td>
+            </tr>
+            <tr>
+                <td  width="20%">合同编号</td>
+                <td  width="30%">{$val.list.name0}</td>
+                <td  width="20%">履行期限</td>
+                <td  width="30%">{$val.list.name6}</td>
+            </tr>
+            <tr>
+                <td>合同金额(元)</td>
+                <td>{$val.list.name7}</td>
+                <td>合同类别</td>
+                <td>{$val.list.name1}</td>
+
+            </tr>
+            <tr>
+                <td>合同主办部门</td>
+                <td>{$list['dept_name']}</td>
+                <td>合同经办人</td>
+                <td>{$list['user_name']}</td>
+            </tr>
+
+
+            <empty name="val.list.name11">
+
+                <tr>
+                    <td>合同主办部门负责人意见</td>
+                    <td colspan="3" valign="top">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[0]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[0]['user_name']} &nbsp;:&nbsp;日期：{$flow_log[0]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+                <tr>
+                    <td>分管合同主办部门领导意见</td>
+                    <td colspan="3">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[2]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[2]['user_name']}&nbsp;:&nbsp; 日期：{$flow_log[2]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+
+                <tr>
+                    <td>财务科意见</td>
+                    <td colspan="3">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[1]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[1]['user_name']}&nbsp;:&nbsp; 日期：{$flow_log[1]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+
+                <tr>
+                    <td><p>法律顾问 </p>是否审核</td>
+                    <td colspan="3" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+                        <tr>
+                            <td width="5%">是</td>
+                            <td width="17%">
+                                <input name="checkbox" type="checkbox" id="checkbox" checked="checked">
+                            </td>
+                            <td width="5%">否</td>
+                            <td width="20%"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                            <td width="23%" align="right">请说明原因:</td>
+                            <td width="30%" style="border-bottom:1px solid #000;">&nbsp;{$flow_log[4]['comment']}</td>
+                        </tr>
+                    </table></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4"><p>中心主任审批：<span style="margin:10px;">{$flow_log[3]['comment']}</span> </p>
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="34%" align="right">签字：</td>
+                                <td width="17%">{$flow_log[3]['user_name']}</td>
+                                <td width="11%" align="right">日期：</td>
+                                <td width="38%">&nbsp;{$flow_log[3]['update_time']|to_date='Y-m-d H:i'}</td>
+                            </tr>
+                        </table></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><p>注：1.合同类别包括：货物类、服务类、工程类； <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.合同编号由合同管理部门（财务科）填写。</p></td>
+                </tr>
+
+            <else />
+
+                <tr>
+                    <td>会签部门负责人意见</td>
+                    <td colspan="3" valign="top">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[0]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[0]['user_name']} &nbsp;:&nbsp;日期：{$flow_log[0]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+
+
+                <tr>
+                    <td>合同主办部门负责人意见</td>
+                    <td colspan="3" valign="top">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[1]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[1]['user_name']} &nbsp;:&nbsp;日期：{$flow_log[1]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+                <tr>
+                    <td>分管合同主办部门领导意见</td>
+                    <td colspan="3">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[3]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[3]['user_name']}&nbsp;:&nbsp; 日期：{$flow_log[3]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+
+                <tr>
+                    <td>财务科意见</td>
+                    <td colspan="3">
+                        <span style="margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;">{$flow_log[2]['comment']}</span>
+                        <div style="text-align:right;padding-right:300px;">审批人：{$flow_log[2]['user_name']}&nbsp;:&nbsp; 日期：{$flow_log[2]['update_time']|to_date='Y-m-d H:i'}</div></td>
+                </tr>
+
+                <tr>
+                    <td><p>法律顾问 </p>是否审核</td>
+                    <td colspan="3" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+                        <tr>
+                            <td width="5%">是</td>
+                            <td width="17%">
+                                <input name="checkbox" type="checkbox" id="checkbox" checked="checked">
+                            </td>
+                            <td width="5%">否</td>
+                            <td width="20%"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                            <td width="23%" align="right">请说明原因:</td>
+                            <td width="30%" style="border-bottom:1px solid #000;">&nbsp;{$flow_log[4]['comment']}</td>
+                        </tr>
+                    </table></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4"><p>中心主任审批：<span style="margin:10px;">{$flow_log[4]['comment']}</span> </p>
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="34%" align="right">签字：</td>
+                                <td width="17%">{$flow_log[4]['user_name']}</td>
+                                <td width="11%" align="right">日期：</td>
+                                <td width="38%">&nbsp;{$flow_log[4]['update_time']|to_date='Y-m-d H:i'}</td>
+                            </tr>
+                        </table></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><p>注：1.合同类别包括：货物类、服务类、工程类； <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.合同编号由合同管理部门（财务科）填写。</p></td>
+                </tr>
+
+            </empty>
+
+        </table></td>
+    </tr>
+</table>
+
+<hr>
+</foreach>

@@ -1,0 +1,145 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+
+
+    <style>
+        .backgroundcolor{
+            background-color: #F5F5F5;
+        }
+        table tr:hover{background-color: #CCCCCC ;}
+        .page-header{
+            border-bottom: 0px solid #eee;
+        }
+        .pull-left{
+            margin-bottom: -20px;
+        }
+        .pull-right{
+            margin-bottom: -20px;
+        }
+    </style>
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                {:W('PageHeader/simple',array('name'=>get_dept_name($dept_id).'(部门)  /  '.get_assettype($type).'(资产类型)'))}
+            </div>
+            <div class="pull-right">
+
+                <a onclick="javascript:window.history.back(-1);" class="btn btn-sm btn-primary">返回</a>
+                <a  onclick="regres()"  class="btn btn-sm btn-danger">退回</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 sub_left_menu ">
+            <form id="form_user" name="form_data" method="post" class="form-horizontal">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr  style="background-color:#000000;text-align: center;">
+                            <th class="text-center col-4"><label class="inline pull-left">
+                                <input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+                                <span class="lbl"></span></label></th>
+                            <th>id</th>
+                            <th>部门</th>
+                            <th>资产类型</th>
+                            <th>设备码</th>
+                            <th>资产名称</th>
+                            <th>品牌</th>
+                            <th>数量</th>
+
+                            <th>领用时间</th>
+                            <th>使用人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <empty name="list">
+                        <tr class="tbody">
+                            <td colspan="8">暂无数据</td>
+                        </tr>
+                    <else/>
+
+                        <volist name="list" id="data">
+                            <tr  id="{$data.id}" class="tbody">
+                                <td class="text-center col-3"><label class="inline pull-left">
+                                    <input class="ace" type="checkbox" name="id[]" value="{$data.id}" />
+                                    <span class="lbl"></span></label></td>
+                                <td class="">{$data.id}</td>
+                                <td class="">{:get_dept_name($data['receive_deptid'])}</td>
+                                <td class="">{:get_assettype($data['type'])}</td>
+                                <td class="">{$data.code}</td>
+                                <td class="">{$data.name}</td>
+                                <td class="">{$data.brand}</td>
+                                <td class="">{$data.amount}</td>
+
+                                <td class="">{$data.receive_time|date="Y-m-d",###}</td>
+                                <td class="">{$data.receive_userid|get_user_name}</td>
+                                <td class="">
+                                   <a href="{:U('Asset/guiku',array('id'=>$data['id']))}">退回归库</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <a  href="{:U('Asset/service',array('id'=>$data['id']))}">维修</a>
+                                </td>
+                            </tr>
+                      </volist>
+                    </empty>
+                    </tbody>
+                </table>
+
+            </form>
+            <div class="pagination">
+                {$page}
+            </div>
+        </div>
+
+    </div>
+
+
+</block>
+
+<block name="js">
+
+    <script type="text/javascript">
+
+        function regress(id){
+
+            var id = $(id).attr('share_id');
+
+            ///alert(id);return;
+            var vars = $("#form_user").serialize();
+          ///  alert(vars);return;
+
+            ui_confirm('确定要删除吗?', function() {
+                sendAjax("{:U('regress')}", vars, function(data) {
+                    /*if (data.status) {
+                        ui_alert(data.info, function() {
+                            location.reload(true);
+                        });
+                    }*/
+                });
+            });
+        }
+
+
+        function regres(){
+
+            if ($("input[name='id[]']:checked").length == 0) {
+                ui_error('请选择要退回的资产!');
+                return;
+            }
+            var vars = $("#form_user").serialize();
+           // alert(vars);return;
+
+            ui_confirm('确定要退回所选的资产吗?', function() {
+                sendAjax("{:U('regress')}", vars, function(data) {
+                    /*if (data.status) {
+                     ui_alert(data.info, function() {
+                     location.reload(true);
+                     });
+                     }*/
+                });
+            });
+        }
+    </script>
+
+</block>

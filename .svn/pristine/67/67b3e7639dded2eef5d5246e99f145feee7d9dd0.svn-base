@@ -1,0 +1,317 @@
+<?php
+/**
+* @desc 奖金发放管理
+* 
+*  2018-06-06
+*/
+
+namespace Home\Controller;
+
+class BonusController extends HomeController {
+	protected $config = array('app_type' => 'common', 'read' => 'flow_detail,fist_send_flow,second_send_flow');
+
+	//过滤查询字段
+	function _search_filter(&$map) {
+		$map['user_id'] = array('eq', get_user_id());
+		$map['is_del'] = array('eq', '0');
+		if (!empty($_POST['tag'])) {
+			$map['tag'] = $_POST['tag'];
+		}
+		$keyword = I('keyword');
+		if (!empty($keyword)) {
+			$where['name'] = array('like', "%" . $keyword . "%");
+			$where['office_tel'] = array('like', "%" . $keyword . "%");
+			$where['office_tel'] = array('like', "%" . $keyword . "%");
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;
+		}
+	}
+
+	function index() {        
+		$model = M("Bonus");
+		$where['is_del'] = 0;
+		$list = $model -> where($where) -> select();
+		$this -> assign('list', $list);
+
+		$this -> display();
+		return;
+	}
+
+	function add() {
+        
+        
+		$plugin['date'] = true;
+		$plugin['uploader'] = true;
+		$this -> assign("plugin", $plugin);
+        
+        //分组列表
+		$GroupList = M('Group')->field('id,name,amount')->order('sort')->select();
+        //部门列表
+		$deptList = M('Dept')->where('pid=1')->field('id,name')->order('sort')->select();
+
+		foreach($deptList as $key => $dval){                       
+			$m_list[$key]['group_id'] =  4;
+			$m_list[$key]['group_name'] =  '普通员工';
+			$m_list[$key]['dept_id'] =  $dval['id'];
+			$m_list[$key]['dept_name'] =  $dval['name'];
+            $m_list[$key]['user_count'] = $this->get_group_dept(4,$dval['id']); //普通员工组ID为4
+            $m_list[$key]['amount'] = $GroupList[0]['amount']; //普通员工排序第一个
+            $m_list[$key]['total'] = number_format($m_list[$key]['amount'] * $m_list[$key]['user_count'],2,'.', '') ; //保留小数点后两位
+            $m_list[$key]['remark'] = $this->get_special_username($dval['id']); 
+
+         } 
+        //dump($m_list);
+        //按人员分组循环 
+        //$GroupTotal = ''; //全部组人员求和
+         foreach($GroupList as $key=>$gval){            
+           $GroupList[$key]['user_count'] =  get_group_conut($gval['id']);  //本组人员人数
+           $GroupList[$key]['total'] =  number_format($GroupList[$key]['user_count'] * $gval['amount'],2,'.', '');   //本组合计，保留小数点后两位
+           $userArr = get_group_user($gval['id']);
+           $user_name_string = '';
+           foreach($userArr as $uval){
+               $user_name_string = get_user_name($uval['user_id']) . "," .$user_name_string; //本组人员姓名字符串
+           }
+           
+           $GroupList[$key]['user_name'] = substr($user_name_string,0,strlen($user_name_string)-1);
+       }
+
+        //dump($GroupList);
+       $this -> assign("list", $m_list);
+       $this -> assign("GroupList", $GroupList);
+       $this -> display();
+       return;
+   }
+   
+   /**
+    * @desc 
+    * 复审进度详情页面
+    */
+    function flow_detail($id){
+        //获取复审的审批项目id
+        $list = M('Bonus')->where('id='.$id)->getField('second_flow_id');
+        
+        $map['id'] = array('in',$list);
+        $map['is_del'] = 0;
+        $flow_list = M('Flow')->where($map)->select();
+        //dump($list);
+        $this -> assign("list", $flow_list);
+        $this -> display();
+        return;        
+    }
+
+
+   function del($id) {
+   	$count = $this -> _del($id, CONTROLLER_NAME, true);
+   	if ($count) {
+   		$model = D("SystemTag");
+   		$result = $model -> del_data_by_row($id);
+   	}
+
+		if ($count !== false) {//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success("成功删除{$count}条!");
+		} else {
+			//失败提示
+			$this -> error('删除失败!');
+		}
+	}
+
+	
+
+	protected function _insert($name = 'Bonus') {
+		$model = D('Bonus');
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		//$model -> letter = get_letter($model -> name);
+		//保存当前数据对象
+		$list = $model -> add();
+		if ($list !== false) {//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('新增成功!');
+		} else {
+			//失败提示
+			$this -> error('新增失败!');
+		}
+	}
+
+	protected function _update($name = 'Bonus') {
+		$id = $_POST['id'];
+		$model = D("Bonus");
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		//$model -> letter = get_letter($model -> name);
+
+		// 更新数据
+		$list = $model -> save();
+		if (false !== $list) {
+			//成功提示
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('编辑成功!');
+		} else {
+			//错误提示
+			$this -> error('编辑失败!');
+		}
+	}
+
+	
+    /**
+     * 获取分组部门人员合计
+     * @param  [type] $group_id [组ID]
+     * @param  [type] $dept_id  [部门ID]
+     * @return [type] [返回人员数量]
+     */
+    private function get_group_dept($group_id,$dept_id){
+    	$map['is_del'] = 0; 
+    	$map['group_id'] = $group_id;
+    	$map['dept_id'] = $dept_id;    
+    	$user_count = D("BonusView")->where($map)->count();
+        //dump($user_list);
+    	return $user_count;
+    }
+    //获取特殊人员名单
+    private function get_special_username($dept_id){
+    	$map['is_del'] = 0; 
+        $map['group_id'] = array('neq',4); //不计算普通人员
+        $map['dept_id'] = $dept_id;    
+        $user_list = D("BonusView")->where($map)->field('name,group_name')->select();
+        //dump($user_list);
+        foreach($user_list as $uval){
+        	$m = $uval['name'].'('.$uval['group_name'].'),'.$m;
+        }
+        //dump($m);
+        return $m;
+    }
+    /**
+     * [奖金发放初审流程发起]
+     * @param  [type] $id [奖金项目ID]
+     * @return [type]     [description]
+     */
+    function fist_send_flow($id,$flow_type){
+    	//dump($flow_type);die();
+    	$Bonus = M('Bonus');
+    	$bs = $Bonus->where('id='.$id)->find();
+    	//审批流程(奖金初审typeid)
+    	$Flow_type = M('Flow_type')->where('id='.$flow_type)->find();
+    	//dump($Flow_type);die();
+    	$data["name"] = $bs['name'];
+    	$data["type"] = $flow_type; //初审的流程ID
+    	$data["content"] = $bs['tb_content']; //申请单    	
+    	$data["user_id"] = get_user_id();
+    	$data["user_name"] = get_user_name();
+    	$data["emp_no"] = get_emp_no();
+    	$data["dept_id"] = get_dept_id();
+    	$data["dept_name"] = get_dept_name();
+    	$data["create_time"] = time();
+    	$data["update_time"] = time();
+    	$data["step"] = "20"; //审批中
+    	$data["confirm"] = $Flow_type['confirm']; //审批人
+    	$data["confirm_name"] = $Flow_type['confirm_name']; //审批人列表
+    	$data["consult"] = $Flow_type['consult']; //执行人
+    	$data["consult_name"] = $Flow_type['consult_name']; //执行人列表
+        
+    	$Flow = D('Flow');
+    	$rs = $Flow->add($data);
+    	//dump($rs);die();
+    	if($rs){
+    		$ls = $Bonus->where('id='.$id)->setField('fist_flow_id',$rs); //更新
+    		if ($ls !== false) {
+    			$this -> assign('jumpUrl', get_return_url());
+    			$this -> success('提交审核成功!');
+    		} else {
+    			$this -> error('提交审核失败!');
+    		}
+    	}
+
+    }
+
+
+    /**
+     * 提交科室主任复审流程
+     * 
+     */
+    function second_send_flow($id,$flow_type){
+        
+        $bs = M('Bonus')->where('id='.$id)->find();
+        //分组列表
+        $GroupList = M('Group')->field('id,name,amount')->order('sort')->select();
+    	//部门列表
+		$deptList = M('Dept')->where('pid=1 and id!=23')->field('id,name')->order('sort')->select();
+        
+        $second_flow_id = '';
+		foreach($deptList as $dval){
+                //审批流程(奖金复审) 
+                $Flow_type = M('Flow_type')->where('id='.$flow_type)->find();
+                $flowdata["name"] = $bs['name'] . '('. $dval['name'].')';
+                $flowdata["type"] = $flow_type; //复审的流程ID
+                //$flowdata["content"] = 'XXOO'; //申请单        
+                $flowdata["user_id"] = get_user_id();
+                $flowdata["user_name"] = get_user_name();
+                $flowdata["emp_no"] = get_emp_no();
+                $flowdata["dept_id"] = get_dept_id();
+                $flowdata["dept_name"] = get_dept_name();
+                $flowdata["create_time"] = time();
+                $flowdata["update_time"] = time();
+                $flowdata["step"] = "20"; //审批中
+                $flowdata["confirm"] = $Flow_type['confirm']; //审批人
+                $flowdata["confirm_name"] = $Flow_type['confirm_name']; //审批人列表
+                $flowdata["consult"] = $Flow_type['consult']; //执行人
+                $flowdata["consult_name"] = $Flow_type['consult_name']; //执行人列表
+                $flowdata["udf_data"] = $this->json_udf_data($id,$dval['id'],4,$flow_type); //普通用户奖金表
+                
+                $Flow = D('Flow');
+                $flow_id = $Flow->add($flowdata); //保存审批项目
+                $second_flow_id = $flow_id .','. $second_flow_id;                 
+            }
+            //dump($second_flow_id);
+            if($second_flow_id){
+                   $rs = M('Bonus')->where('id='.$id)->setField('second_flow_id',$second_flow_id); //更新
+
+                   $this -> assign('jumpUrl', get_return_url());
+                   $this -> success('提交复审成功!'); 
+            }
+            
+    }
+    /**
+    * @desc  组合自定义字段JSON数据
+    * $bonus 奖金项目ID
+    * $dept 部门ID
+    * $group 奖金分组ID
+    * $flow_type 审批流程类型ID
+    */
+    function json_udf_data($bonus,$dept,$group,$flow_type){
+        //获取奖金项目信息
+        $bs = M('Bonus')->where('id='.$bonus)->select();
+        //获取分组人员列表
+        $map['is_del'] = 0; 
+        $map['group_id'] = $group;
+        $map['dept_id'] = $dept;    
+        $user_list = D("BonusView")->where($map)->select();
+        
+        //dump($user_list);
+        $dept_total = '';
+        $uarray = array();
+        $user_array =  array();
+        foreach($user_list as $key=> $val){
+            $uarray[$key]['wu_no'] = $key + 1;
+            $uarray[$key]['wu_name'] = $val['name'];
+            $uarray[$key]['wu_amount'] = $val['amount'];
+            $uarray[$key]['wu_remark'] = $val['group_name'];
+            $uarray[$key]['wu_empno'] = $val['emp_no'];
+            $dept_total = $val['amount'] + $dept_total;           
+        }
+        $user_array['data'] = $uarray;
+        $user_json = json_encode($user_array, JSON_UNESCAPED_UNICODE);
+        //dump($user_json);
+        $udf_data = array();
+        $udf_data['64'] = $bs['date'];  //发放日期
+        $udf_data['65'] = get_dept_name($dept); //部门名称
+        $udf_data['337'] = $user_json;  //员工奖金表
+        $udf_data['338'] = $dept_total; //合计 
+        $udf_data_json = json_encode($udf_data, JSON_UNESCAPED_UNICODE);
+        //dump($udf_data_json);
+    }
+    
+}
+?>

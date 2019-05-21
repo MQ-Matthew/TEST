@@ -1,0 +1,29 @@
+
+<extend name="Layout/ins_page" />
+<block name="content">
+    <script type="text/javascript">
+        var save_data = [];//全局保存save函数调用的时候，需要用到参数
+    </script>
+    <div class="operate panel panel-default">
+        <div class="panel-body">
+            <div class="pull-left">
+                <a onclick="javascript:window.history.back(-1);" class="btn btn-sm btn-primary">返回</a>
+            </div>
+        </div>
+    </div>
+
+
+<div style="margin-left:40%"><img src="{$path}"></div>
+
+</block>
+
+<block name="js">
+
+
+    <script type="text/javascript" src="__INS__/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="__INS__/js/plugins/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript">
+         
+    </script>
+
+</block>

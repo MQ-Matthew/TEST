@@ -1,0 +1,188 @@
+<extend name="Layout/ins_page" />
+<block name="content">
+	{:W('PageHeader/adv_search',array('name'=>'财务工资变更业务统计','search'=>'M'))}
+    <form method="post" name="form_adv_search" id="form_adv_search">
+        <div class="adv_search panel panel-default  hidden"  id="adv_search">
+            <div class="panel-heading">
+                <div class="row">
+                    <h4 class="col-xs-6">高级搜索</h4>
+                    <div class="col-xs-6 text-right">
+                        <a  class="btn btn-sm btn-info" onclick="submit_adv_search();">搜索</a>
+                        <a  class="btn btn-sm " onclick="close_adv_search();">关闭</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">                
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label" for="content">人员类型：</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="eq_type" >
+                            <option value="">全部</option>
+                            <option value="sign_in">在职人员</option>
+                            <option value="sign_out">离休人员</option>
+                            <option value="outside">退休人员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="col-sm-4 control-label" for="be_create_time">查询日期：</label>
+                    <div class="col-sm-8">
+                        <div class="input-daterange input-group" >
+                            <input type="text" class="input-sm form-control text-center" name="be_create_time" readonly="readonly"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="input-sm form-control text-center" name="en_create_time" readonly="readonly"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="panel-body">
+        <div class="pull-left">
+          <h3>日期范围：{$begin_time}--{$end_time} </h3>
+        </div>
+        <div class="pull-right">
+          <h3>  单位：元 </h3>
+        </div>
+    </div>
+	<div class="ul_table ul_table_responsive">          
+		<ul>
+			<li class="thead">
+				<div class="pull-left">
+                    <span class="col-15">工资变动分类</span>
+					<span class="col-15">在职人员</span>
+                    <span class="col-15">工资变动分类</span>
+                    <span class="col-15">离休人员</span>
+                    <span class="col-15">工资变动分类</span>
+                    <span class="col-15">退休人员</span>
+				</div> 				
+			</li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">增发工资</span>
+                    <span class="col-15">{$list['在职人员']['增发工资']}</span>
+                    <span class="col-15">增发工资</span>
+                    <span class="col-15">{$list['离休人员']['增发工资']}</span>
+                    <span class="col-15">增发工资</span>
+                    <span class="col-15">{$list['退休人员']['增发工资']}</span>
+                    
+                </div>                
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">停发工资</span>
+                    <span class="col-15">{$list['在职人员']['停发工资']}</span>
+                    <span class="col-15">停发工资</span>
+                    <span class="col-15">{$list['离休人员']['停发工资']}</span>
+                    <span class="col-15">停发工资</span>
+                    <span class="col-15">{$list['退休人员']['停发工资']}</span>
+                </div>                
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">岗位工资变动</span>
+                    <span class="col-15">{$list['在职人员']['岗位工资变动']}</span>
+                    <span class="col-15">基本离休费变动</span>
+                    <span class="col-15">{$list['离休人员']['基本离休费变动']}</span>
+                    <span class="col-15">年龄补贴变动</span>
+                    <span class="col-15">{$list['退休人员']['年龄补贴变动']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">薪级工资变动</span>
+                    <span class="col-15">{$list['在职人员']['薪级工资变动']}</span>
+                    <span class="col-15">离休补贴变动</span>
+                    <span class="col-15">{$list['离休人员']['离休补贴变动']}</span>
+                    <span class="col-15">劳模补贴变动</span>
+                    <span class="col-15">{$list['退休人员']['劳模补贴变动']}</span>
+                </div>                
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">岗位补贴变动</span>
+                    <span class="col-15">{$list['在职人员']['岗位补贴变动']}</span>
+                    <span class="col-15">护理及高龄补助费变动</span>
+                    <span class="col-15">{$list['离休人员']['护理及高龄补助费变动']}</span>
+                    <span class="col-15">提租补贴变动</span>
+                    <span class="col-15">{$list['退休人员']['提租补贴变动']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">临时性补贴变动</span>
+                    <span class="col-15">{$list['在职人员']['临时性补贴变动']}</span>
+                    <span class="col-15">用车包干费变动</span>
+                    <span class="col-15">{$list['离休人员']['用车包干费变动']}</span>
+                    <span class="col-15">退休补贴变动</span>
+                    <span class="col-15">{$list['退休人员']['退休补贴变动']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">托儿补变动</span>
+                    <span class="col-15">{$list['在职人员']['托儿补变动']}</span>
+                    <span class="col-15">医疗补助费变动</span>
+                    <span class="col-15">{$list['离休人员']['医疗补助费变动']}</span>
+                    <span class="col-15">站房租扣款变动</span>
+                    <span class="col-15">{$list['退休人员']['站房租扣款变动']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">综合补助变动</span>
+                    <span class="col-15">{$list['在职人员']['综合补助变动']}</span>
+                    <span class="col-15">站房租扣款变动</span>
+                    <span class="col-15">{$list['离休人员']['站房租扣款变动']}</span>
+                    <span class="col-15">所房租扣款变动</span>
+                    <span class="col-15">{$list['退休人员']['所房租扣款变动']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">站房租扣款变动</span>
+                    <span class="col-15">{$list['在职人员']['站房租扣款变动']}</span>
+                    <span class="col-15">其他变动</span>
+                    <span class="col-15">{$list['离休人员']['其他变动（需备注）']}</span>
+                    <span class="col-15">其他变动</span>
+                    <span class="col-15">{$list['退休人员']['其他变动（需备注）']}</span>
+                </div>
+            </li>
+            <li class="tbody">
+                <div class="pull-left">
+                    <span class="col-15">其他变动</span>
+                    <span class="col-15">{$list['在职人员']['其他变动（需备注）']}</span>
+                    <span class="col-15"></span>
+                    <span class="col-15"></span>
+                    <span class="col-15"></span>
+                    <span class="col-15"></span>
+                </div>
+            </li>
+            
+            <li class="thead">
+                <div class="pull-left">
+                    <span class="col-15">合计</span>
+                    <span class="col-15">{$list['在职人员']['合计']}</span>
+                    <span class="col-15">合计</span>
+                    <span class="col-15">{$list['离休人员']['合计']}</span>
+                    <span class="col-15">合计</span>
+                    <span class="col-15">{$list['退休人员']['合计']}</span>
+                </div>
+            </li>
+
+            <div class="pagination">
+                    {$page}
+            </div>
+		</ul>
+	</div>
+    <a class="btn btn-sm btn-primary" href="{:U('Report/gongzi')}">返回</a>
+</block>
+<block name="js">
+	<script type="text/javascript">
+		
+		$(document).ready(function() {
+			set_return_url();
+		});
+
+	</script>
+</block>

@@ -1,0 +1,732 @@
+<!--全日制教育经历 table -->
+<table cellspacing="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+    <th colspan="8">全日制教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        <th width="10%">操作</th>
+    </tr>
+    </thead>
+
+    <empty name="info.jiaoyu">
+        <tbody id='all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="jy_rxsj[]" id="jy_rxsj"  class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="jy_bysj[]" id="jy_bysj"  class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  value="" onblur="tableDate();" style="width:100%"> </td>
+            <td>
+                <input type="text" name="jy_zy[]" id="jy_zy"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="jy_xz[]" id="jy_xz"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="jy_xl"  onchange="tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="jy_xw[]" id="jy_xw"  value="" onblur="tableDate();" style="width:100%">
+            </td>
+
+            <td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>
+        </tr>
+            <tr id='goods'></tr>
+        </tbody>
+
+
+     <else />
+
+        <tbody id='all_goods'> <!--编辑-->
+            <tr id='goods'></tr>
+        </tbody>
+
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="tbAddRow()">添加全日制教育经历</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+</table>
+<input type="hidden" id="jiaoyu" name="jiaoyu" value="{$info.jiaoyu}">
+
+
+<!--在职教育经历 table -->
+<table cellpadding="0" class="table table-bordered table-condensed" style="width: 100%;">
+    <thead>
+
+    <th colspan="8">在职教育经历 ：</th>
+    <tr>
+        <th width="12%">入学时间</th>
+        <th width="12%">毕业时间</th>
+        <th width="20%">学校名称</th>
+        <th width="20%">专业</th>
+        <th width="8%">学制</th>
+        <th width="10%">学历</th>
+        <th width="8%">学位</th>
+        <th width="10%">操作</th>
+    </tr>
+
+    <empty name="info.zz_jiaoyu">
+        <tbody id='zz_all_goods'>  <!--添加-->
+            <tr>
+            <td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj"  class="form-control input-date" value="" onblur="zz_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj"  class="form-control input-date" value="" onblur="zz_tableDate();" style="width:100%"> </td>
+            <td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  value="" onblur="zz_tableDate();" style="width:100%"> </td>
+            <td>
+                <input type="text" name="zz_jy_zy[]" id="zz_jy_zy"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xz[]" id="zz_jy_xz"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+            <td>
+                <select class="form-control" id="zz_jy_xl"  onchange="zz_tableDate();" >
+                    <option value=''>请选择</option>
+                    <option value='大专'>大专</option>
+                    <option value='本科'>本科</option>
+                    <option value='硕士'>硕士</option>
+                    <option value='博士'>博士</option>
+                    <option value='其它'>其它</option>
+                </select>
+
+            </td>
+            <td>
+                <input type="text" name="zz_jy_xw[]" id="zz_jy_xw"  value="" onblur="zz_tableDate();" style="width:100%">
+            </td>
+
+            <td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>
+        </tr>
+            <tr id='zz_goods'></tr>
+        </tbody>
+    <else />
+        <tbody id='zz_all_goods'> <!--编辑-->
+             <tr id='zz_goods'></tr>
+        </tbody>
+    </empty>
+
+    <tr>
+        <td><button class="btn btn-small btn-success" type="button" onclick="zz_tbAddRow()">添加在职教育经历</button></td>
+        <td colspan="10"></td>
+    </tr>
+
+    </thead>
+
+</table>
+<input type="hidden" id="zz_jiaoyu" name="zz_jiaoyu" value="{$info.zz_jiaoyu}">
+
+<!--全日制教育经历 js -->
+    <script type="text/javascript">
+    //添加一行
+    function tbAddRow()
+    {
+
+        var html = '';
+        html += '<tr>';
+
+        html += '<td><input type="text" name="jy_rxsj[]" id="jy_rxsj" class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_bysj[]" id="jy_bysj" class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_zy[]" id="jy_zy"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td><input type="text" name="jy_xz[]" id="jy_xz"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        html += '<td>';
+        html += ' <select class="form-control" id="jy_xl"  onchange="tableDate();" >';
+        html += ' <option value="">请选择</option>';
+        html += ' <option value="大专">大专</option>';
+        html += ' <option value="本科">本科</option>';
+        html += ' <option value="硕士">硕士</option>';
+        html += ' <option value="博士">博士</option>';
+        html += ' <option value="其它">其它</option>';
+        html += '</select>';
+        html += '</td>';
+
+        html += '<td><input type="text" name="jy_xw[]" id="jy_xw"  value="" onblur="tableDate();" style="width:100%"> </td>';
+
+        html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+        html += '</tr>';
+        /// alert(111111);
+        $('#goods').before(html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function delete_goods(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        tableDate();
+    }
+
+//获取Table数据
+    function tableDate(){
+
+    //全日制教育
+        var tableJson = '{"data":[';
+        $('#all_goods').find('tr').each(function(){
+            var wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(wu_number) != 'undefined'){
+                tableJson += '{"jy_rxsj":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                tableJson += '"jy_bysj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                tableJson += '"jy_xxmc":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                tableJson += '"jy_zy":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                tableJson += '"jy_xz":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                tableJson += '"jy_xl":"' + $(this).find('td').eq(5).find('select').val() + '",';
+                tableJson += '"jy_xw":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+        tableJson = tableJson.substr(0, tableJson.length-1);//去掉最后一个，这个字段 豆号
+        tableJson += "]}";
+
+        if(tableJson =='{"data":]}'){
+            tableJson='';
+        }
+        document.getElementById("jiaoyu").value = tableJson;
+
+    //在职教育
+        var zz_tableJson = '{"data":[';
+        $('#zz_all_goods').find('tr').each(function(){
+            var zz_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(zz_wu_number) != 'undefined'){
+                zz_tableJson += '{"zz_jy_rxsj":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_bysj":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xxmc":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_zy":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xz":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                zz_tableJson += '"zz_jy_xl":"' + $(this).find('td').eq(5).find('select').val() + '",';
+                zz_tableJson += '"zz_jy_xw":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+
+        zz_tableJson = zz_tableJson.substr(0, zz_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        zz_tableJson += "]}";
+
+        if(zz_tableJson =='{"data":]}'){
+            zz_tableJson='';
+        }
+
+        document.getElementById("zz_jiaoyu").value = zz_tableJson;
+
+
+
+    //年度考核
+        var kaohe_tableJson = '{"data":[';
+        $('#all_kaohes').find('tr').each(function(){
+            var kaohe_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(kaohe_wu_number) != 'undefined'){
+                kaohe_tableJson += '{"kaohe_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                kaohe_tableJson += '"kaohe_time":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                kaohe_tableJson += '"kaohe_jiegauo":"' + $(this).find('td').eq(2).find('select').val() + '"},';
+            }
+        });
+
+        kaohe_tableJson = kaohe_tableJson.substr(0, kaohe_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        kaohe_tableJson += "]}";
+
+        if(kaohe_tableJson =='{"data":]}'){
+            kaohe_tableJson='';
+        }
+        document.getElementById("kaohe").value = kaohe_tableJson;
+
+
+
+    //获奖情况
+        var huojiang_tableJson = '{"data":[';
+
+        $('#all_huojiangs').find('tr').each(function(){
+            var huojiang_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(huojiang_wu_number) != 'undefined'){
+                huojiang_tableJson += '{"hj_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                huojiang_tableJson += '"hj_shijian":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                huojiang_tableJson += '"hj_mingcheng":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                huojiang_tableJson += '"hj_danwei":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                huojiang_tableJson += '"hj_leixing":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                huojiang_tableJson += '"hj_jibie":"' + $(this).find('td').eq(5).find('input').val() + '",';
+                huojiang_tableJson += '"hj_beizhu":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+
+        huojiang_tableJson = huojiang_tableJson.substr(0, huojiang_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        huojiang_tableJson += "]}";
+
+        if(huojiang_tableJson =='{"data":]}'){
+            huojiang_tableJson='';
+        }
+
+        document.getElementById("huojiang").value = huojiang_tableJson;
+
+
+        //工作经历
+
+        var huojiang_tableJson = '{"data":[';
+
+        $('#all_gongzuos').find('tr').each(function(){
+            var gongzuo_wu_number = $(this).find('td').eq(0).find('input').val();
+            if(typeof(gongzuo_wu_number) != 'undefined'){
+                gongzuo_tableJson += '{"gongzuo_xuhao":"' + $(this).find('td').eq(0).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_qishishijian":"' + $(this).find('td').eq(1).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_jieshushijian":"' + $(this).find('td').eq(2).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_danwei":"' + $(this).find('td').eq(3).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_bumeng":"' + $(this).find('td').eq(4).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_zhiwu":"' + $(this).find('td').eq(5).find('input').val() + '",';
+                gongzuo_tableJson += '"gongzuo_beizhu":"' + $(this).find('td').eq(6).find('input').val() + '"},';
+            }
+        });
+
+        gongzuo_tableJson = gongzuo_tableJson.substr(0, gongzuo_tableJson.length-1);//去掉最后一个，这个字段 豆号
+        gongzuo_tableJson += "]}";
+
+        if(gongzuo_tableJson =='{"data":]}'){
+            gongzuo_tableJson='';
+        }
+
+        document.getElementById("gongzuo").value = gongzuo_tableJson;
+
+
+
+    }
+
+</script>
+
+<!--在职教育经历 js -->
+    <script type="text/javascript">
+    //添加一行
+    function zz_tbAddRow()
+    {
+
+        var zz_html = '';
+        zz_html += '<tr>';
+
+        zz_html += '<td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj" class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj" class="form-control input-date" value="" onblur="tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_zy[]" id="zz_jy_zy"  value="" onblur="tableDate();" style="width:100%"> </td>';
+        zz_html += '<td><input type="text" name="zz_jy_xz[]" id="zz_jy_xz"  value="" onblur="tableDate();" style="width:100%"> </td>';
+
+        zz_html += '<td>';
+        zz_html += ' <select class="form-control" id="zz_jy_xl"  onchange="tableDate();" >';
+        zz_html += ' <option value="">请选择</option>';
+        zz_html += ' <option value="大专">大专</option>';
+        zz_html += ' <option value="本科">本科</option>';
+        zz_html += ' <option value="硕士">硕士</option>';
+        zz_html += ' <option value="博士">博士</option>';
+        zz_html += ' <option value="其它">其它</option>';
+        zz_html += '</select>';
+        zz_html += '</td>';
+
+        zz_html += '<td><input type="text" name="zz_jy_xw[]" id="zz_jy_xw"  value="" onblur="tableDate();" style="width:100%"> </td>';
+
+        zz_html += '<td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>';
+        zz_html += '</tr>';
+
+        $('#zz_goods').before(zz_html);
+        /// $.parser.parse(jy_rxsj)
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+    //删除一行
+    function zz_delete_goods(obj)
+    {
+
+        $(obj).parent().parent().remove();//删除一个物品对象
+        tableDate();
+    }
+
+
+</script>
+
+
+
+<script type="text/javascript">
+
+   /// alert(111111);
+
+    document.onreadystatechange = function(){
+        if(document.readyState == "complete"){
+            //当页面加载状态为完全结束时进入
+
+             var str = '';
+             var zz_str = '';
+             str = document.getElementById("jiaoyu").value;
+             zz_str = document.getElementById("zz_jiaoyu").value;
+            // alert(str); alert(zz_str);
+             if(str !== null || zz_str !== null){
+                viewTableData();
+             }
+        }
+    }
+
+    //显示全日制教育表格数据
+    function viewTableData(){
+
+        //全日制教育经历
+            var str ={$str};
+
+            if(str.length===0 || str=='{"data":]}'){
+                var html ='';
+            }else{
+                if(typeof str === 'object'){
+                    json = str;
+                }else{
+                    json = eval(str);
+                }
+                /// alert(json);
+
+                var html ='';
+                for(var i=0; i<json.data.length; i++){
+                    //alert(json.data[i].class);
+                    html += '<tr>';
+                    html += '<td><input type="text" name="jy_rxsj[]" id="jy_rxsj" onblur="tableDate();" class="form-control input-date" value="' + json.data[i].jy_rxsj + '"  style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_bysj[]" id="jy_bysj" onblur="tableDate();" class="form-control input-date" value="' + json.data[i].jy_bysj + '" style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_xxmc[]" id="jy_xxmc"  onblur="tableDate();" value="' + json.data[i].jy_xxmc + '" style="width:100%"> </td>';
+                    html += '<td><input type="text" name="jy_zy[]" id="jy_zy" onblur="tableDate();" value="' + json.data[i].jy_zy + '" style="width:100%"> </td>';
+
+                    html += '<td><input type="text" name="jy_xz[]" id="jy_xz" onblur="tableDate();" value="' + json.data[i].jy_xz + '" style="width:100%"> </td>';
+
+                    html += '<td>';
+                    html += ' <select class="form-control person_xl" id="jy_xl"  onchange="tableDate();" >';
+                    html += "<option value='" + json.data[i].jy_xl + "'>" + json.data[i].jy_xl + "</option>";
+                    html += ' <option value="大专">大专</option>';
+                    html += ' <option value="本科">本科</option>';
+                    html += ' <option value="硕士">硕士</option>';
+                    html += ' <option value="博士">博士</option>';
+                    html += ' <option value="其它">其它</option>';
+                    html += '</select>';
+                    html += '</td>';
+
+                    html += '<td><input type="text" name="jy_xw[]" id="jy_xw" onblur="tableDate();" value="' + json.data[i].jy_xw + '" style="width:100%"> </td>';
+
+                    html += '<td><a href="javascript:void(0);" onclick="delete_goods(this)" class="delrow">删除</a></td>';
+
+                    html += '</tr>';
+
+                }
+            }
+
+        ///alert(str);
+
+
+        //的职教育经历
+
+           var zz_str=  {$zz_str};
+
+            if(zz_str.length ===0 || zz_str=='{"data":]}'){
+                var zz_html ='';
+            }else{
+                if(typeof zz_str === 'object'){
+                    zz_json = zz_str;
+                }else{
+                    zz_json = eval(zz_str);
+                }
+                /// alert(json);
+                var zz_html ='';
+                for(var i=0; i<zz_json.data.length; i++){
+                    //alert(json.data[i].class);
+                    zz_html += '<tr>';
+                    zz_html += '<td><input type="text" name="zz_jy_rxsj[]" id="zz_jy_rxsj" onblur="tableDate();" class="form-control input-date" value="' + zz_json.data[i].zz_jy_rxsj + '"  style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_bysj[]" id="zz_jy_bysj" onblur="tableDate();" class="form-control input-date" value="' + zz_json.data[i].zz_jy_bysj + '" style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_xxmc[]" id="zz_jy_xxmc"  onblur="tableDate();" value="' + zz_json.data[i].zz_jy_xxmc + '" style="width:100%"> </td>';
+                    zz_html += '<td><input type="text" name="zz_jy_zy[]" id="zz_jy_zy" onblur="tableDate();" value="' + zz_json.data[i].zz_jy_zy + '" style="width:100%"> </td>';
+
+                    zz_html += '<td><input type="text" name="zz_jy_xz[]" id="zz_jy_xz" onblur="tableDate();" value="' + zz_json.data[i].zz_jy_xz + '" style="width:100%"> </td>';
+
+                    zz_html += '<td>';
+                    zz_html += ' <select class="form-control person_xl" id="zz_jy_xl"  onchange="tableDate();" >';
+                    zz_html += "<option value='" + zz_json.data[i].zz_jy_xl + "'>" + zz_json.data[i].zz_jy_xl + "</option>";
+                    zz_html += ' <option value="大专">大专</option>';
+                    zz_html += ' <option value="本科">本科</option>';
+                    zz_html += ' <option value="硕士">硕士</option>';
+                    zz_html += ' <option value="博士">博士</option>';
+                    zz_html += ' <option value="其它">其它</option>';
+                    zz_html += '</select>';
+                    zz_html += '</td>';
+
+                    zz_html += '<td><input type="text" name="zz_jy_xw[]" id="zz_jy_xw" onblur="tableDate();" value="' + zz_json.data[i].zz_jy_xw + '" style="width:100%"> </td>';
+
+
+                    zz_html += '<td><a href="javascript:void(0);" onclick="zz_delete_goods(this)" class="delrow">删除</a></td>';
+
+                    zz_html += '</tr>';
+                }
+
+            }
+
+
+
+
+        //年度考核
+
+        var kaohe_str=  {$kaohe_str};
+
+        if(kaohe_str.length ===0 || kaohe_str=='{"data":]}'){
+            var kaohe ='';
+        }else{
+            if(typeof kaohe_str === 'object'){
+                kaohe_json = kaohe_str;
+            }else{
+                kaohe_json = eval(kaohe_str);
+            }
+            // alert(kaohe_json);
+            var kaohe ='';
+            for(var i=0; i<kaohe_json.data.length; i++){
+                //alert(json.data[i].class);
+                kaohe += '<tr>';
+                kaohe += '<td><input type="text" name="kaohe_xuhao[]" id="kaohe_xuhao" onblur="tableDate();"  value="' + kaohe_json.data[i].kaohe_xuhao + '"  style="width:100%"> </td>';
+                kaohe += '<td><input type="text" name="kaohe_time[]" id="kaohe_time" onblur="tableDate();" class="form-control input-date" value="' + kaohe_json.data[i].kaohe_time + '" style="width:100%"> </td>';
+
+
+                kaohe += '<td>';
+                kaohe += ' <select class="form-control person_xl" id="kaohe_jiegauo"  onchange="tableDate();" >';
+                kaohe += "<option value='" + kaohe_json.data[i].kaohe_jiegauo + "'>" + kaohe_json.data[i].kaohe_jiegauo + "</option>";
+                kaohe += ' <option value="优秀">优秀</option>';
+                kaohe += ' <option value="合格">合格</option>';
+                kaohe += ' <option value="不合格">不合格</option>';
+                kaohe += ' <option value="其它">其它</option>';
+                kaohe += '</select>';
+                kaohe += '</td>';
+
+
+
+                kaohe += '<td><a href="javascript:void(0);" onclick="delete_kaohe(this)" class="delrow">删除</a></td>';
+
+                kaohe += '</tr>';
+            }
+
+        }
+
+
+        //获奖情况
+
+        var huojiang_str=  {$huojiang_str};
+
+        if(huojiang_str.length ===0 || huojiang_str=='{"data":]}'){
+            var huojiang ='';
+        }else{
+            if(typeof huojiang_str === 'object'){
+                huojiang_json = huojiang_str;
+            }else{
+                huojiang_json = eval(huojiang_str);
+            }
+            // alert(huojiang_json);
+            var huojiang ='';
+            for(var i=0; i<huojiang_json.data.length; i++){
+                //alert(json.data[i].class);
+                huojiang += '<tr>';
+
+                huojiang += '<td><input type="text" name="hj_xuhao[]" id="hj_xuhao"  value="' + huojiang_json.data[i].hj_xuhao + '"  onblur="tableDate();" style="width:100%"> </td>';
+                huojiang += '<td><input type="text" name="hj_shijian[]" id="hj_shijian"  class="form-control input-date" value="' + huojiang_json.data[i].hj_shijian + '"  onblur="tableDate();" style="width:100%"> </td>';
+
+                huojiang += '<td><input type="text" name="hj_mingcheng[]" id="hj_mingcheng"  value="' + huojiang_json.data[i].hj_mingcheng + '" onblur="tableDate();" style="width:100%"> </td>';
+
+                huojiang += '<td><input type="text" name="hj_danwei[]" id="hj_danwei"  value="' + huojiang_json.data[i].hj_danwei + '"  onblur="tableDate();" style="width:100%"></td>';
+
+                huojiang += '<td><input type="text" name="hj_leixing[]" id="hj_leixing"   value="' + huojiang_json.data[i].hj_leixing + '"  onblur="tableDate();" style="width:100%"></td>';
+
+                huojiang += '<td><input type="text" name="hj_jibie[]" id="hj_jibie"   value="' + huojiang_json.data[i].hj_jibie + '"  onblur="tableDate();" style="width:100%"></td>';
+
+                huojiang += '<td><input type="text" name="hj_beizhu[]" id="hj_beizhu"   value="' + huojiang_json.data[i].hj_beizhu + '"  onblur="tableDate();" style="width:100%"></td>';
+
+                huojiang += '<td><a href="javascript:void(0);" onclick="delete_huojiang(this)" class="delrow">删除</a></td>';
+
+                huojiang += '</tr>';
+            }
+
+        }
+
+
+
+        $('#goods').before(html);
+
+        $('#zz_goods').before(zz_html);
+
+        $('#kaohes').before(kaohe);
+        $('#huojiangs').before(huojiang);
+        tableDate();
+
+        $(document).ready(function() {
+
+            $('.input-date').datetimepicker({
+                format : 'yyyy-mm-dd',
+                minView: "month",
+                locale : 'zh-cn',
+                //locale: moment.locale('zh-cn'),
+                ignoreReadonly : true,
+                autoclose: 1,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $(".input-daterange input").datetimepicker({
+                format : "yyyy-mm-dd",
+                locale : 'zh-cn',
+                minView: "month",
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+            $("#start_date").on("dp.change", function(e) {
+                if ($("#end_date").length > 0) {
+                    $('#end_date').data("DateTimePicker").minDate(e.date);
+                }
+            });
+
+            $("#end_date").on("dp.change", function(e) {
+                if ($("#start_date").length > 0) {
+                    $('#start_date').data("DateTimePicker").maxDate(e.date);
+                }
+            });
+
+            $(".input-date-time").datetimepicker({
+                format : 'yyyy-mm-dd',
+                locale : 'zh',
+                minView: "month",
+                sideBySide : true,
+                autoclose: 1,
+                showTodayButton : true,
+                showClose : true,
+                ignoreReadonly : true,
+                widgetPositioning : {
+                    horizontal : 'auto',
+                    vertical : 'bottom'
+                },
+            });
+
+        });
+
+    }
+
+</script>
+
